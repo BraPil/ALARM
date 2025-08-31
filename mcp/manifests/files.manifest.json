@@ -1,0 +1,80 @@
+{
+  "roots": ["app-legacy"],
+  "ignore": [".git", "bin", "obj", "packages", "node_modules", "*.tmp", "*.log", "TestResults"],
+  "file_roles": {
+    "launcher": ["app-legacy/Launcher/Program.cs", "app-legacy/*/Program.cs"],
+    "entrypoints": [
+      "app-legacy/*/Program.cs",
+      "app-legacy/*/*.arx",
+      "app-legacy/*/*.dll",
+      "app-legacy/*/Main.cs",
+      "app-legacy/*/Application.cs"
+    ],
+    "data_access": [
+      "app-legacy/**/DAL/**/*.cs",
+      "app-legacy/**/DataAccess/**/*.cs",
+      "app-legacy/**/Repository/**/*.cs",
+      "app-legacy/**/Data/**/*.cs"
+    ],
+    "ui": [
+      "app-legacy/**/UI/**/*.cs",
+      "app-legacy/**/WinForms/**/*.cs",
+      "app-legacy/**/WPF/**/*.cs",
+      "app-legacy/**/*Form*.cs",
+      "app-legacy/**/*Window*.cs",
+      "app-legacy/**/*Dialog*.cs"
+    ],
+    "acad_integration": [
+      "app-legacy/**/Autodesk/**/*.cs",
+      "app-legacy/**/AcDb/**/*.cs",
+      "app-legacy/**/AutoCAD/**/*.cs",
+      "app-legacy/**/*.arx",
+      "app-legacy/**/*.cpp",
+      "app-legacy/**/*.h"
+    ],
+    "oracle_integration": [
+      "app-legacy/**/Oracle/**/*.cs",
+      "app-legacy/**/ODP/**/*.cs",
+      "app-legacy/**/Database/**/*.cs"
+    ],
+    "configuration": [
+      "app-legacy/**/app.config",
+      "app-legacy/**/web.config",
+      "app-legacy/**/*.config",
+      "app-legacy/**/appsettings*.json"
+    ],
+    "scripts": [
+      "app-legacy/**/*.lsp",
+      "app-legacy/**/*.fas",
+      "app-legacy/**/*.vlx",
+      "app-legacy/**/*.ps1",
+      "app-legacy/**/*.bat",
+      "app-legacy/**/*.cmd"
+    ],
+    "tests": [
+      "app-legacy/**/Test/**/*.cs",
+      "app-legacy/**/*Test*.cs",
+      "app-legacy/**/*Tests*.cs"
+    ],
+    "documentation": [
+      "app-legacy/**/*.md",
+      "app-legacy/**/*.txt",
+      "app-legacy/**/*.doc",
+      "app-legacy/**/*.docx"
+    ]
+  },
+  "priority_patterns": [
+    "Program.cs",
+    "Main.cs",
+    "Application.cs",
+    "*Service*.cs",
+    "*Manager*.cs",
+    "*Controller*.cs",
+    "*Factory*.cs"
+  ],
+  "external_dependencies": {
+    "autocad": ["Autodesk.*", "AcDb*", "AcGe*", "AcBr*", "AcEd*"],
+    "oracle": ["Oracle.*", "ODP.*", "System.Data.OracleClient"],
+    "framework": ["System.Web.*", "System.Configuration.ConfigurationManager", "System.Net.WebClient"]
+  }
+}

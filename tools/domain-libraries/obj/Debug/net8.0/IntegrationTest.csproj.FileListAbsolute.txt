@@ -1,0 +1,6 @@
+C:\Users\kidsg\Downloads\ALARM\tools\domain-libraries\obj\Debug\net8.0\IntegrationTest.csproj.AssemblyReference.cache
+C:\Users\kidsg\Downloads\ALARM\tools\domain-libraries\obj\Debug\net8.0\IntegrationTest.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kidsg\Downloads\ALARM\tools\domain-libraries\obj\Debug\net8.0\IntegrationTest.AssemblyInfoInputs.cache
+C:\Users\kidsg\Downloads\ALARM\tools\domain-libraries\obj\Debug\net8.0\IntegrationTest.AssemblyInfo.cs
+C:\Users\kidsg\Downloads\ALARM\tools\domain-libraries\obj\Debug\net8.0\IntegrationTest.csproj.CoreCompileInputs.cache
+C:\Users\kidsg\Downloads\ALARM\tools\domain-libraries\obj\Debug\net8.0\IntegrationTest.sourcelink.json

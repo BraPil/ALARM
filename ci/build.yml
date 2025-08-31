@@ -1,0 +1,405 @@
+name: ALARM CI/CD Pipeline
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '8.x'
+  SOLUTION_PATH: 'app-core/AppCore.sln'
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Shallow clones should be disabled for better analysis
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+    
+    - name: Restore dependencies
+      run: |
+        dotnet restore ${{ env.SOLUTION_PATH }}
+        dotnet restore tools/indexer/Indexer.csproj
+        dotnet restore tools/analyzers/Analyzers.csproj
+        dotnet restore tools/smoke/Smoke.csproj
+    
+    - name: Build solution
+      run: |
+        dotnet build ${{ env.SOLUTION_PATH }} -c Release --no-restore
+        dotnet build tools/indexer/Indexer.csproj -c Release --no-restore
+        dotnet build tools/analyzers/Analyzers.csproj -c Release --no-restore  
+        dotnet build tools/smoke/Smoke.csproj -c Release --no-restore
+    
+    - name: Apply Learned Optimizations
+      run: |
+        dotnet run --project tools/analyzers/Analyzers.csproj -- --optimize --target indexer --context ci-pipeline
+      continue-on-error: true
+    
+    - name: Run indexer with optimized parameters
+      run: |
+        dotnet run --project tools/indexer/Indexer.csproj -- --legacy-path "C:\Users\kidsg\Downloads\ADDS\ADDS25v1_Clean" --verbose
+      continue-on-error: true
+    
+    - name: Predict success probability
+      run: |
+        dotnet run --project tools/analyzers/Analyzers.csproj -- --predict --operation build --context ci-pipeline
+      continue-on-error: true
+    
+    - name: Run unit tests
+      run: |
+        dotnet test ${{ env.SOLUTION_PATH }} -c Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory TestResults
+    
+    - name: Run smoke tests (no Oracle)
+      run: |
+        dotnet run --project tools/smoke/Smoke.csproj -- --no-oracle --config-path app-core/src/appsettings.json
+      continue-on-error: true
+    
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: TestResults/**/*
+        retention-days: 30
+    
+    - name: Record learning data
+      if: always()
+      run: |
+        dotnet run --project tools/analyzers/Analyzers.csproj -- --record-run ${{ github.run_id }} --context "ci-pipeline" --outcome ${{ job.status }}
+      continue-on-error: true
+    
+    - name: Upload MCP run artifacts
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: mcp-run-artifacts
+        path: |
+          mcp_runs/**/*
+          docs/**/*
+        retention-days: 30
+
+  static-analysis:
+    name: Static Analysis
+    runs-on: windows-latest
+    needs: build-and-test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.SOLUTION_PATH }}
+    
+    - name: Run Roslyn analyzers
+      run: |
+        dotnet build ${{ env.SOLUTION_PATH }} -c Release --verbosity normal -p:TreatWarningsAsErrors=false
+    
+    - name: Run custom analyzers
+      run: |
+        dotnet run --project tools/analyzers/Analyzers.csproj -- --target app-core --output mcp_runs/analysis
+      continue-on-error: true
+    
+    - name: Upload analysis results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: static-analysis
+        path: mcp_runs/analysis/**/*
+        retention-days: 30
+
+  oracle-integration:
+    name: Oracle Integration Tests
+    runs-on: windows-latest
+    needs: build-and-test
+    if: github.event_name == 'push' && contains(github.ref, 'main')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.SOLUTION_PATH }}
+    
+    - name: Build solution
+      run: dotnet build ${{ env.SOLUTION_PATH }} -c Release --no-restore
+    
+    - name: Run Oracle integration tests
+      env:
+        ORACLE_CONNECTION_STRING: ${{ secrets.ORACLE_CONNECTION_STRING }}
+        ORACLE_TEST_SCHEMA: ${{ secrets.ORACLE_TEST_SCHEMA }}
+      run: |
+        dotnet test ${{ env.SOLUTION_PATH }} -c Release --no-build --filter "Category=Integration&Category=Oracle" --verbosity normal
+      continue-on-error: true
+    
+    - name: Run smoke tests with Oracle
+      env:
+        ORACLE_CONNECTION_STRING: ${{ secrets.ORACLE_CONNECTION_STRING }}
+      run: |
+        dotnet run --project tools/smoke/Smoke.csproj -- --include-oracle
+      continue-on-error: true
+
+  performance-baseline:
+    name: Performance Baseline
+    runs-on: windows-latest
+    needs: build-and-test
+    if: github.event_name == 'pull_request'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.SOLUTION_PATH }}
+    
+    - name: Build solution
+      run: dotnet build ${{ env.SOLUTION_PATH }} -c Release --no-restore
+    
+    - name: Run performance tests
+      run: |
+        dotnet test ${{ env.SOLUTION_PATH }} -c Release --no-build --filter "Category=Performance" --verbosity normal --logger "trx;LogFileName=performance-results.trx"
+    
+    - name: Upload performance results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: performance-results
+        path: TestResults/performance-results.trx
+        retention-days: 30
+
+  security-scan:
+    name: Security Scan
+    runs-on: windows-latest
+    needs: build-and-test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Install security scanning tools
+      run: |
+        dotnet tool install --global security-scan
+        dotnet tool install --global dotnet-outdated-tool
+    
+    - name: Run security scan
+      run: |
+        security-scan ${{ env.SOLUTION_PATH }} --export security-report.json
+      continue-on-error: true
+    
+    - name: Check for outdated packages
+      run: |
+        dotnet outdated ${{ env.SOLUTION_PATH }} --output outdated-packages.json
+      continue-on-error: true
+    
+    - name: Upload security results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: security-scan-results
+        path: |
+          security-report.json
+          outdated-packages.json
+        retention-days: 30
+
+  deployment-staging:
+    name: Deploy to Staging
+    runs-on: windows-latest
+    needs: [build-and-test, static-analysis]
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+    environment: staging
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Build and publish
+      run: |
+        dotnet publish ${{ env.SOLUTION_PATH }} -c Release -o publish/
+    
+    - name: Deploy to staging
+      run: |
+        # Deployment logic would go here
+        echo "Deploying to staging environment..."
+        # Example: Copy files, update services, run post-deployment tests
+    
+    - name: Run post-deployment smoke tests
+      run: |
+        dotnet run --project tools/smoke/Smoke.csproj -- --environment staging
+      continue-on-error: true
+
+  deployment-production:
+    name: Deploy to Production
+    runs-on: windows-latest
+    needs: [build-and-test, static-analysis, oracle-integration]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Build and publish
+      run: |
+        dotnet publish ${{ env.SOLUTION_PATH }} -c Release -o publish/
+    
+    - name: Create release artifacts
+      run: |
+        Compress-Archive -Path publish/* -DestinationPath "ALARM-${{ github.sha }}.zip"
+    
+    - name: Deploy to production
+      run: |
+        # Production deployment logic
+        echo "Deploying to production environment..."
+        # Example: Blue-green deployment, health checks, rollback procedures
+    
+    - name: Run post-deployment verification
+      run: |
+        dotnet run --project tools/smoke/Smoke.csproj -- --environment production --critical-only
+    
+    - name: Create GitHub release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.run_number }}
+        release_name: ALARM Release v${{ github.run_number }}
+        body: |
+          Automated release of ALARM Legacy App Refactoring system.
+          
+          Changes in this release:
+          ${{ github.event.head_commit.message }}
+        draft: false
+        prerelease: false
+
+  learning-analysis:
+    name: Learning Analysis
+    runs-on: windows-latest
+    needs: [build-and-test, static-analysis]
+    if: always()
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts/
+    
+    - name: Comprehensive learning analysis
+      run: |
+        dotnet run --project tools/analyzers/Analyzers.csproj -- --learn --scope "last-10-runs" --ml-enabled
+      continue-on-error: true
+    
+    - name: Generate improvement recommendations
+      run: |
+        dotnet run --project tools/analyzers/Analyzers.csproj -- --optimize --target all --validation
+      continue-on-error: true
+    
+    - name: Update protocols if significant learnings
+      run: |
+        dotnet run --project tools/analyzers/Analyzers.csproj -- --evolve --protocol all --evidence-threshold 5 --validation-mode simulation
+      continue-on-error: true
+    
+    - name: Upload learning results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: learning-analysis
+        path: |
+          mcp_runs/**/learning_analysis.json
+          mcp_runs/**/recommendations.md
+          mcp_runs/**/protocol_evolution.json
+        retention-days: 90
+
+  cleanup:
+    name: Cleanup and Final Learning
+    runs-on: windows-latest
+    needs: [deployment-staging, deployment-production, learning-analysis]
+    if: always()
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET  
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Final learning integration
+      run: |
+        dotnet run --project tools/analyzers/Analyzers.csproj -- --learn --scope "current-run" --integrate-feedback
+      continue-on-error: true
+    
+    - name: Update learning dashboard
+      run: |
+        dotnet run --project tools/analyzers/Analyzers.csproj -- --generate-dashboard --output mcp_runs/learning_dashboard.html
+      continue-on-error: true
+    
+    - name: Cleanup old artifacts
+      run: |
+        # Cleanup logic for old artifacts, logs, etc.
+        echo "Cleaning up old artifacts..."
+        # Remove artifacts older than 30 days but preserve learning data for 90 days
+        Get-ChildItem -Path "mcp_runs" -Recurse | Where-Object { $_.LastWriteTime -lt (Get-Date).AddDays(-30) -and $_.Name -notlike "*learning*" } | Remove-Item -Force -Recurse
+    
+    - name: Update MCP run logs with learning insights
+      run: |
+        echo "CI/CD run completed at $(Get-Date)" >> mcp_runs/ci-cd-log.txt
+        echo "Learning analysis completed - check learning_dashboard.html for insights" >> mcp_runs/ci-cd-log.txt

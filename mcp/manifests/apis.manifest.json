@@ -1,0 +1,71 @@
+{
+  "autocad": {
+    "target": "Map3D 2025",
+    "target_version": "25.0",
+    "advice": "Use ARX/.NET 2025; isolate via adapters. No direct calls from domain layer.",
+    "shim_namespace": "Adapters.AutoCAD",
+    "migration_patterns": {
+      "AcDbDatabase": "Use IAcadDatabase adapter interface",
+      "AcDbTransaction": "Use IAcadTransaction adapter interface", 
+      "Editor.GetSelection": "Use ISelectionService adapter",
+      "LayerTable": "Use ILayerService adapter",
+      "BlockTable": "Use IBlockService adapter"
+    },
+    "breaking_changes": [
+      "Transaction management API changes",
+      "Selection set handling updates",
+      "Drawing database access patterns"
+    ]
+  },
+  "oracle": {
+    "driver": "Oracle.ManagedDataAccess.Core",
+    "target_version": "19c",
+    "advice": "Use managed ODP.NET; parameterize, async; connection factory + health checks.",
+    "shim_namespace": "Adapters.Oracle",
+    "migration_patterns": {
+      "OracleConnection": "Use IOracleConnectionFactory",
+      "OracleCommand": "Use IOracleCommandBuilder with parameterization",
+      "OracleDataAdapter": "Use async patterns with IOracleDataService",
+      "OracleDataReader": "Use async reader patterns"
+    },
+    "connection_string_changes": {
+      "old_format": "Data Source=...; User Id=...; Password=...;",
+      "new_format": "Use IOptions<OracleConfig> with connection factory"
+    }
+  },
+  "dotnet": {
+    "from": "Framework 4.x",
+    "to": ".NET 8",
+    "advice": "Replace App.config → appsettings.json; remove remoting; replace WebClient → HttpClient.",
+    "migration_patterns": {
+      "ConfigurationManager.AppSettings": "IOptions<T> with appsettings.json",
+      "WebClient": "HttpClient with dependency injection",
+      "Thread.Sleep": "Task.Delay in async contexts",
+      "DateTime.Now": "DateTimeOffset.UtcNow for UTC, DateTime.Now only for UI",
+      "AppDomain": "AssemblyLoadContext for .NET Core",
+      "Remoting": "gRPC or HTTP APIs",
+      "WCF": "gRPC or ASP.NET Core Web APIs"
+    },
+    "project_file_changes": {
+      "old_format": "packages.config + .csproj",
+      "new_format": "SDK-style .csproj with PackageReference"
+    }
+  },
+  "testing": {
+    "framework": "xUnit",
+    "assertion_library": "FluentAssertions",
+    "mocking": "Moq or NSubstitute",
+    "coverage": "coverlet.collector",
+    "integration_testing": "Microsoft.AspNetCore.Mvc.Testing for APIs"
+  },
+  "logging": {
+    "framework": "Microsoft.Extensions.Logging",
+    "structured_logging": "Serilog",
+    "targets": ["Console", "File", "Application Insights"]
+  },
+  "dependency_injection": {
+    "container": "Microsoft.Extensions.DependencyInjection",
+    "configuration": "Microsoft.Extensions.Configuration",
+    "hosting": "Microsoft.Extensions.Hosting"
+  }
+}
