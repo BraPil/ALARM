@@ -1,6 +1,0 @@
-C:\Users\kidsg\Downloads\ALARM\tools\domain-libraries\obj\Debug\net8.0\SimpleIntegrationTest.csproj.AssemblyReference.cache
-C:\Users\kidsg\Downloads\ALARM\tools\domain-libraries\obj\Debug\net8.0\SimpleIntegrationTest.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\kidsg\Downloads\ALARM\tools\domain-libraries\obj\Debug\net8.0\SimpleIntegrationTest.AssemblyInfoInputs.cache
-C:\Users\kidsg\Downloads\ALARM\tools\domain-libraries\obj\Debug\net8.0\SimpleIntegrationTest.AssemblyInfo.cs
-C:\Users\kidsg\Downloads\ALARM\tools\domain-libraries\obj\Debug\net8.0\SimpleIntegrationTest.csproj.CoreCompileInputs.cache
-C:\Users\kidsg\Downloads\ALARM\tools\domain-libraries\obj\Debug\net8.0\SimpleIntegrationTest.sourcelink.json
