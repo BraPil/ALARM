@@ -377,3 +377,30 @@ alarm_feedback.db
 
 # Runtime Dependencies (can be restored via NuGet/dotnet restore)
 runtimes/
+
+# Large Reference Materials (downloadable from vendors)
+# Oracle Database Files
+*.dfb
+*.ctl
+*.sym
+*.dat
+*.gsa
+
+# Large Archives and Installers
+*.zip
+*.war
+*.ear
+*.msi
+*.jar
+
+# Large Documentation Files
+*.chm
+
+# Large Binary Libraries (downloadable)
+*.dll
+*.so
+*.dylib
+*.a
+
+# Exclude collected materials directory (too large for Git)
+mcp/documentation/references/collected-materials*/
