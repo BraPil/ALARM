@@ -1,0 +1,44 @@
+graph LR
+    cs["cs"]
+    SuggestionValidation["SuggestionValidation"]
+    cs --> SuggestionValidation
+    AdaptiveLearningConfig["AdaptiveLearningConfig"]
+    BaseLearningRate["BaseLearningRate"]
+    AdaptiveLearningConfig --> BaseLearningRate
+    ErrorThresholdForAdaptation["ErrorThresholdForAdaptation"]
+    AdaptiveLearningConfig --> ErrorThresholdForAdaptation
+    AccuracyThresholdForRetraining["AccuracyThresholdForRetraining"]
+    AdaptiveLearningConfig --> AccuracyThresholdForRetraining
+    AdaptationCountForRetraining["AdaptationCountForRetraining"]
+    AdaptiveLearningConfig --> AdaptationCountForRetraining
+    RetrainingInterval["RetrainingInterval"]
+    AdaptiveLearningConfig --> RetrainingInterval
+    MaxHistorySize["MaxHistorySize"]
+    AdaptiveLearningConfig --> MaxHistorySize
+    MaxTrainingBufferSize["MaxTrainingBufferSize"]
+    AdaptiveLearningConfig --> MaxTrainingBufferSize
+    MinSamplesForRetraining["MinSamplesForRetraining"]
+    AdaptiveLearningConfig --> MinSamplesForRetraining
+    TrendAnalysisWindow["TrendAnalysisWindow"]
+    AdaptiveLearningConfig --> TrendAnalysisWindow
+    ErrorThresholdForOptimization["ErrorThresholdForOptimization"]
+    AdaptiveLearningConfig --> ErrorThresholdForOptimization
+    TrendThresholdForOptimization["TrendThresholdForOptimization"]
+    AdaptiveLearningConfig --> TrendThresholdForOptimization
+    MinSamplesForDriftDetection["MinSamplesForDriftDetection"]
+    AdaptiveLearningConfig --> MinSamplesForDriftDetection
+    DriftDetectionWindow["DriftDetectionWindow"]
+    AdaptiveLearningConfig --> DriftDetectionWindow
+    DriftThreshold["DriftThreshold"]
+    AdaptiveLearningConfig --> DriftThreshold
+    MinSamplesForOnlineLearning["MinSamplesForOnlineLearning"]
+    AdaptiveLearningConfig --> MinSamplesForOnlineLearning
+    OnlineLearningBatchSize["OnlineLearningBatchSize"]
+    AdaptiveLearningConfig --> OnlineLearningBatchSize
+    AdaptiveLearningModel["AdaptiveLearningModel"]
+    AnalysisType["AnalysisType"]
+    AdaptiveLearningModel --> AnalysisType
+    LearningRate["LearningRate"]
+    AdaptiveLearningModel --> LearningRate
+    CurrentAccuracy["CurrentAccuracy"]
+    AdaptiveLearningModel --> CurrentAccuracy

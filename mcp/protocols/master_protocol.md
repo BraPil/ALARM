@@ -233,6 +233,23 @@
 
 ---
 
+## **🧠 MEMORY MANAGEMENT SUBPROTOCOL - MANDATORY END-OF-RESPONSE EXECUTION**
+
+### **MEMORY & TERMINAL EFFICIENCY CHECKLIST**
+- [ ] **File Usage Analysis**: Quick scan of recently accessed files
+- [ ] **Resource Optimization**: Terminal and memory usage assessment  
+- [ ] **Cleanup Detection**: Identify deprecated, single-use, or obsolete files
+- [ ] **User Verification**: Present removal candidates for approval if any found
+- [ ] **Safety Verification**: Ensure no valuable files flagged for removal
+- [ ] **Tracking Update**: Update file usage and cleanup metrics
+
+**📋 EXECUTION TRIGGER**: Execute at the end of EVERY assistant response  
+**🎯 OBJECTIVE**: Maintain optimal system efficiency and prevent data loss  
+**⚠️ CRITICAL**: Never remove files without explicit user approval  
+**📄 REFERENCE**: See `mcp/protocols/memory-management-subprotocol.md` for complete specification
+
+---
+
 ## **📊 SUCCESS METRICS**
 
 - ✅ **100% Protocol Compliance** - All protocols followed completely

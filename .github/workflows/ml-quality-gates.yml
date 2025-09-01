@@ -1,0 +1,325 @@
+name: ML Model Quality Gates
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'tools/analyzers/SuggestionValidation/**'
+      - 'mcp_runs/ml-testing/**'
+      - '.github/workflows/ml-quality-gates.yml'
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'tools/analyzers/SuggestionValidation/**'
+      - 'mcp_runs/ml-testing/**'
+  workflow_dispatch:
+    inputs:
+      accuracy_threshold:
+        description: 'Accuracy threshold (default: 0.85)'
+        required: false
+        default: '0.85'
+      bias_threshold:
+        description: 'Bias threshold (default: 0.1)'
+        required: false
+        default: '0.1'
+      performance_threshold:
+        description: 'Performance threshold (default: 0.8)'
+        required: false
+        default: '0.8'
+
+env:
+  DOTNET_VERSION: '8.x'
+  ML_PROJECT_PATH: 'tools/analyzers/SuggestionValidation/SuggestionValidation.csproj'
+  ACCURACY_TARGET: ${{ github.event.inputs.accuracy_threshold || '0.85' }}
+  BIAS_THRESHOLD: ${{ github.event.inputs.bias_threshold || '0.1' }}
+  PERFORMANCE_TARGET: ${{ github.event.inputs.performance_threshold || '0.8' }}
+
+jobs:
+  ml-quality-validation:
+    name: ML Quality Validation
+    runs-on: windows-latest
+    
+    outputs:
+      accuracy-passed: ${{ steps.accuracy-gate.outputs.passed }}
+      bias-passed: ${{ steps.bias-gate.outputs.passed }}
+      performance-passed: ${{ steps.performance-gate.outputs.passed }}
+      overall-quality-score: ${{ steps.quality-summary.outputs.score }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Cache NuGet packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-ml-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-ml-
+          ${{ runner.os }}-nuget-
+    
+    - name: Restore ML Testing Framework
+      run: dotnet restore ${{ env.ML_PROJECT_PATH }}
+    
+    - name: Build ML Testing Framework
+      run: dotnet build ${{ env.ML_PROJECT_PATH }} -c Release --no-restore
+    
+    - name: Run ML Model Testing Framework Tests
+      id: ml-tests
+      run: |
+        dotnet test ${{ env.ML_PROJECT_PATH }} -c Release --no-build --filter "MLModelTestingFrameworkTests" --verbosity normal --logger "trx;LogFileName=ml-framework-tests.trx" --collect:"XPlat Code Coverage"
+        echo "test-result=$?" >> $GITHUB_OUTPUT
+    
+    - name: Accuracy Validation Gate
+      id: accuracy-gate
+      run: |
+        echo "Running accuracy validation with threshold: ${{ env.ACCURACY_TARGET }}"
+        $result = dotnet run --project ${{ env.ML_PROJECT_PATH }} -- --accuracy-validation --threshold ${{ env.ACCURACY_TARGET }} --output accuracy-results.json
+        $accuracy = (Get-Content accuracy-results.json | ConvertFrom-Json).OverallAccuracy
+        echo "accuracy=$accuracy" >> $env:GITHUB_OUTPUT
+        if ($accuracy -ge ${{ env.ACCURACY_TARGET }}) {
+          echo "passed=true" >> $env:GITHUB_OUTPUT
+          echo "✅ Accuracy Gate PASSED: $accuracy (>= ${{ env.ACCURACY_TARGET }})"
+        } else {
+          echo "passed=false" >> $env:GITHUB_OUTPUT
+          echo "❌ Accuracy Gate FAILED: $accuracy (< ${{ env.ACCURACY_TARGET }})"
+          exit 1
+        }
+    
+    - name: Bias Detection Gate
+      id: bias-gate
+      run: |
+        echo "Running bias detection with threshold: ${{ env.BIAS_THRESHOLD }}"
+        $result = dotnet run --project ${{ env.ML_PROJECT_PATH }} -- --bias-detection --threshold ${{ env.BIAS_THRESHOLD }} --output bias-results.json
+        $biasScore = (Get-Content bias-results.json | ConvertFrom-Json).OverallBiasScore
+        echo "bias-score=$biasScore" >> $env:GITHUB_OUTPUT
+        if ($biasScore -le ${{ env.BIAS_THRESHOLD }}) {
+          echo "passed=true" >> $env:GITHUB_OUTPUT
+          echo "✅ Bias Gate PASSED: $biasScore (<= ${{ env.BIAS_THRESHOLD }})"
+        } else {
+          echo "passed=false" >> $env:GITHUB_OUTPUT
+          echo "❌ Bias Gate FAILED: $biasScore (> ${{ env.BIAS_THRESHOLD }})"
+          exit 1
+        }
+    
+    - name: Performance Validation Gate
+      id: performance-gate
+      run: |
+        echo "Running performance validation with threshold: ${{ env.PERFORMANCE_TARGET }}"
+        $result = dotnet run --project ${{ env.ML_PROJECT_PATH }} -- --performance-validation --threshold ${{ env.PERFORMANCE_TARGET }} --output performance-results.json
+        $performanceScore = (Get-Content performance-results.json | ConvertFrom-Json).OverallPerformanceScore
+        echo "performance-score=$performanceScore" >> $env:GITHUB_OUTPUT
+        if ($performanceScore -ge ${{ env.PERFORMANCE_TARGET }}) {
+          echo "passed=true" >> $env:GITHUB_OUTPUT
+          echo "✅ Performance Gate PASSED: $performanceScore (>= ${{ env.PERFORMANCE_TARGET }})"
+        } else {
+          echo "passed=false" >> $env:GITHUB_OUTPUT
+          echo "❌ Performance Gate FAILED: $performanceScore (< ${{ env.PERFORMANCE_TARGET }})"
+          exit 1
+        }
+    
+    - name: Statistical Significance Validation
+      id: statistical-validation
+      run: |
+        echo "Running statistical significance validation"
+        dotnet run --project ${{ env.ML_PROJECT_PATH }} -- --statistical-validation --confidence-level 0.95 --output statistical-results.json
+        $isSignificant = (Get-Content statistical-results.json | ConvertFrom-Json).IsStatisticallySignificant
+        echo "statistically-significant=$isSignificant" >> $env:GITHUB_OUTPUT
+        if ($isSignificant) {
+          echo "✅ Statistical Significance PASSED"
+        } else {
+          echo "❌ Statistical Significance FAILED"
+          exit 1
+        }
+    
+    - name: Generate Quality Summary
+      id: quality-summary
+      run: |
+        echo "Generating comprehensive quality summary"
+        dotnet run --project ${{ env.ML_PROJECT_PATH }} -- --generate-summary --format json --output quality-summary.json
+        $overallScore = (Get-Content quality-summary.json | ConvertFrom-Json).OverallQualityScore
+        echo "score=$overallScore" >> $env:GITHUB_OUTPUT
+        echo "📊 Overall Quality Score: $overallScore"
+    
+    - name: Upload ML Quality Results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: ml-quality-results
+        path: |
+          TestResults/ml-framework-tests.trx
+          accuracy-results.json
+          bias-results.json
+          performance-results.json
+          statistical-results.json
+          quality-summary.json
+        retention-days: 30
+    
+    - name: Upload Test Coverage
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: ml-test-coverage
+        path: TestResults/**/coverage.cobertura.xml
+        retention-days: 30
+
+  ml-model-benchmarking:
+    name: ML Model Benchmarking
+    runs-on: windows-latest
+    needs: ml-quality-validation
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.ML_PROJECT_PATH }}
+    
+    - name: Build project
+      run: dotnet build ${{ env.ML_PROJECT_PATH }} -c Release --no-restore
+    
+    - name: Run Comprehensive Model Benchmarks
+      run: |
+        echo "Running comprehensive ML model benchmarks"
+        dotnet run --project ${{ env.ML_PROJECT_PATH }} -- --benchmark --comprehensive --output benchmark-results.json
+    
+    - name: Cross-Validation Analysis
+      run: |
+        echo "Running cross-validation analysis"
+        dotnet run --project ${{ env.ML_PROJECT_PATH }} -- --cross-validation --folds 10 --output cross-validation-results.json
+    
+    - name: Model Comparison Analysis
+      run: |
+        echo "Running model comparison analysis"
+        dotnet run --project ${{ env.ML_PROJECT_PATH }} -- --model-comparison --baseline --output model-comparison-results.json
+    
+    - name: Generate Benchmark Report
+      run: |
+        echo "Generating comprehensive benchmark report"
+        dotnet run --project ${{ env.ML_PROJECT_PATH }} -- --generate-benchmark-report --format html --output ml-benchmark-report.html
+    
+    - name: Upload Benchmark Results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: ml-benchmark-results
+        path: |
+          benchmark-results.json
+          cross-validation-results.json
+          model-comparison-results.json
+          ml-benchmark-report.html
+        retention-days: 90
+
+  ml-quality-report:
+    name: ML Quality Report
+    runs-on: windows-latest
+    needs: [ml-quality-validation, ml-model-benchmarking]
+    if: always()
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts/
+    
+    - name: Generate Comprehensive ML Quality Report
+      run: |
+        echo "Generating comprehensive ML quality report"
+        dotnet restore ${{ env.ML_PROJECT_PATH }}
+        dotnet build ${{ env.ML_PROJECT_PATH }} -c Release --no-restore
+        dotnet run --project ${{ env.ML_PROJECT_PATH }} -- --generate-comprehensive-report --input-path artifacts/ --output ml-comprehensive-report.html
+    
+    - name: Create Quality Status Badge
+      run: |
+        $accuracy = "${{ needs.ml-quality-validation.outputs.accuracy-passed }}"
+        $bias = "${{ needs.ml-quality-validation.outputs.bias-passed }}"
+        $performance = "${{ needs.ml-quality-validation.outputs.performance-passed }}"
+        $overallScore = "${{ needs.ml-quality-validation.outputs.overall-quality-score }}"
+        
+        if ($accuracy -eq "true" -and $bias -eq "true" -and $performance -eq "true") {
+          $status = "passing"
+          $color = "brightgreen"
+        } else {
+          $status = "failing"
+          $color = "red"
+        }
+        
+        $badgeUrl = "https://img.shields.io/badge/ML_Quality-$status-$color"
+        echo "ML Quality Badge: $badgeUrl" >> ml-quality-status.txt
+        echo "Overall Score: $overallScore" >> ml-quality-status.txt
+    
+    - name: Comment PR with Quality Results
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const accuracy = "${{ needs.ml-quality-validation.outputs.accuracy-passed }}";
+          const bias = "${{ needs.ml-quality-validation.outputs.bias-passed }}";
+          const performance = "${{ needs.ml-quality-validation.outputs.performance-passed }}";
+          const overallScore = "${{ needs.ml-quality-validation.outputs.overall-quality-score }}";
+          
+          const statusIcon = (passed) => passed === "true" ? "✅" : "❌";
+          
+          const comment = `## 🧪 ML Model Quality Gates Results
+          
+          | Quality Gate | Status | Score |
+          |--------------|--------|-------|
+          | Accuracy (≥85%) | ${statusIcon(accuracy)} | ${accuracy === "true" ? "PASSED" : "FAILED"} |
+          | Bias (≤0.1) | ${statusIcon(bias)} | ${bias === "true" ? "PASSED" : "FAILED"} |
+          | Performance (≥80%) | ${statusIcon(performance)} | ${performance === "true" ? "PASSED" : "FAILED"} |
+          
+          **Overall Quality Score:** ${overallScore}
+          
+          ${accuracy === "true" && bias === "true" && performance === "true" ? 
+            "🎉 All ML quality gates passed! Ready for deployment." : 
+            "⚠️ Some quality gates failed. Please review and fix issues before merging."}
+          `;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
+    
+    - name: Upload Final Quality Report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: ml-comprehensive-quality-report
+        path: |
+          ml-comprehensive-report.html
+          ml-quality-status.txt
+        retention-days: 90
+    
+    - name: Fail workflow if quality gates failed
+      if: needs.ml-quality-validation.outputs.accuracy-passed != 'true' || needs.ml-quality-validation.outputs.bias-passed != 'true' || needs.ml-quality-validation.outputs.performance-passed != 'true'
+      run: |
+        echo "❌ ML Quality Gates Failed"
+        echo "Accuracy: ${{ needs.ml-quality-validation.outputs.accuracy-passed }}"
+        echo "Bias: ${{ needs.ml-quality-validation.outputs.bias-passed }}"
+        echo "Performance: ${{ needs.ml-quality-validation.outputs.performance-passed }}"
+        exit 1
+

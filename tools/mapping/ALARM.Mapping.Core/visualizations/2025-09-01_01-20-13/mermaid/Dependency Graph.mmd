@@ -1,0 +1,43 @@
+graph LR
+    Adds["Adds"]
+    BuildConnectionString["BuildConnectionString"]
+    Adds -->|2| BuildConnectionString
+    GetPlotDefsByPlotGroup["GetPlotDefsByPlotGroup"]
+    Adds -->|2| GetPlotDefsByPlotGroup
+    cs["cs"]
+    cs --> Adds
+    AcadLine["AcadLine"]
+    DrawBoxGTC["DrawBoxGTC"]
+    AcadLine --> DrawBoxGTC
+    DrawPolylineFromSeed["DrawPolylineFromSeed"]
+    AcadLine --> DrawPolylineFromSeed
+    DrawPolylineFromFile1["DrawPolylineFromFile1"]
+    AcadLine --> DrawPolylineFromFile1
+    DrawPolyline_Old["DrawPolyline_Old"]
+    AcadLine --> DrawPolyline_Old
+    DrawPanel["DrawPanel"]
+    AcadLine --> DrawPanel
+    CheckPolylineVertices["CheckPolylineVertices"]
+    AcadLine --> CheckPolylineVertices
+    FixVertices["FixVertices"]
+    AcadLine --> FixVertices
+    TestWriteLines["TestWriteLines"]
+    AcadLine --> TestWriteLines
+    ReadVerticesToFile["ReadVerticesToFile"]
+    AcadLine --> ReadVerticesToFile
+    ReadMultFromFiles["ReadMultFromFiles"]
+    AcadLine --> ReadMultFromFiles
+    RemoveVerticesPickTwoPoints["RemoveVerticesPickTwoPoints"]
+    AcadLine --> RemoveVerticesPickTwoPoints
+    JoinPloylines["JoinPloylines"]
+    AcadLine --> JoinPloylines
+    GetLineInfoFromStomp["GetLineInfoFromStomp"]
+    AcadLine --> GetLineInfoFromStomp
+    DrawPanelFeeders["DrawPanelFeeders"]
+    AcadLine --> DrawPanelFeeders
+    DrawPolylineFromFileSp["DrawPolylineFromFileSp"]
+    AcadLine --> DrawPolylineFromFileSp
+    DrawPolyLine["DrawPolyLine"]
+    AcadLine --> DrawPolyLine
+    GetStartPointData["GetStartPointData"]
+    AcadLine --> GetStartPointData

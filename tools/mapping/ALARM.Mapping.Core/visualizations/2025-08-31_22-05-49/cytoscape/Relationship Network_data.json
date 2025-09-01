@@ -1,0 +1,1592 @@
+[
+  {
+    "data": {
+      "id": "C:\\Users\\kidsg\\Downloads\\ALARM\\tools\\analyzers\\SuggestionValidation\\AdaptiveLearningModels_cs",
+      "label": "cs"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation",
+      "label": "SuggestionValidation"
+    }
+  },
+  {
+    "data": {
+      "id": "C:\\Users\\kidsg\\Downloads\\ALARM\\tools\\analyzers\\SuggestionValidation\\AdaptiveLearningModels_cs-ALARM_Analyzers_SuggestionValidation",
+      "source": "C:\\Users\\kidsg\\Downloads\\ALARM\\tools\\analyzers\\SuggestionValidation\\AdaptiveLearningModels_cs",
+      "target": "ALARM_Analyzers_SuggestionValidation",
+      "label": "Using",
+      "weight": 0.2
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "label": "AdaptiveLearningConfig"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_BaseLearningRate",
+      "label": "BaseLearningRate"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_BaseLearningRate",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_BaseLearningRate",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_ErrorThresholdForAdaptation",
+      "label": "ErrorThresholdForAdaptation"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_ErrorThresholdForAdaptation",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_ErrorThresholdForAdaptation",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_AccuracyThresholdForRetraining",
+      "label": "AccuracyThresholdForRetraining"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_AccuracyThresholdForRetraining",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_AccuracyThresholdForRetraining",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_AdaptationCountForRetraining",
+      "label": "AdaptationCountForRetraining"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_AdaptationCountForRetraining",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_AdaptationCountForRetraining",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_RetrainingInterval",
+      "label": "RetrainingInterval"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_RetrainingInterval",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_RetrainingInterval",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_MaxHistorySize",
+      "label": "MaxHistorySize"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_MaxHistorySize",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_MaxHistorySize",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_MaxTrainingBufferSize",
+      "label": "MaxTrainingBufferSize"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_MaxTrainingBufferSize",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_MaxTrainingBufferSize",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_MinSamplesForRetraining",
+      "label": "MinSamplesForRetraining"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_MinSamplesForRetraining",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_MinSamplesForRetraining",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_TrendAnalysisWindow",
+      "label": "TrendAnalysisWindow"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_TrendAnalysisWindow",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_TrendAnalysisWindow",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_ErrorThresholdForOptimization",
+      "label": "ErrorThresholdForOptimization"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_ErrorThresholdForOptimization",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_ErrorThresholdForOptimization",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_TrendThresholdForOptimization",
+      "label": "TrendThresholdForOptimization"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_TrendThresholdForOptimization",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_TrendThresholdForOptimization",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_MinSamplesForDriftDetection",
+      "label": "MinSamplesForDriftDetection"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_MinSamplesForDriftDetection",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_MinSamplesForDriftDetection",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_DriftDetectionWindow",
+      "label": "DriftDetectionWindow"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_DriftDetectionWindow",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_DriftDetectionWindow",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_DriftThreshold",
+      "label": "DriftThreshold"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_DriftThreshold",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_DriftThreshold",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_MinSamplesForOnlineLearning",
+      "label": "MinSamplesForOnlineLearning"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_MinSamplesForOnlineLearning",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_MinSamplesForOnlineLearning",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_OnlineLearningBatchSize",
+      "label": "OnlineLearningBatchSize"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_OnlineLearningBatchSize",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningConfig_OnlineLearningBatchSize",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel",
+      "label": "AdaptiveLearningModel"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_AnalysisType",
+      "label": "AnalysisType"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_AnalysisType",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_AnalysisType",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_LearningRate",
+      "label": "LearningRate"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_LearningRate",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_LearningRate",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_CurrentAccuracy",
+      "label": "CurrentAccuracy"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_CurrentAccuracy",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_CurrentAccuracy",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_CreatedAt",
+      "label": "CreatedAt"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_CreatedAt",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_CreatedAt",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_LastUpdate",
+      "label": "LastUpdate"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_LastUpdate",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_LastUpdate",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_LastAdaptation",
+      "label": "LastAdaptation"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_LastAdaptation",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_LastAdaptation",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_LastRetraining",
+      "label": "LastRetraining"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_LastRetraining",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_LastRetraining",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_AdaptationCount",
+      "label": "AdaptationCount"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_AdaptationCount",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_AdaptationCount",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_SampleCount",
+      "label": "SampleCount"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_SampleCount",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_SampleCount",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_PendingWeightAdjustments",
+      "label": "PendingWeightAdjustments"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_PendingWeightAdjustments",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_PendingWeightAdjustments",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_TrainingBuffer",
+      "label": "TrainingBuffer"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_TrainingBuffer",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_TrainingBuffer",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_TrainedModel",
+      "label": "TrainedModel"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_TrainedModel",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningModel_TrainedModel",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint",
+      "label": "AdaptiveTrainingPoint"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint_SuggestionText",
+      "label": "SuggestionText"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint-ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint_SuggestionText",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint_SuggestionText",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint_Context",
+      "label": "Context"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint-ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint_Context",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint_Context",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint_ActualScore",
+      "label": "ActualScore"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint-ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint_ActualScore",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint_ActualScore",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint_ValidatorScores",
+      "label": "ValidatorScores"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint-ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint_ValidatorScores",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint_ValidatorScores",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint_Timestamp",
+      "label": "Timestamp"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint-ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint_Timestamp",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveTrainingPoint_Timestamp",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData",
+      "label": "AdaptiveMLData"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_SuggestionText",
+      "label": "SuggestionText"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData-ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_SuggestionText",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_SuggestionText",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_ActualScore",
+      "label": "ActualScore"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData-ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_ActualScore",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_ActualScore",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_ValidatorScore1",
+      "label": "ValidatorScore1"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData-ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_ValidatorScore1",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_ValidatorScore1",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_ValidatorScore2",
+      "label": "ValidatorScore2"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData-ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_ValidatorScore2",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_ValidatorScore2",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_ValidatorScore3",
+      "label": "ValidatorScore3"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData-ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_ValidatorScore3",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_ValidatorScore3",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_WordCount",
+      "label": "WordCount"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData-ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_WordCount",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_WordCount",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_TextLength",
+      "label": "TextLength"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData-ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_TextLength",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveMLData_TextLength",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningHistory",
+      "label": "LearningHistory"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningHistory_AnalysisType",
+      "label": "AnalysisType"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningHistory-ALARM_Analyzers_SuggestionValidation_LearningHistory_AnalysisType",
+      "source": "ALARM_Analyzers_SuggestionValidation_LearningHistory",
+      "target": "ALARM_Analyzers_SuggestionValidation_LearningHistory_AnalysisType",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningHistory_LearningCycles",
+      "label": "LearningCycles"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningHistory-ALARM_Analyzers_SuggestionValidation_LearningHistory_LearningCycles",
+      "source": "ALARM_Analyzers_SuggestionValidation_LearningHistory",
+      "target": "ALARM_Analyzers_SuggestionValidation_LearningHistory_LearningCycles",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningCycle",
+      "label": "LearningCycle"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningCycle_Timestamp",
+      "label": "Timestamp"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningCycle-ALARM_Analyzers_SuggestionValidation_LearningCycle_Timestamp",
+      "source": "ALARM_Analyzers_SuggestionValidation_LearningCycle",
+      "target": "ALARM_Analyzers_SuggestionValidation_LearningCycle_Timestamp",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningCycle_SuggestionText",
+      "label": "SuggestionText"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningCycle-ALARM_Analyzers_SuggestionValidation_LearningCycle_SuggestionText",
+      "source": "ALARM_Analyzers_SuggestionValidation_LearningCycle",
+      "target": "ALARM_Analyzers_SuggestionValidation_LearningCycle_SuggestionText",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningCycle_ActualScore",
+      "label": "ActualScore"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningCycle-ALARM_Analyzers_SuggestionValidation_LearningCycle_ActualScore",
+      "source": "ALARM_Analyzers_SuggestionValidation_LearningCycle",
+      "target": "ALARM_Analyzers_SuggestionValidation_LearningCycle_ActualScore",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningCycle_PredictedScore",
+      "label": "PredictedScore"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningCycle-ALARM_Analyzers_SuggestionValidation_LearningCycle_PredictedScore",
+      "source": "ALARM_Analyzers_SuggestionValidation_LearningCycle",
+      "target": "ALARM_Analyzers_SuggestionValidation_LearningCycle_PredictedScore",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningCycle_PredictionError",
+      "label": "PredictionError"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningCycle-ALARM_Analyzers_SuggestionValidation_LearningCycle_PredictionError",
+      "source": "ALARM_Analyzers_SuggestionValidation_LearningCycle",
+      "target": "ALARM_Analyzers_SuggestionValidation_LearningCycle_PredictionError",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningCycle_ValidatorScores",
+      "label": "ValidatorScores"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_LearningCycle-ALARM_Analyzers_SuggestionValidation_LearningCycle_ValidatorScores",
+      "source": "ALARM_Analyzers_SuggestionValidation_LearningCycle",
+      "target": "ALARM_Analyzers_SuggestionValidation_LearningCycle_ValidatorScores",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult",
+      "label": "AdaptiveLearningResult"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_AnalysisType",
+      "label": "AnalysisType"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_AnalysisType",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_AnalysisType",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_SuggestionText",
+      "label": "SuggestionText"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_SuggestionText",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_SuggestionText",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_ProcessingStartTime",
+      "label": "ProcessingStartTime"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_ProcessingStartTime",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_ProcessingStartTime",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_ProcessingEndTime",
+      "label": "ProcessingEndTime"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_ProcessingEndTime",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_ProcessingEndTime",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_ProcessingDuration",
+      "label": "ProcessingDuration"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_ProcessingDuration",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_ProcessingDuration",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_PredictionError",
+      "label": "PredictionError"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_PredictionError",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_PredictionError",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_ActualScore",
+      "label": "ActualScore"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_ActualScore",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_ActualScore",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_PredictedScore",
+      "label": "PredictedScore"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_PredictedScore",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_PredictedScore",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_WeightAdjustments",
+      "label": "WeightAdjustments"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_WeightAdjustments",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_WeightAdjustments",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_RetrainingPerformed",
+      "label": "RetrainingPerformed"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_RetrainingPerformed",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_RetrainingPerformed",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_NewModelAccuracy",
+      "label": "NewModelAccuracy"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_NewModelAccuracy",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_NewModelAccuracy",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_LearningInsights",
+      "label": "LearningInsights"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_LearningInsights",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_LearningInsights",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_ErrorMessage",
+      "label": "ErrorMessage"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_ErrorMessage",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningResult_ErrorMessage",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult",
+      "label": "ContinuousLearningResult"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_AnalysisType",
+      "label": "AnalysisType"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult-ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_AnalysisType",
+      "source": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_AnalysisType",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_OptimizationStartTime",
+      "label": "OptimizationStartTime"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult-ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_OptimizationStartTime",
+      "source": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_OptimizationStartTime",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_OptimizationEndTime",
+      "label": "OptimizationEndTime"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult-ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_OptimizationEndTime",
+      "source": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_OptimizationEndTime",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_OptimizationDuration",
+      "label": "OptimizationDuration"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult-ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_OptimizationDuration",
+      "source": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_OptimizationDuration",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_PerformanceTrends",
+      "label": "PerformanceTrends"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult-ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_PerformanceTrends",
+      "source": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_PerformanceTrends",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_ConceptDriftDetected",
+      "label": "ConceptDriftDetected"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult-ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_ConceptDriftDetected",
+      "source": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_ConceptDriftDetected",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_DriftSeverity",
+      "label": "DriftSeverity"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult-ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_DriftSeverity",
+      "source": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_DriftSeverity",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_OnlineLearningApplied",
+      "label": "OnlineLearningApplied"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult-ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_OnlineLearningApplied",
+      "source": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_OnlineLearningApplied",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_PerformanceImprovement",
+      "label": "PerformanceImprovement"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult-ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_PerformanceImprovement",
+      "source": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_PerformanceImprovement",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_OptimizationRecommendations",
+      "label": "OptimizationRecommendations"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult-ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_OptimizationRecommendations",
+      "source": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_OptimizationRecommendations",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_ErrorMessage",
+      "label": "ErrorMessage"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult-ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_ErrorMessage",
+      "source": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_ContinuousLearningResult_ErrorMessage",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends",
+      "label": "PerformanceTrends"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends_AnalysisType",
+      "label": "AnalysisType"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends-ALARM_Analyzers_SuggestionValidation_PerformanceTrends_AnalysisType",
+      "source": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends",
+      "target": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends_AnalysisType",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends_AnalysisTimestamp",
+      "label": "AnalysisTimestamp"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends-ALARM_Analyzers_SuggestionValidation_PerformanceTrends_AnalysisTimestamp",
+      "source": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends",
+      "target": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends_AnalysisTimestamp",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends_AverageError",
+      "label": "AverageError"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends-ALARM_Analyzers_SuggestionValidation_PerformanceTrends_AverageError",
+      "source": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends",
+      "target": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends_AverageError",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends_ErrorTrend",
+      "label": "ErrorTrend"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends-ALARM_Analyzers_SuggestionValidation_PerformanceTrends_ErrorTrend",
+      "source": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends",
+      "target": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends_ErrorTrend",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends_AccuracyStability",
+      "label": "AccuracyStability"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends-ALARM_Analyzers_SuggestionValidation_PerformanceTrends_AccuracyStability",
+      "source": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends",
+      "target": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends_AccuracyStability",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends_RequiresOptimization",
+      "label": "RequiresOptimization"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends-ALARM_Analyzers_SuggestionValidation_PerformanceTrends_RequiresOptimization",
+      "source": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends",
+      "target": "ALARM_Analyzers_SuggestionValidation_PerformanceTrends_RequiresOptimization",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection",
+      "label": "ConceptDriftDetection"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection_AnalysisType",
+      "label": "AnalysisType"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection-ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection_AnalysisType",
+      "source": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection",
+      "target": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection_AnalysisType",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection_DetectionTimestamp",
+      "label": "DetectionTimestamp"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection-ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection_DetectionTimestamp",
+      "source": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection",
+      "target": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection_DetectionTimestamp",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection_DriftDetected",
+      "label": "DriftDetected"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection-ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection_DriftDetected",
+      "source": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection",
+      "target": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection_DriftDetected",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection_Severity",
+      "label": "Severity"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection-ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection_Severity",
+      "source": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection",
+      "target": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection_Severity",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection_AccuracyDrift",
+      "label": "AccuracyDrift"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection-ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection_AccuracyDrift",
+      "source": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection",
+      "target": "ALARM_Analyzers_SuggestionValidation_ConceptDriftDetection_AccuracyDrift",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult",
+      "label": "OnlineLearningResult"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult_Success",
+      "label": "Success"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult-ALARM_Analyzers_SuggestionValidation_OnlineLearningResult_Success",
+      "source": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult_Success",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult_Improvement",
+      "label": "Improvement"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult-ALARM_Analyzers_SuggestionValidation_OnlineLearningResult_Improvement",
+      "source": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult_Improvement",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult_SamplesProcessed",
+      "label": "SamplesProcessed"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult-ALARM_Analyzers_SuggestionValidation_OnlineLearningResult_SamplesProcessed",
+      "source": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult_SamplesProcessed",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult_ErrorMessage",
+      "label": "ErrorMessage"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult-ALARM_Analyzers_SuggestionValidation_OnlineLearningResult_ErrorMessage",
+      "source": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_OnlineLearningResult_ErrorMessage",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_RetrainingResult",
+      "label": "RetrainingResult"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_RetrainingResult_Success",
+      "label": "Success"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_RetrainingResult-ALARM_Analyzers_SuggestionValidation_RetrainingResult_Success",
+      "source": "ALARM_Analyzers_SuggestionValidation_RetrainingResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_RetrainingResult_Success",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_RetrainingResult_Accuracy",
+      "label": "Accuracy"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_RetrainingResult-ALARM_Analyzers_SuggestionValidation_RetrainingResult_Accuracy",
+      "source": "ALARM_Analyzers_SuggestionValidation_RetrainingResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_RetrainingResult_Accuracy",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_RetrainingResult_MeanAbsoluteError",
+      "label": "MeanAbsoluteError"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_RetrainingResult-ALARM_Analyzers_SuggestionValidation_RetrainingResult_MeanAbsoluteError",
+      "source": "ALARM_Analyzers_SuggestionValidation_RetrainingResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_RetrainingResult_MeanAbsoluteError",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_RetrainingResult_RootMeanSquaredError",
+      "label": "RootMeanSquaredError"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_RetrainingResult-ALARM_Analyzers_SuggestionValidation_RetrainingResult_RootMeanSquaredError",
+      "source": "ALARM_Analyzers_SuggestionValidation_RetrainingResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_RetrainingResult_RootMeanSquaredError",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_RetrainingResult_ErrorMessage",
+      "label": "ErrorMessage"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_RetrainingResult-ALARM_Analyzers_SuggestionValidation_RetrainingResult_ErrorMessage",
+      "source": "ALARM_Analyzers_SuggestionValidation_RetrainingResult",
+      "target": "ALARM_Analyzers_SuggestionValidation_RetrainingResult_ErrorMessage",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport",
+      "label": "AdaptiveLearningReport"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport_GenerationTime",
+      "label": "GenerationTime"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport_GenerationTime",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport_GenerationTime",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport_AnalysisTypeReports",
+      "label": "AnalysisTypeReports"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport_AnalysisTypeReports",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport_AnalysisTypeReports",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport_OverallStatistics",
+      "label": "OverallStatistics"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport_OverallStatistics",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport_OverallStatistics",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport_SystemRecommendations",
+      "label": "SystemRecommendations"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport_SystemRecommendations",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport_SystemRecommendations",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport_ErrorMessage",
+      "label": "ErrorMessage"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport-ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport_ErrorMessage",
+      "source": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport",
+      "target": "ALARM_Analyzers_SuggestionValidation_AdaptiveLearningReport_ErrorMessage",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AnalysisTypeLearningReport",
+      "label": "AnalysisTypeLearningReport"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AnalysisTypeLearningReport_AnalysisType",
+      "label": "AnalysisType"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AnalysisTypeLearningReport-ALARM_Analyzers_SuggestionValidation_AnalysisTypeLearningReport_AnalysisType",
+      "source": "ALARM_Analyzers_SuggestionValidation_AnalysisTypeLearningReport",
+      "target": "ALARM_Analyzers_SuggestionValidation_AnalysisTypeLearningReport_AnalysisType",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AnalysisTypeLearningReport_TotalLearningCycles",
+      "label": "TotalLearningCycles"
+    }
+  },
+  {
+    "data": {
+      "id": "ALARM_Analyzers_SuggestionValidation_AnalysisTypeLearningReport-ALARM_Analyzers_SuggestionValidation_AnalysisTypeLearningReport_TotalLearningCycles",
+      "source": "ALARM_Analyzers_SuggestionValidation_AnalysisTypeLearningReport",
+      "target": "ALARM_Analyzers_SuggestionValidation_AnalysisTypeLearningReport_TotalLearningCycles",
+      "label": "PropertyAccess",
+      "weight": 0.6
+    }
+  }
+]

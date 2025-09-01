@@ -1,0 +1,13 @@
+graph TD
+    Presentation["Presentation<br/>Level 1<br/>(17 components)"]
+    class Presentation layer-1
+    Data["Data<br/>Level 3<br/>(2 components)"]
+    class Data layer-3
+    Infrastructure["Infrastructure<br/>Level 4<br/>(1 components)"]
+    class Infrastructure layer-4
+    Presentation --> Data
+    Data --> Infrastructure
+    classDef layer-1 fill:#e3f2fd
+    classDef layer-2 fill:#f1f8e9
+    classDef layer-3 fill:#fce4ec
+    classDef layer-4 fill:#fff8e1

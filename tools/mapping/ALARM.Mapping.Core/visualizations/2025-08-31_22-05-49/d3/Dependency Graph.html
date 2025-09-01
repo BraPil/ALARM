@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dependency Graph</title>
+    <script src='https://d3js.org/d3.v7.min.js'></script>
+    <style>
+        .node { fill: #69b3a2; stroke: #fff; stroke-width: 2px; }
+        .link { stroke: #999; stroke-opacity: 0.6; }
+    </style>
+</head>
+<body>
+    <h1>Dependency Graph</h1>
+    <svg width='800' height='600'></svg>
+    <script>
+        const data = {
+  "nodes": [
+    {
+      "id": "SuggestionValidation",
+      "name": "SuggestionValidation",
+      "type": "Service",
+      "size": 201
+    },
+    {
+      "id": "Tests",
+      "name": "Tests",
+      "type": "Unknown",
+      "size": 9
+    },
+    {
+      "id": "PatternDetection",
+      "name": "PatternDetection",
+      "type": "Unknown",
+      "size": 13
+    },
+    {
+      "id": "CausalAnalysis",
+      "name": "CausalAnalysis",
+      "type": "Unknown",
+      "size": 13
+    },
+    {
+      "id": "Performance",
+      "name": "Performance",
+      "type": "UserInterface",
+      "size": 2
+    },
+    {
+      "id": "Models",
+      "name": "Models",
+      "type": "Unknown",
+      "size": 3
+    },
+    {
+      "id": "Validation",
+      "name": "Validation",
+      "type": "BusinessLogic",
+      "size": 58
+    }
+  ],
+  "links": []
+};
+        // D3.js force-directed graph implementation would go here
+        console.log('Data loaded:', data);
+    </script>
+</body>
+</html>

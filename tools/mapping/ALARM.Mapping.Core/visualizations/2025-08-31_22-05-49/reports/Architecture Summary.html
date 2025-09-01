@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Architecture Summary Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .metric { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .section { margin: 20px 0; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Architecture Summary Report</h1>
+    
+    <div class='section'>
+        <h2>Overview</h2>
+        <div class='metric'>Total Classes: 241</div>
+        <div class='metric'>Total Methods: 748</div>
+        <div class='metric'>Total Dependencies: 2367</div>
+        <div class='metric'>Architectural Pattern: Layered</div>
+    </div>
+    
+    <div class='section'>
+        <h2>Components</h2>
+        <table>
+            <tr><th>Name</th><th>Type</th><th>Classes</th></tr>
+            <tr><td>SuggestionValidation</td><td>Service</td><td>201</td></tr><tr><td>Tests</td><td>Unknown</td><td>9</td></tr><tr><td>PatternDetection</td><td>Unknown</td><td>13</td></tr><tr><td>CausalAnalysis</td><td>Unknown</td><td>13</td></tr><tr><td>Performance</td><td>UserInterface</td><td>2</td></tr><tr><td>Models</td><td>Unknown</td><td>3</td></tr><tr><td>Validation</td><td>BusinessLogic</td><td>58</td></tr>
+        </table>
+    </div>
+    
+    <div class='section'>
+        <h2>Layers</h2>
+        <table>
+            <tr><th>Name</th><th>Level</th><th>Components</th></tr>
+            <tr><td>Presentation</td><td>1</td><td>22</td></tr><tr><td>Business</td><td>2</td><td>8</td></tr><tr><td>Data</td><td>3</td><td>44</td></tr>
+        </table>
+    </div>
+</body>
+</html>

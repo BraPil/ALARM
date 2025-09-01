@@ -16,7 +16,14 @@ namespace ALARM.Analyzers.SuggestionValidation
 
             try
             {
-                await SuggestionValidationTest.RunTestAsync();
+                if (args.Length > 0 && args[0] == "--debug")
+                {
+                    await DebugFeatureExtractor.RunDebugTests();
+                }
+                else
+                {
+                    await SuggestionValidationTest.RunTestAsync();
+                }
             }
             catch (Exception ex)
             {

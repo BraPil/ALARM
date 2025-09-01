@@ -1,0 +1,23 @@
+graph TD
+    Adds["Adds<br/>(Unknown)"]
+    class Adds default-component
+    AddsAttribFuncts["AddsAttribFuncts<br/>(Unknown)"]
+    class AddsAttribFuncts default-component
+    Forms["Forms<br/>(UserInterface)"]
+    class Forms ui-component
+    ["<br/>(Unknown)"]
+    class  default-component
+    Logging["Logging<br/>(Infrastructure)"]
+    class Logging default-component
+    Validation["Validation<br/>(BusinessLogic)"]
+    class Validation business-component
+    Adds --> AddsAttribFuncts
+    AddsAttribFuncts --> Forms
+    Forms --> 
+     --> Logging
+    Logging --> Validation
+    classDef ui-component fill:#e1f5fe
+    classDef business-component fill:#f3e5f5
+    classDef data-component fill:#e8f5e8
+    classDef service-component fill:#fff3e0
+    classDef default-component fill:#f5f5f5

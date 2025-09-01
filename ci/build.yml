@@ -40,6 +40,7 @@ jobs:
         dotnet restore ${{ env.SOLUTION_PATH }}
         dotnet restore tools/indexer/Indexer.csproj
         dotnet restore tools/analyzers/Analyzers.csproj
+        dotnet restore tools/analyzers/SuggestionValidation/SuggestionValidation.csproj
         dotnet restore tools/smoke/Smoke.csproj
     
     - name: Build solution
@@ -47,6 +48,7 @@ jobs:
         dotnet build ${{ env.SOLUTION_PATH }} -c Release --no-restore
         dotnet build tools/indexer/Indexer.csproj -c Release --no-restore
         dotnet build tools/analyzers/Analyzers.csproj -c Release --no-restore  
+        dotnet build tools/analyzers/SuggestionValidation/SuggestionValidation.csproj -c Release --no-restore
         dotnet build tools/smoke/Smoke.csproj -c Release --no-restore
     
     - name: Apply Learned Optimizations
@@ -131,6 +133,75 @@ jobs:
       with:
         name: static-analysis
         path: mcp_runs/analysis/**/*
+        retention-days: 30
+
+  ml-model-testing:
+    name: ML Model Testing Framework
+    runs-on: windows-latest
+    needs: build-and-test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Restore dependencies
+      run: dotnet restore tools/analyzers/SuggestionValidation/SuggestionValidation.csproj
+    
+    - name: Build ML Testing Framework
+      run: dotnet build tools/analyzers/SuggestionValidation/SuggestionValidation.csproj -c Release --no-restore
+    
+    - name: Run ML Model Testing Framework Tests
+      run: |
+        dotnet test tools/analyzers/SuggestionValidation/SuggestionValidation.csproj -c Release --no-build --filter "MLModelTestingFrameworkTests" --verbosity normal --logger "trx;LogFileName=ml-testing-results.trx" --collect:"XPlat Code Coverage"
+    
+    - name: Run Comprehensive ML Model Validation
+      run: |
+        dotnet run --project tools/analyzers/SuggestionValidation/SuggestionValidation.csproj -- --ml-test --comprehensive --output mcp_runs/ml-testing
+      continue-on-error: true
+    
+    - name: Run Bias Detection Analysis
+      run: |
+        dotnet run --project tools/analyzers/SuggestionValidation/SuggestionValidation.csproj -- --bias-detection --all-models --output mcp_runs/bias-analysis
+      continue-on-error: true
+    
+    - name: Run Performance Validation
+      run: |
+        dotnet run --project tools/analyzers/SuggestionValidation/SuggestionValidation.csproj -- --performance-test --benchmark --output mcp_runs/performance-validation
+      continue-on-error: true
+    
+    - name: Generate ML Quality Report
+      run: |
+        dotnet run --project tools/analyzers/SuggestionValidation/SuggestionValidation.csproj -- --generate-report --format html --output mcp_runs/ml-quality-report.html
+      continue-on-error: true
+    
+    - name: Validate 85% Accuracy Target
+      run: |
+        dotnet run --project tools/analyzers/SuggestionValidation/SuggestionValidation.csproj -- --validate-targets --accuracy-threshold 0.85 --bias-threshold 0.1 --performance-threshold 0.8
+    
+    - name: Upload ML testing results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: ml-testing-results
+        path: |
+          TestResults/ml-testing-results.trx
+          mcp_runs/ml-testing/**/*
+          mcp_runs/bias-analysis/**/*
+          mcp_runs/performance-validation/**/*
+          mcp_runs/ml-quality-report.html
+        retention-days: 30
+    
+    - name: Upload ML test coverage
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: ml-test-coverage
+        path: TestResults/**/coverage.cobertura.xml
         retention-days: 30
 
   oracle-integration:
@@ -244,7 +315,7 @@ jobs:
   deployment-staging:
     name: Deploy to Staging
     runs-on: windows-latest
-    needs: [build-and-test, static-analysis]
+    needs: [build-and-test, static-analysis, ml-model-testing]
     if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
     environment: staging
     
@@ -275,7 +346,7 @@ jobs:
   deployment-production:
     name: Deploy to Production
     runs-on: windows-latest
-    needs: [build-and-test, static-analysis, oracle-integration]
+    needs: [build-and-test, static-analysis, ml-model-testing, oracle-integration]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment: production
     
@@ -324,7 +395,7 @@ jobs:
   learning-analysis:
     name: Learning Analysis
     runs-on: windows-latest
-    needs: [build-and-test, static-analysis]
+    needs: [build-and-test, static-analysis, ml-model-testing]
     if: always()
     
     steps:

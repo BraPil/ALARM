@@ -1,0 +1,84 @@
+{
+  "ADDS25Configuration": {
+    "Application": {
+      "Name": "ADDS25",
+      "Version": "25.0.0",
+      "Framework": ".NET Core 8",
+      "AutoCADVersion": "Map3D 2025",
+      "OracleVersion": "19c",
+      "BuildDate": "2025-09-01",
+      "Description": "Modernized ADDS system for .NET Core 8, AutoCAD Map3D 2025, and Oracle 19c"
+    },
+    "Directories": {
+      "ApplicationRoot": "C:\\ADDS25",
+      "DrawingFiles": "C:\\ADDS25\\Dwg",
+      "LogFiles": "C:\\ADDS25\\Logs",
+      "PlotFiles": "C:\\ADDS25\\Plot",
+      "ConfigFiles": "C:\\ADDS25\\Config",
+      "Assemblies": "C:\\ADDS25\\Assemblies",
+      "LispIntegration": "C:\\ADDS25_Map",
+      "TemporaryData": "C:\\ProgramData\\ADDS25Temp"
+    },
+    "Oracle": {
+      "ConnectionString": "",
+      "Server": "PnEmbD21",
+      "DatabaseName": "ADDSDB",
+      "Schema": "ADDSDB",
+      "ConnectionTimeout": 30,
+      "CommandTimeout": 60,
+      "UseManagedDataAccess": true,
+      "Version": "19c"
+    },
+    "AutoCAD": {
+      "Version": "2025",
+      "ProductCode": "MAP",
+      "Language": "en-US",
+      "ProfileName": "ADDS25",
+      "LoadWithNoLogo": true,
+      "DefaultTemplate": "C:\\ADDS25_Map\\LookUpTable\\Template\\ADDS25.dwt"
+    },
+    "LispIntegration": {
+      "Enabled": true,
+      "RootPath": "C:\\ADDS25_Map",
+      "CoreFiles": [
+        "Adds\\Lisp\\Adds.Lsp",
+        "Common\\Acad_ADO.Lsp",
+        "Common\\DLGLod.lsp",
+        "Common\\Tables.lsp",
+        "Common\\Utils.lsp"
+      ],
+      "AutoLoad": true,
+      "TranslateFunctions": true
+    },
+    "Logging": {
+      "Enabled": true,
+      "LogLevel": "Information",
+      "LogToFile": true,
+      "LogToConsole": true,
+      "LogDirectory": "C:\\ADDS25\\Logs",
+      "MaxLogFileSizeMB": 10,
+      "MaxLogFiles": 10
+    },
+    "Performance": {
+      "EnableCaching": true,
+      "CacheTimeoutMinutes": 30,
+      "MaxConcurrentConnections": 10,
+      "EnableConnectionPooling": true
+    },
+    "UI": {
+      "ShowSplashScreen": true,
+      "SplashScreenTimeoutSeconds": 5,
+      "EnableStatusLine": true,
+      "DefaultDivision": "Unknown",
+      "EnableToolPalettes": true
+    },
+    "Migration": {
+      "FromVersion": "ADDS 2019",
+      "ToVersion": "ADDS25",
+      "MigrationDate": "2025-09-01",
+      "PreserveLegacyFunctionality": true,
+      "EnableCompatibilityMode": true,
+      "Notes": "Migrated from .NET Framework to .NET Core 8, Oracle.DataAccess to Oracle.ManagedDataAccess.Core, AutoCAD 2019 to Map3D 2025"
+    }
+  }
+}

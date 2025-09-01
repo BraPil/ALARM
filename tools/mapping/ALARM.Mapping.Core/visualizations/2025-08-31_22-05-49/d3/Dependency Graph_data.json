@@ -1,0 +1,47 @@
+{
+  "nodes": [
+    {
+      "id": "SuggestionValidation",
+      "name": "SuggestionValidation",
+      "type": "Service",
+      "size": 201
+    },
+    {
+      "id": "Tests",
+      "name": "Tests",
+      "type": "Unknown",
+      "size": 9
+    },
+    {
+      "id": "PatternDetection",
+      "name": "PatternDetection",
+      "type": "Unknown",
+      "size": 13
+    },
+    {
+      "id": "CausalAnalysis",
+      "name": "CausalAnalysis",
+      "type": "Unknown",
+      "size": 13
+    },
+    {
+      "id": "Performance",
+      "name": "Performance",
+      "type": "UserInterface",
+      "size": 2
+    },
+    {
+      "id": "Models",
+      "name": "Models",
+      "type": "Unknown",
+      "size": 3
+    },
+    {
+      "id": "Validation",
+      "name": "Validation",
+      "type": "BusinessLogic",
+      "size": 58
+    }
+  ],
+  "links": []
+}

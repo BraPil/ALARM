@@ -1,0 +1,35 @@
+{
+  "name": "Components",
+  "children": [
+    {
+      "name": "Adds",
+      "value": 46,
+      "type": "Unknown"
+    },
+    {
+      "name": "AddsAttribFuncts",
+      "value": 6,
+      "type": "Unknown"
+    },
+    {
+      "name": "Forms",
+      "value": 14,
+      "type": "UserInterface"
+    },
+    {
+      "name": "",
+      "value": 4,
+      "type": "Unknown"
+    },
+    {
+      "name": "Logging",
+      "value": 9,
+      "type": "Infrastructure"
+    },
+    {
+      "name": "Validation",
+      "value": 1,
+      "type": "BusinessLogic"
+    }
+  ]
+}

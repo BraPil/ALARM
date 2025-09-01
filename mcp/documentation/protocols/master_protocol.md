@@ -87,18 +87,39 @@
 - **When:** Isolating AutoCAD, Oracle, or Framework APIs
 - **Key Rule:** Domain layer never directly calls external APIs
 - **Output:** Interface + implementation + test doubles
+- **SDK/API References:** 
+  - AutoCAD 2025 SDK: `C:\Users\kidsg\Downloads\ADDS\ADDS25v1.1\Documentation\objectarx-for-autocad-2025-win-64bit-dlm\`
+  - Map3D 2025 APIs: `C:\Users\kidsg\Downloads\ADDS\ADDS25v1.1\Documentation\autocad_map_3d_2025_api_references\`
+  - .NET Core 8 SDK: `C:\Users\kidsg\Downloads\Documentation\8.0.413\`
+  - Oracle 19c: `C:\Users\kidsg\Downloads\ADDS\ADDS25v1.1\Documentation\Oracle 19c\`
+  - Assembly References: `C:\Users\kidsg\Downloads\Documentation\Assemblies\`
+  - Web Resources: `C:\Users\kidsg\Downloads\ALARM\mcp\documentation\references\web-resources\`
 
 #### **4. REFACTOR PROTOCOL**
 - **Purpose:** Safe code transformation with full traceability
 - **When:** Modernizing code patterns, fixing anti-patterns
 - **Key Rule:** Maximum 300 LOC per change, atomic commits
 - **Output:** Before/after diffs with comprehensive tests
+- **SDK/API References:** 
+  - AutoCAD 2025 SDK: `C:\Users\kidsg\Downloads\ADDS\ADDS25v1.1\Documentation\objectarx-for-autocad-2025-win-64bit-dlm\`
+  - Map3D 2025 APIs: `C:\Users\kidsg\Downloads\ADDS\ADDS25v1.1\Documentation\autocad_map_3d_2025_api_references\`
+  - .NET Core 8 SDK: `C:\Users\kidsg\Downloads\Documentation\8.0.413\`
+  - Oracle 19c: `C:\Users\kidsg\Downloads\ADDS\ADDS25v1.1\Documentation\Oracle 19c\`
+  - Assembly References: `C:\Users\kidsg\Downloads\Documentation\Assemblies\`
+  - Web Resources: `C:\Users\kidsg\Downloads\ALARM\mcp\documentation\references\web-resources\`
 
 #### **5. CODE PROTOCOL**
 - **Purpose:** Creation of new components following established patterns
 - **When:** Building new functionality, replacement systems
 - **Key Rule:** Test-first development, comprehensive error handling
 - **Output:** Tested, documented, production-ready code
+- **SDK/API References:** 
+  - AutoCAD 2025 SDK: `C:\Users\kidsg\Downloads\ADDS\ADDS25v1.1\Documentation\objectarx-for-autocad-2025-win-64bit-dlm\`
+  - Map3D 2025 APIs: `C:\Users\kidsg\Downloads\ADDS\ADDS25v1.1\Documentation\autocad_map_3d_2025_api_references\`
+  - .NET Core 8 SDK: `C:\Users\kidsg\Downloads\Documentation\8.0.413\`
+  - Oracle 19c: `C:\Users\kidsg\Downloads\ADDS\ADDS25v1.1\Documentation\Oracle 19c\`
+  - Assembly References: `C:\Users\kidsg\Downloads\Documentation\Assemblies\`
+  - Web Resources: `C:\Users\kidsg\Downloads\ALARM\mcp\documentation\references\web-resources\`
 
 ### **VALIDATION PROTOCOLS**
 

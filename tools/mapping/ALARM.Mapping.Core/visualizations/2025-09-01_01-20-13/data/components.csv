@@ -1,0 +1,7 @@
+Name,Type,ClassCount,Interfaces
+"Adds","Unknown",46,""
+"AddsAttribFuncts","Unknown",6,""
+"Forms","UserInterface",14,""
+"","Unknown",4,""
+"Logging","Infrastructure",9,""
+"Validation","BusinessLogic",1,""

@@ -1,0 +1,40 @@
+{
+  "name": "Components",
+  "children": [
+    {
+      "name": "SuggestionValidation",
+      "value": 201,
+      "type": "Service"
+    },
+    {
+      "name": "Tests",
+      "value": 9,
+      "type": "Unknown"
+    },
+    {
+      "name": "PatternDetection",
+      "value": 13,
+      "type": "Unknown"
+    },
+    {
+      "name": "CausalAnalysis",
+      "value": 13,
+      "type": "Unknown"
+    },
+    {
+      "name": "Performance",
+      "value": 2,
+      "type": "UserInterface"
+    },
+    {
+      "name": "Models",
+      "value": 3,
+      "type": "Unknown"
+    },
+    {
+      "name": "Validation",
+      "value": 58,
+      "type": "BusinessLogic"
+    }
+  ]
+}

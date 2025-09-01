@@ -1,0 +1,41 @@
+{
+  "nodes": [
+    {
+      "id": "Adds",
+      "name": "Adds",
+      "type": "Unknown",
+      "size": 46
+    },
+    {
+      "id": "AddsAttribFuncts",
+      "name": "AddsAttribFuncts",
+      "type": "Unknown",
+      "size": 6
+    },
+    {
+      "id": "Forms",
+      "name": "Forms",
+      "type": "UserInterface",
+      "size": 14
+    },
+    {
+      "id": "",
+      "name": "",
+      "type": "Unknown",
+      "size": 3
+    },
+    {
+      "id": "Logging",
+      "name": "Logging",
+      "type": "Infrastructure",
+      "size": 9
+    },
+    {
+      "id": "Validation",
+      "name": "Validation",
+      "type": "BusinessLogic",
+      "size": 1
+    }
+  ],
+  "links": []
+}

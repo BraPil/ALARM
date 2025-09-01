@@ -1,0 +1,8 @@
+Name,Type,ClassCount,Interfaces
+"SuggestionValidation","Service",201,""
+"Tests","Unknown",9,""
+"PatternDetection","Unknown",13,""
+"CausalAnalysis","Unknown",13,""
+"Performance","UserInterface",2,""
+"Models","Unknown",3,""
+"Validation","BusinessLogic",58,""

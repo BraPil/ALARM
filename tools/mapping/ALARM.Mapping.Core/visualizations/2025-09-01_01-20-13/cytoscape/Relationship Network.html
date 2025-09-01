@@ -1,0 +1,1551 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Relationship Network</title>
+    <script src='https://unpkg.com/cytoscape/dist/cytoscape.min.js'></script>
+    <style>
+        #cy { width: 100%; height: 600px; }
+    </style>
+</head>
+<body>
+    <h1>Relationship Network</h1>
+    <div id='cy'></div>
+    <script>
+        const elements = [
+  {
+    "data": {
+      "id": "C:\\Users\\kidsg\\Downloads\\Documentation\\ADDS_Original_Files\\19_0\\Adds\\acadline_cs",
+      "label": "cs"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds",
+      "label": "Adds"
+    }
+  },
+  {
+    "data": {
+      "id": "C:\\Users\\kidsg\\Downloads\\Documentation\\ADDS_Original_Files\\19_0\\Adds\\acadline_cs-Adds",
+      "source": "C:\\Users\\kidsg\\Downloads\\Documentation\\ADDS_Original_Files\\19_0\\Adds\\acadline_cs",
+      "target": "Adds",
+      "label": "Using",
+      "weight": 0.2
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine",
+      "label": "AcadLine"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_DrawBoxGTC",
+      "label": "DrawBoxGTC"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_DrawBoxGTC",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_DrawBoxGTC",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_DrawPolylineFromSeed",
+      "label": "DrawPolylineFromSeed"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_DrawPolylineFromSeed",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_DrawPolylineFromSeed",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_DrawPolylineFromFile1",
+      "label": "DrawPolylineFromFile1"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_DrawPolylineFromFile1",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_DrawPolylineFromFile1",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_DrawPolyline_Old",
+      "label": "DrawPolyline_Old"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_DrawPolyline_Old",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_DrawPolyline_Old",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_DrawPanel",
+      "label": "DrawPanel"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_DrawPanel",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_DrawPanel",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_CheckPolylineVertices",
+      "label": "CheckPolylineVertices"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_CheckPolylineVertices",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_CheckPolylineVertices",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_FixVertices",
+      "label": "FixVertices"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_FixVertices",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_FixVertices",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_TestWriteLines",
+      "label": "TestWriteLines"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_TestWriteLines",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_TestWriteLines",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_ReadVerticesToFile",
+      "label": "ReadVerticesToFile"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_ReadVerticesToFile",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_ReadVerticesToFile",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_ReadMultFromFiles",
+      "label": "ReadMultFromFiles"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_ReadMultFromFiles",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_ReadMultFromFiles",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_RemoveVerticesPickTwoPoints",
+      "label": "RemoveVerticesPickTwoPoints"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_RemoveVerticesPickTwoPoints",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_RemoveVerticesPickTwoPoints",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_JoinPloylines",
+      "label": "JoinPloylines"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_JoinPloylines",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_JoinPloylines",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_GetLineInfoFromStomp",
+      "label": "GetLineInfoFromStomp"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_GetLineInfoFromStomp",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_GetLineInfoFromStomp",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_DrawPanelFeeders",
+      "label": "DrawPanelFeeders"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_DrawPanelFeeders",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_DrawPanelFeeders",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_DrawPolylineFromFileSp",
+      "label": "DrawPolylineFromFileSp"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_DrawPolylineFromFileSp",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_DrawPolylineFromFileSp",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_DrawPolyLine",
+      "label": "DrawPolyLine"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_DrawPolyLine",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_DrawPolyLine",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_GetStartPointData",
+      "label": "GetStartPointData"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_GetStartPointData",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_GetStartPointData",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_GetEndPointData",
+      "label": "GetEndPointData"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_GetEndPointData",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_GetEndPointData",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_GetPolyLineInfo",
+      "label": "GetPolyLineInfo"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_GetPolyLineInfo",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_GetPolyLineInfo",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine_GetPloylineInfoFromAddsDB",
+      "label": "GetPloylineInfoFromAddsDB"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadLine-Adds_AcadLine_GetPloylineInfoFromAddsDB",
+      "source": "Adds_AcadLine",
+      "target": "Adds_AcadLine_GetPloylineInfoFromAddsDB",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "C:\\Users\\kidsg\\Downloads\\Documentation\\ADDS_Original_Files\\19_0\\Adds\\acadsymbol_cs",
+      "label": "cs"
+    }
+  },
+  {
+    "data": {
+      "id": "C:\\Users\\kidsg\\Downloads\\Documentation\\ADDS_Original_Files\\19_0\\Adds\\acadsymbol_cs-Adds",
+      "source": "C:\\Users\\kidsg\\Downloads\\Documentation\\ADDS_Original_Files\\19_0\\Adds\\acadsymbol_cs",
+      "target": "Adds",
+      "label": "Using",
+      "weight": 0.2
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol",
+      "label": "AcadSymbol"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_BlocksOnTop",
+      "label": "BlocksOnTop"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_BlocksOnTop",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_BlocksOnTop",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_CheckAttributesFunction",
+      "label": "CheckAttributesFunction"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_CheckAttributesFunction",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_CheckAttributesFunction",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_CheckAttributes",
+      "label": "CheckAttributes"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_CheckAttributes",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_CheckAttributes",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_FixAttributes",
+      "label": "FixAttributes"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_FixAttributes",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_FixAttributes",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_InsertAddsBlock",
+      "label": "InsertAddsBlock"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_InsertAddsBlock",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_InsertAddsBlock",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_ReplaceBlock",
+      "label": "ReplaceBlock"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_ReplaceBlock",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_ReplaceBlock",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_GetBasicEntityInfoFromDwg",
+      "label": "GetBasicEntityInfoFromDwg"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_GetBasicEntityInfoFromDwg",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_GetBasicEntityInfoFromDwg",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_WriteSwitchesToFile",
+      "label": "WriteSwitchesToFile"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_WriteSwitchesToFile",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_WriteSwitchesToFile",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_WriteGISBlocksTo",
+      "label": "WriteGISBlocksTo"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_WriteGISBlocksTo",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_WriteGISBlocksTo",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_DrawSwsFromFile",
+      "label": "DrawSwsFromFile"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_DrawSwsFromFile",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_DrawSwsFromFile",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_DrawSubsFromFile",
+      "label": "DrawSubsFromFile"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_DrawSubsFromFile",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_DrawSubsFromFile",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_PickFirstTest",
+      "label": "PickFirstTest"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_PickFirstTest",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_PickFirstTest",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_DrawPanelSymbols",
+      "label": "DrawPanelSymbols"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_DrawPanelSymbols",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_DrawPanelSymbols",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_GetFacitlyInfoFromStomp",
+      "label": "GetFacitlyInfoFromStomp"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_GetFacitlyInfoFromStomp",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_GetFacitlyInfoFromStomp",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_GetSwitchInfoFromStomp",
+      "label": "GetSwitchInfoFromStomp"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_GetSwitchInfoFromStomp",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_GetSwitchInfoFromStomp",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_GetSymbolInfoFromAddsDB",
+      "label": "GetSymbolInfoFromAddsDB"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_GetSymbolInfoFromAddsDB",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_GetSymbolInfoFromAddsDB",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_GetSymbolInformation",
+      "label": "GetSymbolInformation"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_GetSymbolInformation",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_GetSymbolInformation",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_GetTableRecordId",
+      "label": "GetTableRecordId"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_GetTableRecordId",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_GetTableRecordId",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_CheckGCCSubBlock",
+      "label": "CheckGCCSubBlock"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_CheckGCCSubBlock",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_CheckGCCSubBlock",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_InsertBlock",
+      "label": "InsertBlock"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_InsertBlock",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_InsertBlock",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_InsertGap",
+      "label": "InsertGap"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_InsertGap",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_InsertGap",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol_InsertBlockGap",
+      "label": "InsertBlockGap"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadSymbol-Adds_AcadSymbol_InsertBlockGap",
+      "source": "Adds_AcadSymbol",
+      "target": "Adds_AcadSymbol_InsertBlockGap",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "C:\\Users\\kidsg\\Downloads\\Documentation\\ADDS_Original_Files\\19_0\\Adds\\acadtext_cs",
+      "label": "cs"
+    }
+  },
+  {
+    "data": {
+      "id": "C:\\Users\\kidsg\\Downloads\\Documentation\\ADDS_Original_Files\\19_0\\Adds\\acadtext_cs-Adds",
+      "source": "C:\\Users\\kidsg\\Downloads\\Documentation\\ADDS_Original_Files\\19_0\\Adds\\acadtext_cs",
+      "target": "Adds",
+      "label": "Using",
+      "weight": 0.2
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadText",
+      "label": "AcadText"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadText_CreateDataLink",
+      "label": "CreateDataLink"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadText-Adds_AcadText_CreateDataLink",
+      "source": "Adds_AcadText",
+      "target": "Adds_AcadText_CreateDataLink",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadText_AddTextToDWG",
+      "label": "AddTextToDWG"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadText-Adds_AcadText_AddTextToDWG",
+      "source": "Adds_AcadText",
+      "target": "Adds_AcadText_AddTextToDWG",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadText_DrawPanelText",
+      "label": "DrawPanelText"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadText-Adds_AcadText_DrawPanelText",
+      "source": "Adds_AcadText",
+      "target": "Adds_AcadText_DrawPanelText",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadText_GetTextInfoFromAddsDB",
+      "label": "GetTextInfoFromAddsDB"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadText-Adds_AcadText_GetTextInfoFromAddsDB",
+      "source": "Adds_AcadText",
+      "target": "Adds_AcadText_GetTextInfoFromAddsDB",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadText_GetTextInfoFromTMap",
+      "label": "GetTextInfoFromTMap"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_AcadText-Adds_AcadText_GetTextInfoFromTMap",
+      "source": "Adds_AcadText",
+      "target": "Adds_AcadText_GetTextInfoFromTMap",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "C:\\Users\\kidsg\\Downloads\\Documentation\\ADDS_Original_Files\\19_0\\Adds\\adds_cs",
+      "label": "cs"
+    }
+  },
+  {
+    "data": {
+      "id": "C:\\Users\\kidsg\\Downloads\\Documentation\\ADDS_Original_Files\\19_0\\Adds\\adds_cs-Adds",
+      "source": "C:\\Users\\kidsg\\Downloads\\Documentation\\ADDS_Original_Files\\19_0\\Adds\\adds_cs",
+      "target": "Adds",
+      "label": "Using",
+      "weight": 0.2
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds",
+      "label": "Adds"
+    }
+  },
+  {
+    "data": {
+      "id": "Acad_IExtensionApplication",
+      "label": "IExtensionApplication"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Acad_IExtensionApplication",
+      "source": "Adds_Adds",
+      "target": "Acad_IExtensionApplication",
+      "label": "Inheritance",
+      "weight": 1
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_GripVectorOverrule",
+      "label": "GripVectorOverrule"
+    }
+  },
+  {
+    "data": {
+      "id": "AcadDB_GripOverrule",
+      "label": "GripOverrule"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_GripVectorOverrule-AcadDB_GripOverrule",
+      "source": "Adds_GripVectorOverrule",
+      "target": "AcadDB_GripOverrule",
+      "label": "Inheritance",
+      "weight": 1
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_Initialize",
+      "label": "Initialize"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_Initialize",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_Initialize",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_Terminate",
+      "label": "Terminate"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_Terminate",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_Terminate",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_acedGetSym",
+      "label": "acedGetSym"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_acedGetSym",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_acedGetSym",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_acedPutSym",
+      "label": "acedPutSym"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_acedPutSym",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_acedPutSym",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_acedEvaluateLisp",
+      "label": "acedEvaluateLisp"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_acedEvaluateLisp",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_acedEvaluateLisp",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_ads_queueexpr",
+      "label": "ads_queueexpr"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_ads_queueexpr",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_ads_queueexpr",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_acdbGetAdsName",
+      "label": "acdbGetAdsName"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_acdbGetAdsName",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_acdbGetAdsName",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_acdbEntUpd",
+      "label": "acdbEntUpd"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_acdbEntUpd",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_acdbEntUpd",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_ETTest",
+      "label": "ETTest"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_ETTest",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_ETTest",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_DrawHiddenLine",
+      "label": "DrawHiddenLine"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_DrawHiddenLine",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_DrawHiddenLine",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_DrawSeqSwLine",
+      "label": "DrawSeqSwLine"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_DrawSeqSwLine",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_DrawSeqSwLine",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_GetFeederData",
+      "label": "GetFeederData"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_GetFeederData",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_GetFeederData",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_GetPanelIdLut",
+      "label": "GetPanelIdLut"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_GetPanelIdLut",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_GetPanelIdLut",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_GetSubPosLUT",
+      "label": "GetSubPosLUT"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_GetSubPosLUT",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_GetSubPosLUT",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_GetFeederCor",
+      "label": "GetFeederCor"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_GetFeederCor",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_GetFeederCor",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_GetSubstationCor",
+      "label": "GetSubstationCor"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_GetSubstationCor",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_GetSubstationCor",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_GetSwitchCor",
+      "label": "GetSwitchCor"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_GetSwitchCor",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_GetSwitchCor",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_GetSubCor",
+      "label": "GetSubCor"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_GetSubCor",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_GetSubCor",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_GetSymbolEntryInfo",
+      "label": "GetSymbolEntryInfo"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_GetSymbolEntryInfo",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_GetSymbolEntryInfo",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_GetSymbolInfo",
+      "label": "GetSymbolInfo"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_GetSymbolInfo",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_GetSymbolInfo",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_GetAddsMasterDevicesNotInPanel",
+      "label": "GetAddsMasterDevicesNotInPanel"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_GetAddsMasterDevicesNotInPanel",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_GetAddsMasterDevicesNotInPanel",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_CheckMasterDevicesFor",
+      "label": "CheckMasterDevicesFor"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_CheckMasterDevicesFor",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_CheckMasterDevicesFor",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_CheckPanelExist",
+      "label": "CheckPanelExist"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_CheckPanelExist",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_CheckPanelExist",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_InsertSOPSymbol",
+      "label": "InsertSOPSymbol"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_InsertSOPSymbol",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_InsertSOPSymbol",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_InsertIERSymbol",
+      "label": "InsertIERSymbol"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_InsertIERSymbol",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_InsertIERSymbol",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_InsertATSSymbol",
+      "label": "InsertATSSymbol"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_InsertATSSymbol",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_InsertATSSymbol",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_MonitorWorkSpaceChanges",
+      "label": "MonitorWorkSpaceChanges"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_MonitorWorkSpaceChanges",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_MonitorWorkSpaceChanges",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_acApp_SystemVariableChanged",
+      "label": "acApp_SystemVariableChanged"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_acApp_SystemVariableChanged",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_acApp_SystemVariableChanged",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_UpdateRootPaths",
+      "label": "UpdateRootPaths"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_UpdateRootPaths",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_UpdateRootPaths",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_SavePanel",
+      "label": "SavePanel"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_SavePanel",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_SavePanel",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_DeleteOldLocalFiles",
+      "label": "DeleteOldLocalFiles"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_DeleteOldLocalFiles",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_DeleteOldLocalFiles",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_ShowPal",
+      "label": "ShowPal"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_ShowPal",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_ShowPal",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_AcadGetSystemVariable",
+      "label": "AcadGetSystemVariable"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_AcadGetSystemVariable",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_AcadGetSystemVariable",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_AcadPutSym",
+      "label": "AcadPutSym"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_AcadPutSym",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_AcadPutSym",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_SetStoredXData",
+      "label": "SetStoredXData"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_SetStoredXData",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_SetStoredXData",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_CreateDwgLink",
+      "label": "CreateDwgLink"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_CreateDwgLink",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_CreateDwgLink",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_AcadLispFunction",
+      "label": "AcadLispFunction"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_AcadLispFunction",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_AcadLispFunction",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_ProcessInputParameters",
+      "label": "ProcessInputParameters"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_ProcessInputParameters",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_ProcessInputParameters",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_CompareFileDate",
+      "label": "CompareFileDate"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_CompareFileDate",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_CompareFileDate",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_GetInsertionPoint",
+      "label": "GetInsertionPoint"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_GetInsertionPoint",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_GetInsertionPoint",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_AddRegAppTableRecord",
+      "label": "AddRegAppTableRecord"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_AddRegAppTableRecord",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_AddRegAppTableRecord",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_GetBlockInsertionPt",
+      "label": "GetBlockInsertionPt"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_GetBlockInsertionPt",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_GetBlockInsertionPt",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_InsertSymbol",
+      "label": "InsertSymbol"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_InsertSymbol",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_InsertSymbol",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_GetDeviceID",
+      "label": "GetDeviceID"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_GetDeviceID",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_GetDeviceID",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_GetStorDate",
+      "label": "GetStorDate"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_GetStorDate",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_GetStorDate",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds_BuildConnectionString",
+      "label": "BuildConnectionString"
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_BuildConnectionString",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_BuildConnectionString",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  },
+  {
+    "data": {
+      "id": "Adds_Adds-Adds_Adds_BuildConnectionString",
+      "source": "Adds_Adds",
+      "target": "Adds_Adds_BuildConnectionString",
+      "label": "MethodCall",
+      "weight": 0.8
+    }
+  }
+];
+        // Cytoscape.js network graph implementation would go here
+        console.log('Elements loaded:', elements);
+    </script>
+</body>
+</html>

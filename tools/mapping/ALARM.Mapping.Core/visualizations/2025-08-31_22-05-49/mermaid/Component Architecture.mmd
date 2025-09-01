@@ -1,0 +1,26 @@
+graph TD
+    SuggestionValidation["SuggestionValidation<br/>(Service)"]
+    class SuggestionValidation service-component
+    Tests["Tests<br/>(Unknown)"]
+    class Tests default-component
+    PatternDetection["PatternDetection<br/>(Unknown)"]
+    class PatternDetection default-component
+    CausalAnalysis["CausalAnalysis<br/>(Unknown)"]
+    class CausalAnalysis default-component
+    Performance["Performance<br/>(UserInterface)"]
+    class Performance ui-component
+    Models["Models<br/>(Unknown)"]
+    class Models default-component
+    Validation["Validation<br/>(BusinessLogic)"]
+    class Validation business-component
+    SuggestionValidation --> Tests
+    Tests --> PatternDetection
+    PatternDetection --> CausalAnalysis
+    CausalAnalysis --> Performance
+    Performance --> Models
+    Models --> Validation
+    classDef ui-component fill:#e1f5fe
+    classDef business-component fill:#f3e5f5
+    classDef data-component fill:#e8f5e8
+    classDef service-component fill:#fff3e0
+    classDef default-component fill:#f5f5f5
