@@ -55,7 +55,7 @@ foreach ($assembly in $assemblies) {
 # ADDS25: Deploy LISP integration files (if available)
 Write-Host "Deploying LISP integration files..." -ForegroundColor Yellow
 
-$lispSource = "C:\Users\kidsg\Downloads\Documentation\ADDS Original Files\Div_Map"
+$lispSource = "C:\Users\wa-bdpilegg\Downloads\Documentation\ADDS Original Files\Div_Map"
 $lispTarget = "C:\ADDS25_Map"
 
 if (Test-Path $lispSource) {

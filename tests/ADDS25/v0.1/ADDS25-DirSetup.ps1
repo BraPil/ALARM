@@ -4,10 +4,25 @@
 # Purpose: Creates essential directory structure with proper permissions
 # Date: September 1, 2025
 
-Write-Host "*** ADDS25 Directory Setup Started ***" -ForegroundColor Green
-Write-Host "Target Framework: .NET Core 8" -ForegroundColor Cyan
-Write-Host "AutoCAD Version: Map3D 2025" -ForegroundColor Cyan
-Write-Host "Oracle Version: 19c" -ForegroundColor Cyan
+# ADDS25: Initialize logging with environment-specific paths
+# ADDS25 Deployment File - Target environment: wa-bdpilegg
+# This file will be deployed to the test computer with username wa-bdpilegg
+$LogFile = "C:\Users\wa-bdpilegg\Downloads\ALARM\test-results\PowerShell-Results-Log.md"
+$LogDir = Split-Path $LogFile -Parent
+if (!(Test-Path $LogDir)) { New-Item $LogDir -Type Directory -Force | Out-Null }
+
+function Write-Log {
+    param([string]$Message, [string]$Color = "White")
+    $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    $LogEntry = "[$Timestamp] $Message"
+    Write-Host $Message -ForegroundColor $Color
+    Add-Content $LogFile $LogEntry
+}
+
+Write-Log "*** ADDS25 Directory Setup Started ***" "Green"
+Write-Log "Target Framework: .NET Core 8" "Cyan"
+Write-Log "AutoCAD Version: Map3D 2025" "Cyan"
+Write-Log "Oracle Version: 19c" "Cyan"
 Write-Host ""
 
 # ADDS25: Create main application directories
