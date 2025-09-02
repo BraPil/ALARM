@@ -88,9 +88,23 @@ function Invoke-ADDS25Test {
         Write-TestLog "Build error: $($_.Exception.Message)" "ERROR"
     }
     
-    # Step 2: Execute launcher if build succeeded
+    # Step 2: Verify launcher files exist before attempting execution
     if ($testResult.BuildStatus -eq "SUCCESS") {
-        Write-TestLog "Step 2: Executing ADDS25 launcher..." "INFO"
+        Write-TestLog "Step 2: Verifying launcher files and executing..." "INFO"
+        
+        # First run verification script to diagnose file availability
+        $verificationScript = "$adds25Path\VERIFY-LAUNCHER-EXISTS.ps1"
+        if (Test-Path $verificationScript) {
+            Write-TestLog "Running launcher verification script..." "INFO"
+            try {
+                & PowerShell.exe -ExecutionPolicy Bypass -File $verificationScript
+                Write-TestLog "Launcher verification completed" "SUCCESS"
+            } catch {
+                Write-TestLog "Verification script error: $($_.Exception.Message)" "WARNING"
+            }
+        } else {
+            Write-TestLog "Verification script not found at: $verificationScript" "WARNING"
+        }
         
         try {
             # First try simple launcher to verify basic execution works
