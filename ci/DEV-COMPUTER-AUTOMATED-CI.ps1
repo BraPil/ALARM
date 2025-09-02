@@ -206,7 +206,7 @@ function Start-GitHubMonitoring {
                     # Send real-time message via Named Pipes
                     $pipeName = "ADDS25-CURSOR-ANALYSIS-PIPE"
                     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-                    $message = "ANALYZE:$currentCommit:$timestamp:$commitMessage"
+                    $message = "ANALYZE:${currentCommit}:${timestamp}:${commitMessage}"
                     
                     $pipe = New-Object System.IO.Pipes.NamedPipeClientStream(".", $pipeName, [System.IO.Pipes.PipeDirection]::Out)
                     $pipe.Connect(5000) # 5 second timeout
@@ -227,7 +227,7 @@ function Start-GitHubMonitoring {
                     # Fallback to file-based communication
                     try {
                         $triggerFile = "$repoPath\CURSOR-ANALYZE-NOW.trigger"
-                        $fallbackData = "FALLBACK:$currentCommit:$timestamp:$commitMessage"
+                        $fallbackData = "FALLBACK:${currentCommit}:${timestamp}:${commitMessage}"
                         $fallbackData | Out-File $triggerFile -Encoding UTF8
                         Write-CILog "Fallback file-based trigger created: $triggerFile" "SUCCESS"
                     } catch {
