@@ -200,13 +200,32 @@ function Start-GitHubMonitoring {
             if ($currentCommit -ne $lastCommit) {
                 Write-CILog "New commit detected: $currentCommit" "INFO"
                 
-                # Trigger Cursor notification for immediate analysis
+                # Trigger AUTOMATIC Cursor analysis via file-based communication
                 $commitMessage = git log -1 --pretty=format:"%s"
                 try {
+                    # Create analysis trigger file for Cursor to monitor
+                    $triggerFile = "$repoPath\CURSOR-ANALYZE-NOW.trigger"
+                    $triggerData = @{
+                        commit = $currentCommit
+                        message = $commitMessage
+                        timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+                        timezone = "ET (Test computer is CT - 1 hour behind)"
+                        action = "analyze-test-results-immediately"
+                        files_to_check = @(
+                            "test-results\test-report-*.md",
+                            "test-results\*$(Get-Date -Format 'HH-mm')*.md",
+                            "test-results\*$((Get-Date).AddHours(-1).ToString('HH-mm'))*.md"
+                        )
+                    } | ConvertTo-Json -Depth 3
+                    
+                    $triggerData | Out-File $triggerFile -Encoding UTF8
+                    Write-CILog "AUTOMATIC Cursor analysis triggered via file: $triggerFile" "SUCCESS"
+                    
+                    # Also call notification script for user visibility
                     & "$repoPath\ci\NOTIFY-CURSOR-FOR-ANALYSIS.ps1" -CommitHash $currentCommit -CommitMessage $commitMessage -TimeZoneAdjusted
-                    Write-CILog "Cursor notification triggered for commit: $currentCommit" "INFO"
+                    Write-CILog "User notification also triggered for commit: $currentCommit" "INFO"
                 } catch {
-                    Write-CILog "Cursor notification failed: $($_.Exception.Message)" "WARNING"
+                    Write-CILog "Automatic Cursor trigger failed: $($_.Exception.Message)" "WARNING"
                 }
                 
                 # Check if test results were updated
