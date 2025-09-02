@@ -3,14 +3,13 @@
 # Environment: Dev Computer (kidsg)
 # Date: September 1, 2025
 
-Write-Host "🚀 ADDS25 Dev Computer Automated CI System Starting..." -ForegroundColor Cyan
+Write-Host "ADDS25 Dev Computer Automated CI System Starting..." -ForegroundColor Cyan
 Write-Host "This system will monitor GitHub for test results and auto-generate fixes" -ForegroundColor Yellow
 
 # Configuration
 $repoPath = "C:\Users\kidsg\Downloads\ALARM"
 $testResultsPath = "$repoPath\test-results"
 $ciLogPath = "$repoPath\ci\logs"
-$webhookPort = 8080
 
 # Ensure directories exist
 if (!(Test-Path $ciLogPath)) { New-Item $ciLogPath -Type Directory -Force | Out-Null }
@@ -25,11 +24,10 @@ $ciLog = "$ciLogPath\dev-ci-session-$timestamp.md"
 **Session Start**: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
 **Environment**: Dev Computer (kidsg)
 **Repository**: C:\Users\kidsg\Downloads\ALARM
-**Webhook Port**: $webhookPort
 
 ---
 
-## 🎯 **CI AUTOMATION LOG**
+## CI AUTOMATION LOG
 
 "@ | Out-File $ciLog -Encoding UTF8
 
@@ -44,11 +42,11 @@ function Write-CILog {
 function Invoke-MasterProtocolAnalysis {
     param([string]$TestResultFile)
     
-    Write-CILog "🎯 MASTER PROTOCOL ENGAGEMENT - Analyzing: $TestResultFile" "INFO"
+    Write-CILog "MASTER PROTOCOL ENGAGEMENT - Analyzing: $TestResultFile" "INFO"
     
     # Read test results completely (Anti-Sampling Directive)
     $testContent = Get-Content $TestResultFile -Raw
-    Write-CILog "📖 Read complete test results file: $(($testContent -split "`n").Count) lines" "INFO"
+    Write-CILog "Read complete test results file: $(($testContent -split "`n").Count) lines" "INFO"
     
     # Master Protocol Analysis
     $analysisResult = @{
@@ -61,7 +59,7 @@ function Invoke-MasterProtocolAnalysis {
     }
     
     # Analyze build status
-    if ($testContent -match "Build FAILED|❌.*Build|ERROR.*build") {
+    if ($testContent -match "Build FAILED|Build failed|ERROR.*build") {
         $analysisResult.BuildStatus = "FAILED"
         $analysisResult.Errors += "Build failure detected"
         
@@ -75,7 +73,7 @@ function Invoke-MasterProtocolAnalysis {
         if ($testContent -match "CS0246.*Autodesk") {
             $analysisResult.Fixes += "AutoCAD namespace resolution required"
         }
-    } elseif ($testContent -match "Build succeeded|✅.*Build|BUILD SUCCESSFUL") {
+    } elseif ($testContent -match "Build succeeded|BUILD SUCCESSFUL|Build successful") {
         $analysisResult.BuildStatus = "SUCCESS"
     }
     
@@ -100,7 +98,7 @@ function Invoke-MasterProtocolAnalysis {
         $analysisResult.NextActions += "Update launcher timeout settings"
     }
     
-    Write-CILog "📊 Analysis Complete: Build=$($analysisResult.BuildStatus), AutoCAD=$($analysisResult.AutoCADStatus)" "INFO"
+    Write-CILog "Analysis Complete: Build=$($analysisResult.BuildStatus), AutoCAD=$($analysisResult.AutoCADStatus)" "INFO"
     return $analysisResult
 }
 
@@ -108,13 +106,13 @@ function Invoke-MasterProtocolAnalysis {
 function Generate-AutomatedFixes {
     param([object]$AnalysisResult, [string]$TestResultFile)
     
-    Write-CILog "🔧 Generating automated fixes based on analysis..." "INFO"
+    Write-CILog "Generating automated fixes based on analysis..." "INFO"
     
     $fixesApplied = @()
     
     # Fix 1: AutoCAD DLL Path Issues
     if ($AnalysisResult.Fixes -contains "AutoCAD DLL path correction required") {
-        Write-CILog "🔧 Applying AutoCAD DLL path fix..." "INFO"
+        Write-CILog "Applying AutoCAD DLL path fix..." "INFO"
         
         $autocadProject = "$repoPath\tests\ADDS25\v0.1\ADDS25.AutoCAD\ADDS25.AutoCAD.csproj"
         if (Test-Path $autocadProject) {
@@ -127,30 +125,14 @@ function Generate-AutomatedFixes {
             if ($content -ne $originalContent) {
                 Set-Content $autocadProject $content -Encoding UTF8
                 $fixesApplied += "Updated AutoCAD DLL paths to standard installation location"
-                Write-CILog "✅ AutoCAD DLL paths updated" "SUCCESS"
+                Write-CILog "AutoCAD DLL paths updated" "SUCCESS"
             }
         }
     }
     
-    # Fix 2: .NET 8.0 SDK Issues
-    if ($AnalysisResult.Fixes -contains ".NET 8.0 SDK installation required") {
-        Write-CILog "🔧 Creating .NET 8.0 SDK installation script..." "INFO"
-        
-        $sdkInstallScript = @"
-# Auto-generated .NET 8.0 SDK installation script
-Write-Host "🔧 Installing .NET 8.0 SDK..." -ForegroundColor Cyan
-winget install Microsoft.DotNet.SDK.8 --accept-package-agreements --accept-source-agreements
-Write-Host "✅ .NET 8.0 SDK installation complete" -ForegroundColor Green
-"@
-        
-        Set-Content "$repoPath\test-results\auto-install-net8.ps1" $sdkInstallScript -Encoding UTF8
-        $fixesApplied += "Created .NET 8.0 SDK auto-installation script"
-        Write-CILog "✅ .NET 8.0 SDK installation script created" "SUCCESS"
-    }
-    
-    # Fix 3: Launcher timeout adjustments
+    # Fix 2: Launcher timeout adjustments
     if ($AnalysisResult.AutoCADStatus -eq "NOT_RUNNING") {
-        Write-CILog "🔧 Adjusting launcher timeout settings..." "INFO"
+        Write-CILog "Adjusting launcher timeout settings..." "INFO"
         
         $launcher = "$repoPath\tests\ADDS25\v0.1\ADDS25-Launcher.bat"
         if (Test-Path $launcher) {
@@ -163,12 +145,12 @@ Write-Host "✅ .NET 8.0 SDK installation complete" -ForegroundColor Green
             if ($content -ne $originalContent) {
                 Set-Content $launcher $content -Encoding UTF8
                 $fixesApplied += "Increased AutoCAD startup timeout to 10 seconds"
-                Write-CILog "✅ Launcher timeout increased" "SUCCESS"
+                Write-CILog "Launcher timeout increased" "SUCCESS"
             }
         }
     }
     
-    Write-CILog "🎯 Applied $($fixesApplied.Count) automated fixes" "SUCCESS"
+    Write-CILog "Applied $($fixesApplied.Count) automated fixes" "SUCCESS"
     return $fixesApplied
 }
 
@@ -177,11 +159,11 @@ function Commit-AutomatedFixes {
     param([array]$FixesApplied)
     
     if ($FixesApplied.Count -eq 0) {
-        Write-CILog "ℹ️ No fixes to commit" "INFO"
+        Write-CILog "No fixes to commit" "INFO"
         return
     }
     
-    Write-CILog "📤 Committing and pushing automated fixes..." "INFO"
+    Write-CILog "Committing and pushing automated fixes..." "INFO"
     
     Set-Location $repoPath
     
@@ -189,7 +171,7 @@ function Commit-AutomatedFixes {
     git add -A
     
     # Create commit message
-    $commitMessage = "ADDS25 Automated CI Fixes:`n`n" + ($FixesApplied -join "`n- ")
+    $commitMessage = "ADDS25 Automated CI Fixes: " + ($FixesApplied -join "; ")
     
     # Commit changes
     git commit -m $commitMessage
@@ -197,12 +179,12 @@ function Commit-AutomatedFixes {
     # Push to GitHub
     git push origin main
     
-    Write-CILog "✅ Automated fixes committed and pushed to GitHub" "SUCCESS"
+    Write-CILog "Automated fixes committed and pushed to GitHub" "SUCCESS"
 }
 
 # Function: Monitor for test result changes
 function Start-GitHubMonitoring {
-    Write-CILog "👁️ Starting GitHub monitoring for test result changes..." "INFO"
+    Write-CILog "Starting GitHub monitoring for test result changes..." "INFO"
     
     $lastCommit = ""
     
@@ -216,13 +198,13 @@ function Start-GitHubMonitoring {
             $currentCommit = git rev-parse HEAD
             
             if ($currentCommit -ne $lastCommit) {
-                Write-CILog "🔔 New commit detected: $currentCommit" "INFO"
+                Write-CILog "New commit detected: $currentCommit" "INFO"
                 
                 # Check if test results were updated
                 $testResultFiles = Get-ChildItem "$testResultsPath\launcher-execution-*.md" | Sort-Object LastWriteTime | Select-Object -Last 1
                 
                 if ($testResultFiles) {
-                    Write-CILog "📊 New test results found: $($testResultFiles.Name)" "INFO"
+                    Write-CILog "New test results found: $($testResultFiles.Name)" "INFO"
                     
                     # Analyze with Master Protocol
                     $analysis = Invoke-MasterProtocolAnalysis -TestResultFile $testResultFiles.FullName
@@ -233,7 +215,7 @@ function Start-GitHubMonitoring {
                     # Commit fixes if any were applied
                     Commit-AutomatedFixes -FixesApplied $fixes
                     
-                    Write-CILog "🔄 CI cycle complete. Waiting for next test results..." "SUCCESS"
+                    Write-CILog "CI cycle complete. Waiting for next test results..." "SUCCESS"
                 }
                 
                 $lastCommit = $currentCommit
@@ -243,20 +225,20 @@ function Start-GitHubMonitoring {
             Start-Sleep -Seconds 30
             
         } catch {
-            Write-CILog "❌ Error in monitoring loop: $($_.Exception.Message)" "ERROR"
+            Write-CILog "Error in monitoring loop: $($_.Exception.Message)" "ERROR"
             Start-Sleep -Seconds 60
         }
     }
 }
 
 # Main execution
-Write-CILog "🎯 ADDS25 Dev Computer Automated CI System Initialized" "SUCCESS"
-Write-CILog "📁 Repository: $repoPath" "INFO"
-Write-CILog "📊 Test Results Path: $testResultsPath" "INFO"
-Write-CILog "📝 CI Log: $ciLog" "INFO"
+Write-CILog "ADDS25 Dev Computer Automated CI System Initialized" "SUCCESS"
+Write-CILog "Repository: $repoPath" "INFO"
+Write-CILog "Test Results Path: $testResultsPath" "INFO"
+Write-CILog "CI Log: $ciLog" "INFO"
 
 Write-Host ""
-Write-Host "🚀 Starting automated monitoring..." -ForegroundColor Green
+Write-Host "Starting automated monitoring..." -ForegroundColor Green
 Write-Host "This system will:" -ForegroundColor Yellow
 Write-Host "  1. Monitor GitHub for test result commits" -ForegroundColor White
 Write-Host "  2. Automatically analyze results with Master Protocol" -ForegroundColor White
