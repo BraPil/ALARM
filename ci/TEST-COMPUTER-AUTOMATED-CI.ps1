@@ -3,17 +3,19 @@
 # Environment: Test Computer (wa-bdpilegg)
 # Date: September 1, 2025
 
-Write-Host "🧪 ADDS25 Test Computer Automated CI System Starting..." -ForegroundColor Cyan
+Write-Host "ADDS25 Test Computer Automated CI System Starting..." -ForegroundColor Cyan
 Write-Host "This system will monitor GitHub for fixes and auto-test ADDS25" -ForegroundColor Yellow
 
 # Configuration
 $repoPath = "C:\Users\wa-bdpilegg\Downloads\ALARM"
 $testResultsPath = "$repoPath\test-results"
 $ciLogPath = "$repoPath\ci\logs"
+$adds25Path = "$repoPath\tests\ADDS25\v0.1"
 
 # Ensure directories exist
-if (!(Test-Path $ciLogPath)) { New-Item $ciLogPath -Type Directory -Force | Out-Null }
-if (!(Test-Path $testResultsPath)) { New-Item $testResultsPath -Type Directory -Force | Out-Null }
+@($testResultsPath, $ciLogPath) | ForEach-Object {
+    if (!(Test-Path $_)) { New-Item $_ -Type Directory -Force | Out-Null }
+}
 
 # Initialize CI logging
 $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
@@ -24,12 +26,12 @@ $ciLog = "$ciLogPath\test-ci-session-$timestamp.md"
 
 **Session Start**: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
 **Environment**: Test Computer (wa-bdpilegg)
-**Repository**: C:\Users\wa-bdpilegg\Downloads\ALARM
-**ADDS25 Path**: $repoPath\tests\ADDS25\v0.1
+**Repository**: $repoPath
+**ADDS25 Path**: $adds25Path
 
 ---
 
-## 🧪 **AUTOMATED TESTING LOG**
+## TEST AUTOMATION LOG
 
 "@ | Out-File $ciLog -Encoding UTF8
 
@@ -40,117 +42,304 @@ function Write-TestLog {
     Add-Content $ciLog $logEntry -Encoding UTF8
 }
 
-# Function: Execute ADDS25 launcher with comprehensive logging
-function Invoke-ADDS25Testing {
-    Write-TestLog "🚀 Starting ADDS25 automated testing..." "INFO"
+# Function: Execute comprehensive ADDS25 test
+function Invoke-ADDS25Test {
+    Write-TestLog "Starting comprehensive ADDS25 test execution..." "INFO"
     
-    $adds25Path = "$repoPath\tests\ADDS25\v0.1"
-    
-    if (!(Test-Path $adds25Path)) {
-        Write-TestLog "❌ ADDS25 directory not found: $adds25Path" "ERROR"
-        return $false
-    }
-    
+    # Change to ADDS25 directory
     Set-Location $adds25Path
-    Write-TestLog "📍 Navigated to: $(Get-Location)" "INFO"
     
-    # Verify launcher exists
-    if (!(Test-Path "ADDS25-Launcher.bat")) {
-        Write-TestLog "❌ ADDS25-Launcher.bat not found" "ERROR"
-        return $false
+    # Initialize test result structure
+    $testResult = @{
+        Timestamp = Get-Date -Format 'yyyy-MM-dd_HH-mm-ss'
+        BuildStatus = "UNKNOWN"
+        LauncherStatus = "UNKNOWN"
+        AutoCADStatus = "UNKNOWN"
+        Errors = @()
+        Warnings = @()
+        LogFiles = @()
+        NextActions = @()
     }
     
-    Write-TestLog "🎯 Executing ADDS25-Launcher.bat..." "INFO"
+    Write-TestLog "Test session initialized: $($testResult.Timestamp)" "INFO"
     
+    # Step 1: Build ADDS25 solution
+    Write-TestLog "Step 1: Building ADDS25 solution..." "INFO"
     try {
-        # Execute the launcher (it has integrated logging now)
-        $launcherOutput = & ".\ADDS25-Launcher.bat" 2>&1 | Out-String
+        $buildOutput = dotnet build 2>&1 | Out-String
         
-        Write-TestLog "✅ Launcher execution completed" "SUCCESS"
-        Write-TestLog "📊 Output length: $($launcherOutput.Length) characters" "INFO"
-        
-        # Check for success indicators
-        $success = $false
-        if ($launcherOutput -match "BUILD SUCCESSFUL|✅.*Build.*successful") {
-            Write-TestLog "✅ Build success detected in output" "SUCCESS"
-            $success = $true
-        } elseif ($launcherOutput -match "Build FAILED|❌.*Build") {
-            Write-TestLog "❌ Build failure detected in output" "ERROR"
-        }
-        
-        # Check for AutoCAD launch
-        $autocadProcess = Get-Process -Name "acad" -ErrorAction SilentlyContinue
-        if ($autocadProcess) {
-            Write-TestLog "✅ AutoCAD process detected (PID: $($autocadProcess.Id))" "SUCCESS"
+        if ($LASTEXITCODE -eq 0) {
+            $testResult.BuildStatus = "SUCCESS"
+            Write-TestLog "Build completed successfully" "SUCCESS"
         } else {
-            Write-TestLog "⚠️ AutoCAD process not detected" "WARNING"
+            $testResult.BuildStatus = "FAILED"
+            $testResult.Errors += "Build failed with exit code: $LASTEXITCODE"
+            Write-TestLog "Build failed with exit code: $LASTEXITCODE" "ERROR"
         }
         
-        return $success
+        # Save build output
+        $buildLogFile = "$testResultsPath\build-output-$($testResult.Timestamp).txt"
+        $buildOutput | Out-File $buildLogFile -Encoding UTF8
+        $testResult.LogFiles += $buildLogFile
         
     } catch {
-        Write-TestLog "❌ Launcher execution failed: $($_.Exception.Message)" "ERROR"
-        return $false
+        $testResult.BuildStatus = "ERROR"
+        $testResult.Errors += "Build error: $($_.Exception.Message)"
+        Write-TestLog "Build error: $($_.Exception.Message)" "ERROR"
     }
+    
+    # Step 2: Execute launcher if build succeeded
+    if ($testResult.BuildStatus -eq "SUCCESS") {
+        Write-TestLog "Step 2: Executing ADDS25 launcher..." "INFO"
+        
+        try {
+            # Start launcher and capture output
+            $launcherProcess = Start-Process -FilePath "ADDS25-Launcher.bat" -PassThru -NoNewWindow -RedirectStandardOutput "$testResultsPath\launcher-stdout-$($testResult.Timestamp).txt" -RedirectStandardError "$testResultsPath\launcher-stderr-$($testResult.Timestamp).txt"
+            
+            # Wait for launcher to complete (with timeout)
+            $launcherCompleted = $launcherProcess.WaitForExit(60000) # 60 second timeout
+            
+            if ($launcherCompleted) {
+                $testResult.LauncherStatus = "COMPLETED"
+                Write-TestLog "Launcher completed with exit code: $($launcherProcess.ExitCode)" "INFO"
+                
+                # Check for AutoCAD process
+                $autocadProcess = Get-Process -Name "acad" -ErrorAction SilentlyContinue
+                if ($autocadProcess) {
+                    $testResult.AutoCADStatus = "RUNNING"
+                    Write-TestLog "AutoCAD process detected (PID: $($autocadProcess.Id))" "SUCCESS"
+                } else {
+                    $testResult.AutoCADStatus = "NOT_RUNNING"
+                    $testResult.Warnings += "AutoCAD process not detected after launcher execution"
+                    Write-TestLog "AutoCAD process not detected" "WARNING"
+                }
+                
+            } else {
+                $testResult.LauncherStatus = "TIMEOUT"
+                $testResult.Errors += "Launcher timed out after 60 seconds"
+                Write-TestLog "Launcher timed out after 60 seconds" "ERROR"
+                
+                # Kill the process if still running
+                if (!$launcherProcess.HasExited) {
+                    $launcherProcess.Kill()
+                }
+            }
+            
+            $testResult.LogFiles += "$testResultsPath\launcher-stdout-$($testResult.Timestamp).txt"
+            $testResult.LogFiles += "$testResultsPath\launcher-stderr-$($testResult.Timestamp).txt"
+            
+        } catch {
+            $testResult.LauncherStatus = "ERROR"
+            $testResult.Errors += "Launcher execution error: $($_.Exception.Message)"
+            Write-TestLog "Launcher execution error: $($_.Exception.Message)" "ERROR"
+        }
+    } else {
+        Write-TestLog "Skipping launcher execution due to build failure" "WARNING"
+        $testResult.LauncherStatus = "SKIPPED"
+    }
+    
+    # Step 3: Collect additional system information
+    Write-TestLog "Step 3: Collecting system information..." "INFO"
+    
+    # Check for launcher-generated logs
+    $launcherLogs = Get-ChildItem "$testResultsPath\launcher-execution-*.md" -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object -Last 1
+    if ($launcherLogs) {
+        $testResult.LogFiles += $launcherLogs.FullName
+        Write-TestLog "Found launcher log: $($launcherLogs.Name)" "INFO"
+    }
+    
+    # Generate summary and recommendations
+    if ($testResult.BuildStatus -eq "FAILED") {
+        $testResult.NextActions += "Fix build errors and dependency issues"
+        $testResult.NextActions += "Verify AutoCAD DLL references"
+        $testResult.NextActions += "Check .NET 8.0 SDK installation"
+    }
+    
+    if ($testResult.LauncherStatus -ne "COMPLETED") {
+        $testResult.NextActions += "Debug launcher script execution"
+        $testResult.NextActions += "Check PowerShell execution policies"
+        $testResult.NextActions += "Verify directory permissions"
+    }
+    
+    if ($testResult.AutoCADStatus -ne "RUNNING") {
+        $testResult.NextActions += "Investigate AutoCAD startup issues"
+        $testResult.NextActions += "Check AutoCAD Map3D 2025 installation"
+        $testResult.NextActions += "Verify LISP file loading"
+    }
+    
+    Write-TestLog "Test execution completed" "SUCCESS"
+    return $testResult
 }
 
-# Function: Collect and prepare test results
-function Collect-TestResults {
-    Write-TestLog "📊 Collecting test results..." "INFO"
+# Function: Generate comprehensive test report
+function Generate-TestReport {
+    param([object]$TestResult)
     
-    # Find the latest test results generated by the launcher
-    $latestResults = Get-ChildItem "C:\Users\wa-bdpilegg\Downloads\ADDS25-Test-Results\launcher-execution-*.md" -ErrorAction SilentlyContinue | 
-                     Sort-Object LastWriteTime | Select-Object -Last 1
+    Write-TestLog "Generating comprehensive test report..." "INFO"
     
-    if ($latestResults) {
-        Write-TestLog "📄 Latest test results: $($latestResults.Name)" "INFO"
-        
-        # Copy to repository test-results directory for GitHub upload
-        $targetFile = "$testResultsPath\$($latestResults.Name)"
-        Copy-Item $latestResults.FullName $targetFile -Force
-        
-        Write-TestLog "✅ Test results copied to repository: $targetFile" "SUCCESS"
-        return $targetFile
+    $reportFile = "$testResultsPath\test-report-$($TestResult.Timestamp).md"
+    
+    $report = @"
+# ADDS25 Automated Test Report
+
+**Test Execution Time**: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
+**Environment**: Test Computer (wa-bdpilegg)
+**Session ID**: $($TestResult.Timestamp)
+
+---
+
+## 📊 TEST RESULTS SUMMARY
+
+| Component | Status | Details |
+|-----------|--------|---------|
+| **Build System** | $($TestResult.BuildStatus) | .NET 8.0 compilation |
+| **Launcher** | $($TestResult.LauncherStatus) | ADDS25-Launcher.bat execution |
+| **AutoCAD Integration** | $($TestResult.AutoCADStatus) | Map3D 2025 startup |
+
+---
+
+## 🔍 DETAILED ANALYSIS
+
+### Build Status: $($TestResult.BuildStatus)
+"@
+
+    if ($TestResult.BuildStatus -eq "SUCCESS") {
+        $report += "`n✅ **ADDS25 solution compiled successfully**`n"
     } else {
-        Write-TestLog "❌ No test results found" "ERROR"
-        return $null
+        $report += "`n❌ **Build failed** - See build output for details`n"
     }
+
+    $report += @"
+
+### Launcher Status: $($TestResult.LauncherStatus)
+"@
+
+    switch ($TestResult.LauncherStatus) {
+        "COMPLETED" { $report += "`n✅ **Launcher executed successfully**`n" }
+        "TIMEOUT" { $report += "`n⏰ **Launcher timed out** - May indicate startup issues`n" }
+        "ERROR" { $report += "`n❌ **Launcher execution failed** - Check error logs`n" }
+        "SKIPPED" { $report += "`n⏭️ **Launcher skipped** - Build failure prevented execution`n" }
+    }
+
+    $report += @"
+
+### AutoCAD Integration: $($TestResult.AutoCADStatus)
+"@
+
+    switch ($TestResult.AutoCADStatus) {
+        "RUNNING" { $report += "`n✅ **AutoCAD started successfully** - Integration working`n" }
+        "NOT_RUNNING" { $report += "`n❌ **AutoCAD not detected** - Integration failed`n" }
+        default { $report += "`n❓ **AutoCAD status unknown** - Launcher did not complete`n" }
+    }
+
+    # Add errors section
+    if ($TestResult.Errors.Count -gt 0) {
+        $report += @"
+
+---
+
+## 🚨 ERRORS DETECTED
+
+"@
+        foreach ($error in $TestResult.Errors) {
+            $report += "- ❌ $error`n"
+        }
+    }
+
+    # Add warnings section
+    if ($TestResult.Warnings.Count -gt 0) {
+        $report += @"
+
+---
+
+## ⚠️ WARNINGS
+
+"@
+        foreach ($warning in $TestResult.Warnings) {
+            $report += "- ⚠️ $warning`n"
+        }
+    }
+
+    # Add next actions
+    if ($TestResult.NextActions.Count -gt 0) {
+        $report += @"
+
+---
+
+## 🎯 RECOMMENDED ACTIONS
+
+"@
+        foreach ($action in $TestResult.NextActions) {
+            $report += "- 🔧 $action`n"
+        }
+    }
+
+    # Add log files section
+    if ($TestResult.LogFiles.Count -gt 0) {
+        $report += @"
+
+---
+
+## 📁 GENERATED LOG FILES
+
+"@
+        foreach ($logFile in $TestResult.LogFiles) {
+            $report += "- 📄 $(Split-Path $logFile -Leaf)`n"
+        }
+    }
+
+    $report += @"
+
+---
+
+## 🔄 CI INTEGRATION
+
+**Next Steps**:
+1. This report will be automatically pushed to GitHub
+2. Dev computer will analyze results with Master Protocol
+3. Automated fixes will be generated and pushed back
+4. Test cycle will repeat until success
+
+**Test Session Complete**: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
+"@
+
+    $report | Out-File $reportFile -Encoding UTF8
+    Write-TestLog "Test report generated: $(Split-Path $reportFile -Leaf)" "SUCCESS"
+    
+    return $reportFile
 }
 
 # Function: Push test results to GitHub
 function Push-TestResults {
-    param([string]$TestResultFile)
+    param([string]$ReportFile)
     
-    if (!$TestResultFile -or !(Test-Path $TestResultFile)) {
-        Write-TestLog "❌ No valid test results to push" "ERROR"
-        return
-    }
-    
-    Write-TestLog "📤 Pushing test results to GitHub..." "INFO"
+    Write-TestLog "Pushing test results to GitHub..." "INFO"
     
     Set-Location $repoPath
     
     try {
-        # Stage test results
-        git add test-results/
+        # Add all test results
+        git add test-results\*
         
-        # Create commit with timestamp
-        $commitMessage = "ADDS25 Test Results - $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+        # Create commit message
+        $commitMessage = "ADDS25 Test Results: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - Automated CI Test"
+        
+        # Commit results
         git commit -m $commitMessage
         
         # Push to GitHub
         git push origin main
         
-        Write-TestLog "✅ Test results pushed to GitHub successfully" "SUCCESS"
+        Write-TestLog "Test results successfully pushed to GitHub" "SUCCESS"
         
     } catch {
-        Write-TestLog "❌ Failed to push test results: $($_.Exception.Message)" "ERROR"
+        Write-TestLog "Error pushing to GitHub: $($_.Exception.Message)" "ERROR"
     }
 }
 
-# Function: Monitor GitHub for code changes
-function Start-GitHubMonitoring {
-    Write-TestLog "👁️ Starting GitHub monitoring for code changes..." "INFO"
+# Function: Monitor for dev computer fixes
+function Start-FixMonitoring {
+    Write-TestLog "Starting GitHub monitoring for dev computer fixes..." "INFO"
     
     $lastCommit = ""
     
@@ -158,38 +347,29 @@ function Start-GitHubMonitoring {
         try {
             # Pull latest changes
             Set-Location $repoPath
-            $pullOutput = git pull origin main 2>&1
+            git pull origin main --quiet
             
             # Check for new commits
             $currentCommit = git rev-parse HEAD
             
             if ($currentCommit -ne $lastCommit) {
-                Write-TestLog "🔔 New commit detected: $currentCommit" "INFO"
-                Write-TestLog "📥 Pull output: $pullOutput" "INFO"
+                Write-TestLog "New commit detected: $currentCommit" "INFO"
                 
-                # Check if this was a fix commit (not a test result commit)
+                # Check if this is a fix commit (not our own test results)
                 $commitMessage = git log -1 --pretty=format:"%s"
                 
-                if ($commitMessage -notmatch "Test Results" -and $commitMessage -match "ADDS25|Automated.*Fix|CI.*Fix") {
-                    Write-TestLog "🔧 Fix commit detected: $commitMessage" "INFO"
+                if ($commitMessage -notlike "*Test Results*" -and $commitMessage -notlike "*test results*") {
+                    Write-TestLog "Fix commit detected: $commitMessage" "INFO"
                     
-                    # Wait a moment for file system to settle
+                    # Wait a moment for any file operations to complete
                     Start-Sleep -Seconds 5
                     
-                    # Run automated testing
-                    $testSuccess = Invoke-ADDS25Testing
+                    # Execute test cycle
+                    $testResult = Invoke-ADDS25Test
+                    $reportFile = Generate-TestReport -TestResult $testResult
+                    Push-TestResults -ReportFile $reportFile
                     
-                    # Collect test results
-                    $testResultFile = Collect-TestResults
-                    
-                    # Push results back to GitHub
-                    if ($testResultFile) {
-                        Push-TestResults -TestResultFile $testResultFile
-                        Write-TestLog "🔄 Test cycle complete. Results pushed for analysis." "SUCCESS"
-                    }
-                    
-                } else {
-                    Write-TestLog "ℹ️ Skipping test - commit appears to be test results or unrelated" "INFO"
+                    Write-TestLog "Test cycle complete. Waiting for next fix..." "SUCCESS"
                 }
                 
                 $lastCommit = $currentCommit
@@ -199,83 +379,34 @@ function Start-GitHubMonitoring {
             Start-Sleep -Seconds 30
             
         } catch {
-            Write-TestLog "❌ Error in monitoring loop: $($_.Exception.Message)" "ERROR"
+            Write-TestLog "Error in monitoring loop: $($_.Exception.Message)" "ERROR"
             Start-Sleep -Seconds 60
         }
     }
 }
 
-# Function: Initial setup and validation
-function Initialize-TestEnvironment {
-    Write-TestLog "🔧 Initializing test environment..." "INFO"
-    
-    # Verify repository
-    if (!(Test-Path "$repoPath\.git")) {
-        Write-TestLog "❌ Not a valid Git repository: $repoPath" "ERROR"
-        return $false
-    }
-    
-    # Verify ADDS25 installation
-    $adds25Path = "$repoPath\tests\ADDS25\v0.1"
-    if (!(Test-Path $adds25Path)) {
-        Write-TestLog "❌ ADDS25 not found: $adds25Path" "ERROR"
-        return $false
-    }
-    
-    # Verify AutoCAD installation
-    $autocadPaths = @(
-        "C:\Program Files\Autodesk\AutoCAD 2025",
-        "C:\Program Files\Autodesk\AutoCAD Map 3D 2025"
-    )
-    
-    $autocadFound = $false
-    foreach ($path in $autocadPaths) {
-        if (Test-Path $path) {
-            Write-TestLog "✅ AutoCAD found: $path" "SUCCESS"
-            $autocadFound = $true
-            break
-        }
-    }
-    
-    if (!$autocadFound) {
-        Write-TestLog "⚠️ AutoCAD installation not found in standard locations" "WARNING"
-    }
-    
-    # Verify .NET installation
-    try {
-        $dotnetVersion = dotnet --version
-        Write-TestLog "✅ .NET Version: $dotnetVersion" "SUCCESS"
-    } catch {
-        Write-TestLog "❌ .NET not found or not working" "ERROR"
-        return $false
-    }
-    
-    Write-TestLog "✅ Test environment initialization complete" "SUCCESS"
-    return $true
-}
-
 # Main execution
-Write-TestLog "🎯 ADDS25 Test Computer Automated CI System Initialized" "SUCCESS"
-Write-TestLog "📁 Repository: $repoPath" "INFO"
-Write-TestLog "🧪 Test Results Path: $testResultsPath" "INFO"
-Write-TestLog "📝 CI Log: $ciLog" "INFO"
-
-# Initialize environment
-if (!(Initialize-TestEnvironment)) {
-    Write-TestLog "❌ Environment initialization failed. Exiting." "ERROR"
-    exit 1
-}
+Write-TestLog "ADDS25 Test Computer Automated CI System Initialized" "SUCCESS"
+Write-TestLog "Repository: $repoPath" "INFO"
+Write-TestLog "ADDS25 Path: $adds25Path" "INFO"
+Write-TestLog "Test Results Path: $testResultsPath" "INFO"
+Write-TestLog "CI Log: $ciLog" "INFO"
 
 Write-Host ""
-Write-Host "🧪 Starting automated testing system..." -ForegroundColor Green
+Write-Host "Starting automated testing..." -ForegroundColor Green
 Write-Host "This system will:" -ForegroundColor Yellow
-Write-Host "  1. Monitor GitHub for fix commits" -ForegroundColor White
-Write-Host "  2. Automatically pull latest changes" -ForegroundColor White
-Write-Host "  3. Run ADDS25-Launcher.bat with full logging" -ForegroundColor White
-Write-Host "  4. Collect and analyze test results" -ForegroundColor White
-Write-Host "  5. Push results back to GitHub" -ForegroundColor White
-Write-Host "  6. Wait for dev computer analysis and repeat" -ForegroundColor White
+Write-Host "  1. Monitor GitHub for fix commits from dev computer" -ForegroundColor White
+Write-Host "  2. Automatically pull, build, and test ADDS25" -ForegroundColor White
+Write-Host "  3. Generate comprehensive test reports" -ForegroundColor White
+Write-Host "  4. Push results back to GitHub for analysis" -ForegroundColor White
+Write-Host "  5. Wait for new fixes and repeat" -ForegroundColor White
 Write-Host ""
+
+# Execute initial test to establish baseline
+Write-TestLog "Executing initial test to establish baseline..." "INFO"
+$initialTest = Invoke-ADDS25Test
+$initialReport = Generate-TestReport -TestResult $initialTest
+Push-TestResults -ReportFile $initialReport
 
 # Start the monitoring loop
-Start-GitHubMonitoring
+Start-FixMonitoring
