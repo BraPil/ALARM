@@ -188,7 +188,7 @@ function Generate-TestReport {
 
 ---
 
-## 📊 TEST RESULTS SUMMARY
+## TEST RESULTS SUMMARY
 
 | Component | Status | Details |
 |-----------|--------|---------|
@@ -198,15 +198,15 @@ function Generate-TestReport {
 
 ---
 
-## 🔍 DETAILED ANALYSIS
+## DETAILED ANALYSIS
 
 ### Build Status: $($TestResult.BuildStatus)
 "@
 
     if ($TestResult.BuildStatus -eq "SUCCESS") {
-        $report += "`n✅ **ADDS25 solution compiled successfully**`n"
+        $report += "`n[SUCCESS] **ADDS25 solution compiled successfully**`n"
     } else {
-        $report += "`n❌ **Build failed** - See build output for details`n"
+        $report += "`n[FAILED] **Build failed** - See build output for details`n"
     }
 
     $report += @"
@@ -215,10 +215,10 @@ function Generate-TestReport {
 "@
 
     switch ($TestResult.LauncherStatus) {
-        "COMPLETED" { $report += "`n✅ **Launcher executed successfully**`n" }
-        "TIMEOUT" { $report += "`n⏰ **Launcher timed out** - May indicate startup issues`n" }
-        "ERROR" { $report += "`n❌ **Launcher execution failed** - Check error logs`n" }
-        "SKIPPED" { $report += "`n⏭️ **Launcher skipped** - Build failure prevented execution`n" }
+        "COMPLETED" { $report += "`n[SUCCESS] **Launcher executed successfully**`n" }
+        "TIMEOUT" { $report += "`n[TIMEOUT] **Launcher timed out** - May indicate startup issues`n" }
+        "ERROR" { $report += "`n[ERROR] **Launcher execution failed** - Check error logs`n" }
+        "SKIPPED" { $report += "`n[SKIPPED] **Launcher skipped** - Build failure prevented execution`n" }
     }
 
     $report += @"
@@ -227,9 +227,9 @@ function Generate-TestReport {
 "@
 
     switch ($TestResult.AutoCADStatus) {
-        "RUNNING" { $report += "`n✅ **AutoCAD started successfully** - Integration working`n" }
-        "NOT_RUNNING" { $report += "`n❌ **AutoCAD not detected** - Integration failed`n" }
-        default { $report += "`n❓ **AutoCAD status unknown** - Launcher did not complete`n" }
+        "RUNNING" { $report += "`n[SUCCESS] **AutoCAD started successfully** - Integration working`n" }
+        "NOT_RUNNING" { $report += "`n[FAILED] **AutoCAD not detected** - Integration failed`n" }
+        default { $report += "`n[UNKNOWN] **AutoCAD status unknown** - Launcher did not complete`n" }
     }
 
     # Add errors section
@@ -238,11 +238,11 @@ function Generate-TestReport {
 
 ---
 
-## 🚨 ERRORS DETECTED
+## ERRORS DETECTED
 
 "@
         foreach ($error in $TestResult.Errors) {
-            $report += "- ❌ $error`n"
+            $report += "- [ERROR] $error`n"
         }
     }
 
@@ -252,11 +252,11 @@ function Generate-TestReport {
 
 ---
 
-## ⚠️ WARNINGS
+## WARNINGS
 
 "@
         foreach ($warning in $TestResult.Warnings) {
-            $report += "- ⚠️ $warning`n"
+            $report += "- [WARNING] $warning`n"
         }
     }
 
@@ -266,11 +266,11 @@ function Generate-TestReport {
 
 ---
 
-## 🎯 RECOMMENDED ACTIONS
+## RECOMMENDED ACTIONS
 
 "@
         foreach ($action in $TestResult.NextActions) {
-            $report += "- 🔧 $action`n"
+            $report += "- [ACTION] $action`n"
         }
     }
 
@@ -280,11 +280,11 @@ function Generate-TestReport {
 
 ---
 
-## 📁 GENERATED LOG FILES
+## GENERATED LOG FILES
 
 "@
         foreach ($logFile in $TestResult.LogFiles) {
-            $report += "- 📄 $(Split-Path $logFile -Leaf)`n"
+            $report += "- [LOG] $(Split-Path $logFile -Leaf)`n"
         }
     }
 
@@ -292,7 +292,7 @@ function Generate-TestReport {
 
 ---
 
-## 🔄 CI INTEGRATION
+## CI INTEGRATION
 
 **Next Steps**:
 1. This report will be automatically pushed to GitHub
