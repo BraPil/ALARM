@@ -5,24 +5,27 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
+    <!-- Resolve WindowsBase version conflicts between AutoCAD .NET Framework DLLs and .NET Core 8 -->
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- AutoCAD Map3D 2025 API References -->
+    <!-- AutoCAD Map3D 2025 API References - Fixed paths to actual AutoCAD installation -->
     <Reference Include="AcCoreMgd">
-      <HintPath>C:\Users\wa-bdpilegg\Downloads\ADDS\ADDS25v1.1\Documentation\objectarx-for-autocad-2025-win-64bit-dlm\inc\AcCoreMgd.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\AutoCAD 2025\AcCoreMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcDbMgd">
-      <HintPath>C:\Users\wa-bdpilegg\Downloads\ADDS\ADDS25v1.1\Documentation\objectarx-for-autocad-2025-win-64bit-dlm\inc\AcDbMgd.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\AutoCAD 2025\AcDbMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcMgd">
-      <HintPath>C:\Users\wa-bdpilegg\Downloads\ADDS\ADDS25v1.1\Documentation\objectarx-for-autocad-2025-win-64bit-dlm\inc\AcMgd.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\AutoCAD 2025\AcMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AdUIMgd">
-      <HintPath>C:\Users\wa-bdpilegg\Downloads\ADDS\ADDS25v1.1\Documentation\objectarx-for-autocad-2025-win-64bit-dlm\inc\AdUIMgd.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\AutoCAD 2025\AdUIMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

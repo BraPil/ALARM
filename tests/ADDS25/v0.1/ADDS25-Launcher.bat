@@ -72,7 +72,7 @@ PowerShell.exe -Command "& {
         Add-Content $latestLog.FullName \"Directory setup wait period: 3 seconds\" -Encoding UTF8
     }
 }"
-timeout /t 3 /nobreak >nul
+        timeout /t 10 /nobreak >nul
 
 REM ADDS25: Phase 2 - Application Setup and AutoCAD Launch
 ECHO *** Phase 2: Application Setup ***
@@ -103,4 +103,7 @@ PowerShell.exe -Command "& {
 
 ECHO *** ADDS25 Launcher Complete ***
 ECHO *** Check C:\Users\wa-bdpilegg\Downloads\ADDS25-Test-Results\ for comprehensive logs ***
+ECHO *** Working Directory: %CD% ***
+ECHO *** Launcher Path: %~dp0 ***
+ECHO *** Current User: %USERNAME% ***
 PAUSE
