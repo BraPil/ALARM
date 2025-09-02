@@ -92,18 +92,32 @@ function Invoke-ADDS25Test {
     if ($testResult.BuildStatus -eq "SUCCESS") {
         Write-TestLog "Step 2: Verifying launcher files and executing..." "INFO"
         
-        # First run verification script to diagnose file availability
-        $verificationScript = "$adds25Path\VERIFY-LAUNCHER-EXISTS.ps1"
-        if (Test-Path $verificationScript) {
-            Write-TestLog "Running launcher verification script..." "INFO"
+        # First run force deployment script to ensure launcher files exist
+        $forceDeployScript = "$adds25Path\FORCE-DEPLOY-LAUNCHERS.ps1"
+        if (Test-Path $forceDeployScript) {
+            Write-TestLog "Running force deployment script..." "INFO"
             try {
-                & PowerShell.exe -ExecutionPolicy Bypass -File $verificationScript
-                Write-TestLog "Launcher verification completed" "SUCCESS"
+                & PowerShell.exe -ExecutionPolicy Bypass -File $forceDeployScript
+                Write-TestLog "Force deployment completed" "SUCCESS"
             } catch {
-                Write-TestLog "Verification script error: $($_.Exception.Message)" "WARNING"
+                Write-TestLog "Force deployment error: $($_.Exception.Message)" "WARNING"
             }
         } else {
-            Write-TestLog "Verification script not found at: $verificationScript" "WARNING"
+            Write-TestLog "Force deployment script not found, will attempt verification..." "WARNING"
+            
+            # Fallback to verification script
+            $verificationScript = "$adds25Path\VERIFY-LAUNCHER-EXISTS.ps1"
+            if (Test-Path $verificationScript) {
+                Write-TestLog "Running launcher verification script..." "INFO"
+                try {
+                    & PowerShell.exe -ExecutionPolicy Bypass -File $verificationScript
+                    Write-TestLog "Launcher verification completed" "SUCCESS"
+                } catch {
+                    Write-TestLog "Verification script error: $($_.Exception.Message)" "WARNING"
+                }
+            } else {
+                Write-TestLog "Neither deployment nor verification script found" "ERROR"
+            }
         }
         
         try {
