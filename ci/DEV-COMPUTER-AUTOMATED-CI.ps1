@@ -200,32 +200,39 @@ function Start-GitHubMonitoring {
             if ($currentCommit -ne $lastCommit) {
                 Write-CILog "New commit detected: $currentCommit" "INFO"
                 
-                # Trigger AUTOMATIC Cursor analysis via file-based communication
+                # Trigger REAL-TIME Cursor analysis via Named Pipes (Superior Architecture)
                 $commitMessage = git log -1 --pretty=format:"%s"
                 try {
-                    # Create analysis trigger file for Cursor to monitor
-                    $triggerFile = "$repoPath\CURSOR-ANALYZE-NOW.trigger"
-                    $triggerData = @{
-                        commit = $currentCommit
-                        message = $commitMessage
-                        timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-                        timezone = "ET (Test computer is CT - 1 hour behind)"
-                        action = "analyze-test-results-immediately"
-                        files_to_check = @(
-                            "test-results\test-report-*.md",
-                            "test-results\*$(Get-Date -Format 'HH-mm')*.md",
-                            "test-results\*$((Get-Date).AddHours(-1).ToString('HH-mm'))*.md"
-                        )
-                    } | ConvertTo-Json -Depth 3
+                    # Send real-time message via Named Pipes
+                    $pipeName = "ADDS25-CURSOR-ANALYSIS-PIPE"
+                    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+                    $message = "ANALYZE:$currentCommit:$timestamp:$commitMessage"
                     
-                    $triggerData | Out-File $triggerFile -Encoding UTF8
-                    Write-CILog "AUTOMATIC Cursor analysis triggered via file: $triggerFile" "SUCCESS"
+                    $pipe = New-Object System.IO.Pipes.NamedPipeClientStream(".", $pipeName, [System.IO.Pipes.PipeDirection]::Out)
+                    $pipe.Connect(5000) # 5 second timeout
                     
-                    # Also call notification script for user visibility
-                    & "$repoPath\ci\NOTIFY-CURSOR-FOR-ANALYSIS.ps1" -CommitHash $currentCommit -CommitMessage $commitMessage -TimeZoneAdjusted
-                    Write-CILog "User notification also triggered for commit: $currentCommit" "INFO"
+                    $writer = New-Object System.IO.StreamWriter($pipe)
+                    $writer.WriteLine($message)
+                    $writer.Flush()
+                    $writer.Close()
+                    $pipe.Close()
+                    
+                    Write-CILog "REAL-TIME Cursor analysis triggered via Named Pipes" "SUCCESS"
+                    Write-CILog "Message sent: $message" "INFO"
+                    
                 } catch {
-                    Write-CILog "Automatic Cursor trigger failed: $($_.Exception.Message)" "WARNING"
+                    Write-CILog "Named Pipes communication failed: $($_.Exception.Message)" "WARNING"
+                    Write-CILog "Falling back to file-based notification..." "INFO"
+                    
+                    # Fallback to file-based communication
+                    try {
+                        $triggerFile = "$repoPath\CURSOR-ANALYZE-NOW.trigger"
+                        $fallbackData = "FALLBACK:$currentCommit:$timestamp:$commitMessage"
+                        $fallbackData | Out-File $triggerFile -Encoding UTF8
+                        Write-CILog "Fallback file-based trigger created: $triggerFile" "SUCCESS"
+                    } catch {
+                        Write-CILog "Fallback trigger also failed: $($_.Exception.Message)" "ERROR"
+                    }
                 }
                 
                 # Check if test results were updated
