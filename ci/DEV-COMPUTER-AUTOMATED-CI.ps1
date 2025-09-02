@@ -200,6 +200,15 @@ function Start-GitHubMonitoring {
             if ($currentCommit -ne $lastCommit) {
                 Write-CILog "New commit detected: $currentCommit" "INFO"
                 
+                # Trigger Cursor notification for immediate analysis
+                $commitMessage = git log -1 --pretty=format:"%s"
+                try {
+                    & "$repoPath\ci\NOTIFY-CURSOR-FOR-ANALYSIS.ps1" -CommitHash $currentCommit -CommitMessage $commitMessage -TimeZoneAdjusted
+                    Write-CILog "Cursor notification triggered for commit: $currentCommit" "INFO"
+                } catch {
+                    Write-CILog "Cursor notification failed: $($_.Exception.Message)" "WARNING"
+                }
+                
                 # Check if test results were updated
                 $testResultFiles = Get-ChildItem "$testResultsPath\launcher-execution-*.md" | Sort-Object LastWriteTime | Select-Object -Last 1
                 
