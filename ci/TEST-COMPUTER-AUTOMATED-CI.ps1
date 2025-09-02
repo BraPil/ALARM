@@ -92,18 +92,35 @@ function Invoke-ADDS25Test {
     if ($testResult.BuildStatus -eq "SUCCESS") {
         Write-TestLog "Step 2: Verifying launcher files and executing..." "INFO"
         
-        # First run force deployment script to ensure launcher files exist
-        $forceDeployScript = "$adds25Path\FORCE-DEPLOY-LAUNCHERS.ps1"
-        if (Test-Path $forceDeployScript) {
-            Write-TestLog "Running force deployment script..." "INFO"
+        # First try emergency deployment batch file (Git-independent)
+        $emergencyDeployBat = "$adds25Path\EMERGENCY-LAUNCHER-DEPLOY.bat"
+        if (Test-Path $emergencyDeployBat) {
+            Write-TestLog "Running emergency deployment batch file..." "INFO"
             try {
-                & PowerShell.exe -ExecutionPolicy Bypass -File $forceDeployScript
-                Write-TestLog "Force deployment completed" "SUCCESS"
+                $emergencyProcess = Start-Process -FilePath $emergencyDeployBat -PassThru -NoNewWindow -Wait
+                if ($emergencyProcess.ExitCode -eq 0) {
+                    Write-TestLog "Emergency deployment completed successfully" "SUCCESS"
+                } else {
+                    Write-TestLog "Emergency deployment failed with exit code: $($emergencyProcess.ExitCode)" "WARNING"
+                }
             } catch {
-                Write-TestLog "Force deployment error: $($_.Exception.Message)" "WARNING"
+                Write-TestLog "Emergency deployment error: $($_.Exception.Message)" "WARNING"
             }
         } else {
-            Write-TestLog "Force deployment script not found, will attempt verification..." "WARNING"
+            Write-TestLog "Emergency deployment batch file not found, trying PowerShell script..." "WARNING"
+            
+            # Fallback to PowerShell force deployment
+            $forceDeployScript = "$adds25Path\FORCE-DEPLOY-LAUNCHERS.ps1"
+            if (Test-Path $forceDeployScript) {
+                Write-TestLog "Running force deployment script..." "INFO"
+                try {
+                    & PowerShell.exe -ExecutionPolicy Bypass -File $forceDeployScript
+                    Write-TestLog "Force deployment completed" "SUCCESS"
+                } catch {
+                    Write-TestLog "Force deployment error: $($_.Exception.Message)" "WARNING"
+                }
+            } else {
+                Write-TestLog "Force deployment script not found, will attempt verification..." "WARNING"
             
             # Fallback to verification script
             $verificationScript = "$adds25Path\VERIFY-LAUNCHER-EXISTS.ps1"
