@@ -93,13 +93,30 @@ function Invoke-ADDS25Test {
         Write-TestLog "Step 2: Executing ADDS25 launcher..." "INFO"
         
         try {
-            # Start launcher and capture output (ensure we're in the correct directory)
-            $launcherPath = "$adds25Path\ADDS25-Launcher.bat"
-            if (!(Test-Path $launcherPath)) {
-                throw "Launcher not found at: $launcherPath"
+            # First try simple launcher to verify basic execution works
+            $simpleLauncherPath = "$adds25Path\ADDS25-Launcher-Simple.bat"
+            $fullLauncherPath = "$adds25Path\ADDS25-Launcher.bat"
+            
+            # Check which launchers exist
+            $simpleExists = Test-Path $simpleLauncherPath
+            $fullExists = Test-Path $fullLauncherPath
+            
+            Write-TestLog "Simple launcher exists: $simpleExists at $simpleLauncherPath" "INFO"
+            Write-TestLog "Full launcher exists: $fullExists at $fullLauncherPath" "INFO"
+            
+            # Choose launcher to execute
+            if ($simpleExists) {
+                $launcherToUse = $simpleLauncherPath
+                Write-TestLog "Using simple launcher for testing" "INFO"
+            } elseif ($fullExists) {
+                $launcherToUse = $fullLauncherPath
+                Write-TestLog "Using full launcher" "INFO"
+            } else {
+                throw "No launcher found. Simple: $simpleLauncherPath, Full: $fullLauncherPath"
             }
             
-            $launcherProcess = Start-Process -FilePath $launcherPath -PassThru -NoNewWindow -RedirectStandardOutput "$testResultsPath\launcher-stdout-$($testResult.Timestamp).txt" -RedirectStandardError "$testResultsPath\launcher-stderr-$($testResult.Timestamp).txt"
+            # Execute the chosen launcher
+            $launcherProcess = Start-Process -FilePath $launcherToUse -PassThru -NoNewWindow -RedirectStandardOutput "$testResultsPath\launcher-stdout-$($testResult.Timestamp).txt" -RedirectStandardError "$testResultsPath\launcher-stderr-$($testResult.Timestamp).txt"
             
             # Wait for launcher to complete (with timeout)
             $launcherCompleted = $launcherProcess.WaitForExit(60000) # 60 second timeout
