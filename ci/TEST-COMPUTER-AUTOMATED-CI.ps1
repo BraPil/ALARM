@@ -160,8 +160,23 @@ function Invoke-ADDS25Test {
                 throw "No launcher found. Simple: $simpleLauncherPath, Full: $fullLauncherPath"
             }
             
-            # Execute the chosen launcher
-            $launcherProcess = Start-Process -FilePath $launcherToUse -PassThru -NoNewWindow -RedirectStandardOutput "$testResultsPath\launcher-stdout-$($testResult.Timestamp).txt" -RedirectStandardError "$testResultsPath\launcher-stderr-$($testResult.Timestamp).txt"
+            # Execute the chosen launcher with proper working directory
+            Write-TestLog "Current working directory: $(Get-Location)" "INFO"
+            Write-TestLog "Launcher path: $launcherToUse" "INFO"
+            Write-TestLog "Launcher exists: $(Test-Path $launcherToUse)" "INFO"
+            Write-TestLog "ADDS25 directory: $adds25Path" "INFO"
+            Write-TestLog "ADDS25 directory exists: $(Test-Path $adds25Path)" "INFO"
+            
+            # Change to ADDS25 directory before executing launcher
+            $originalLocation = Get-Location
+            Set-Location $adds25Path
+            Write-TestLog "Changed working directory to: $(Get-Location)" "INFO"
+            
+            # Execute launcher from the ADDS25 directory
+            $launcherFileName = Split-Path $launcherToUse -Leaf
+            Write-TestLog "Executing launcher: $launcherFileName from directory: $(Get-Location)" "INFO"
+            
+            $launcherProcess = Start-Process -FilePath ".\$launcherFileName" -PassThru -NoNewWindow -RedirectStandardOutput "$testResultsPath\launcher-stdout-$($testResult.Timestamp).txt" -RedirectStandardError "$testResultsPath\launcher-stderr-$($testResult.Timestamp).txt"
             
             # Wait for launcher to complete (with timeout)
             $launcherCompleted = $launcherProcess.WaitForExit(60000) # 60 second timeout
@@ -192,6 +207,10 @@ function Invoke-ADDS25Test {
                 }
             }
             
+            # Restore original working directory
+            Set-Location $originalLocation
+            Write-TestLog "Restored working directory to: $(Get-Location)" "INFO"
+            
             $testResult.LogFiles += "$testResultsPath\launcher-stdout-$($testResult.Timestamp).txt"
             $testResult.LogFiles += "$testResultsPath\launcher-stderr-$($testResult.Timestamp).txt"
             
@@ -199,6 +218,12 @@ function Invoke-ADDS25Test {
             $testResult.LauncherStatus = "ERROR"
             $testResult.Errors += "Launcher execution error: $($_.Exception.Message)"
             Write-TestLog "Launcher execution error: $($_.Exception.Message)" "ERROR"
+            
+            # Restore original working directory in case of error
+            if ($originalLocation) {
+                Set-Location $originalLocation
+                Write-TestLog "Restored working directory after error to: $(Get-Location)" "INFO"
+            }
         }
     } else {
         Write-TestLog "Skipping launcher execution due to build failure" "WARNING"
