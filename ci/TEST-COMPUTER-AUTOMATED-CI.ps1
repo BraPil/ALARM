@@ -93,8 +93,13 @@ function Invoke-ADDS25Test {
         Write-TestLog "Step 2: Executing ADDS25 launcher..." "INFO"
         
         try {
-            # Start launcher and capture output
-            $launcherProcess = Start-Process -FilePath "ADDS25-Launcher.bat" -PassThru -NoNewWindow -RedirectStandardOutput "$testResultsPath\launcher-stdout-$($testResult.Timestamp).txt" -RedirectStandardError "$testResultsPath\launcher-stderr-$($testResult.Timestamp).txt"
+            # Start launcher and capture output (ensure we're in the correct directory)
+            $launcherPath = "$adds25Path\ADDS25-Launcher.bat"
+            if (!(Test-Path $launcherPath)) {
+                throw "Launcher not found at: $launcherPath"
+            }
+            
+            $launcherProcess = Start-Process -FilePath $launcherPath -PassThru -NoNewWindow -RedirectStandardOutput "$testResultsPath\launcher-stdout-$($testResult.Timestamp).txt" -RedirectStandardError "$testResultsPath\launcher-stderr-$($testResult.Timestamp).txt"
             
             # Wait for launcher to complete (with timeout)
             $launcherCompleted = $launcherProcess.WaitForExit(60000) # 60 second timeout
