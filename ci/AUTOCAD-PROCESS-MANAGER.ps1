@@ -147,8 +147,10 @@ function Ensure-AutoCADClosed {
     }
 }
 
-# Export functions for use in other scripts
-Export-ModuleMember -Function Get-AutoCADProcesses, Close-AutoCADProcesses, Monitor-AutoCADActivity, Ensure-AutoCADClosed
+# Export functions for use in other scripts (only when loaded as module)
+if ($MyInvocation.InvocationName -eq '.') {
+    Export-ModuleMember -Function Get-AutoCADProcesses, Close-AutoCADProcesses, Monitor-AutoCADActivity, Ensure-AutoCADClosed
+}
 
 # If script is run directly, show usage
 if ($MyInvocation.InvocationName -ne '.') {
