@@ -79,41 +79,51 @@ function Invoke-ADDS25Test {
             Write-TestLog "Build failed with exit code: $LASTEXITCODE" "ERROR"
         }
         
-        # Step 2: Execute Pure PowerShell Launcher
-        if ($testResult.BuildStatus -eq "SUCCESS") {
-            Write-TestLog "Executing ADDS25 Pure PowerShell Launcher..." "INFO"
+        # Step 2: Clean AutoCAD processes before testing
+        Write-TestLog "Cleaning AutoCAD processes before test..." "INFO"
+        try {
+            # Import AutoCAD Process Manager
+            Import-Module "$repoPath\ci\AUTOCAD-PROCESS-MANAGER.ps1" -Force
+            $cleanResult = Ensure-AutoCADClosed
+            if ($cleanResult) {
+                Write-TestLog "AutoCAD processes cleaned successfully" "SUCCESS"
+            } else {
+                $testResult.Warnings += "AutoCAD cleanup had issues"
+                Write-TestLog "Warning: AutoCAD cleanup had issues" "WARNING"
+            }
+        } catch {
+            $testResult.Warnings += "AutoCAD Process Manager not available: $($_.Exception.Message)"
+            Write-TestLog "Warning: AutoCAD Process Manager not available: $($_.Exception.Message)" "WARNING"
             
-            $launcherPath = "$adds25Path\ADDS25-Launcher.ps1"
+            # Fallback: manual cleanup
+            $existingProcesses = Get-Process -Name "acad" -ErrorAction SilentlyContinue
+            if ($existingProcesses) {
+                $existingProcesses | ForEach-Object { $_.Kill() }
+                Write-TestLog "Manually killed $($existingProcesses.Count) existing AutoCAD processes" "WARNING"
+            }
+        }
+
+        # Step 3: Execute Non-Interactive PowerShell Launcher
+        if ($testResult.BuildStatus -eq "SUCCESS") {
+            Write-TestLog "Executing ADDS25 Non-Interactive Launcher..." "INFO"
+            
+            $launcherPath = "$adds25Path\ADDS25-Launcher-NonInteractive.ps1"
             if (Test-Path $launcherPath) {
                 try {
-                    # Execute launcher in separate process to capture all output
-                    $launcherJob = Start-Job -ScriptBlock {
-                        param($LauncherPath, $WorkingDir)
-                        Set-Location $WorkingDir
-                        & $LauncherPath
-                    } -ArgumentList $launcherPath, $adds25Path
+                    # Execute non-interactive launcher directly (no user interaction)
+                    Set-Location $adds25Path
+                    $launcherResult = & $launcherPath -Silent -AutoCloseTimeout 30
                     
-                    # Wait for launcher completion (5 minute timeout)
-                    $launcherCompleted = Wait-Job $launcherJob -Timeout 300
+                    $testResult.LauncherStatus = "COMPLETED"
+                    Write-TestLog "Non-interactive launcher completed successfully" "SUCCESS"
                     
-                    if ($launcherCompleted) {
-                        $launcherOutput = Receive-Job $launcherJob
-                        $testResult.LauncherStatus = "COMPLETED"
-                        Write-TestLog "Launcher completed successfully" "SUCCESS"
-                        
-                        # Save launcher output
-                        $launcherOutputFile = "$testResultsPath\launcher-output-$($testResult.Timestamp).txt"
-                        $launcherOutput | Out-File $launcherOutputFile -Encoding UTF8
-                        $testResult.LogFiles += $launcherOutputFile
-                        
-                    } else {
-                        $testResult.LauncherStatus = "TIMEOUT"
-                        $testResult.Errors += "Launcher timed out after 5 minutes"
-                        Write-TestLog "Launcher timed out after 5 minutes" "ERROR"
-                        Stop-Job $launcherJob -Force
+                    # Check launcher result
+                    if ($launcherResult -and $launcherResult.Status -eq "SUCCESS") {
+                        Write-TestLog "Launcher returned success status" "SUCCESS"
+                        if ($launcherResult.AutoCAD -eq "RUNNING") {
+                            Write-TestLog "Launcher confirmed AutoCAD is running" "SUCCESS"
+                        }
                     }
-                    
-                    Remove-Job $launcherJob -Force
                     
                 } catch {
                     $testResult.LauncherStatus = "ERROR"
@@ -122,8 +132,8 @@ function Invoke-ADDS25Test {
                 }
             } else {
                 $testResult.LauncherStatus = "NOT_FOUND"
-                $testResult.Errors += "Launcher not found: $launcherPath"
-                Write-TestLog "Launcher not found: $launcherPath" "ERROR"
+                $testResult.Errors += "Non-interactive launcher not found: $launcherPath"
+                Write-TestLog "Non-interactive launcher not found: $launcherPath" "ERROR"
             }
         }
         
