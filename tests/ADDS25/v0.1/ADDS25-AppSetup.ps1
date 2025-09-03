@@ -1,155 +1,202 @@
-# ADDS25 Application Setup Script  
-# Original: ADDS19TransTestSetup.ps1
-# Migration: Modernized for .NET Core 8, AutoCAD Map3D 2025, Oracle 19c
-# Purpose: Deploy ADDS25 assemblies and launch AutoCAD with integration
-# Date: September 1, 2025
+# ADDS25 Application Setup Script
+# Purpose: Load ADDS25 into AutoCAD Map3D 2025 with LISP integration
+# Environment: Test Computer (wa-bdpilegg)
+# Date: September 2, 2025
 
-[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing") 
-[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
-
-Write-Host "*** ADDS25 Application Setup Started ***" -ForegroundColor Green
-Write-Host "Framework: .NET Core 8" -ForegroundColor Cyan
-Write-Host "AutoCAD: Map3D 2025" -ForegroundColor Cyan  
-Write-Host "Oracle: 19c" -ForegroundColor Cyan
+Write-Host "*** ADDS25 Application Setup Starting ***" -ForegroundColor Cyan
+Write-Host "Purpose: Load ADDS25 into AutoCAD Map3D 2025" -ForegroundColor Yellow
 Write-Host ""
 
-# ADDS25: Configuration file management (modernized)
-Write-Host "Checking ADDS25 configuration files..." -ForegroundColor Yellow
-
-$configFile = "C:\ADDS25_Map\adds25_config.json"
-$defaultConfigPath = "$PSScriptRoot\Config\adds25_default_config.json"
-
-if(!(Test-Path -path $configFile)) {
-    if (Test-Path -path $defaultConfigPath) {
-        Copy-Item $defaultConfigPath -Destination $configFile
-        Write-Host "Deployed default configuration: $configFile" -ForegroundColor Green
-    } else {
-        Write-Host "Warning: Default configuration not found at $defaultConfigPath" -ForegroundColor Yellow
-    }
+function Write-AppLog {
+    param([string]$Message, [string]$Level = "INFO")
+    $logEntry = "[$(Get-Date -Format 'HH:mm:ss')] [$Level] $Message"
+    Write-Host $logEntry -ForegroundColor $(switch($Level) { "ERROR" { "Red" } "SUCCESS" { "Green" } "WARNING" { "Yellow" } default { "White" } })
 }
 
-# ADDS25: Deploy .NET Core 8 assemblies
-Write-Host "Deploying ADDS25 .NET Core 8 assemblies..." -ForegroundColor Yellow
+# Configuration
+$autocadPath = "C:\Program Files\Autodesk\AutoCAD 2025\acad.exe"
+$adds25DllPath = "C:\Users\wa-bdpilegg\Downloads\ALARM\tests\ADDS25\v0.1\ADDS25.AutoCAD\bin\Debug\net8.0-windows\ADDS25.AutoCAD.dll"
+$lispPath = "C:\Div_Map"
+$logDir = "C:\Users\wa-bdpilegg\Downloads\ADDS25-Test-Results"
 
-$assemblySource = "$PSScriptRoot"
-$assemblyTarget = "C:\ADDS25\Assemblies"
+# Step 1: Verify AutoCAD is running
+Write-Host "Step 1: Checking AutoCAD status..." -ForegroundColor Yellow
+$autocadProcess = Get-Process -Name "acad" -ErrorAction SilentlyContinue
 
-$assemblies = @(
-    "ADDS25.Core.dll",
-    "ADDS25.AutoCAD.dll", 
-    "ADDS25.Oracle.dll"
-)
-
-foreach ($assembly in $assemblies) {
-    $sourcePath = Join-Path $assemblySource $assembly
-    $targetPath = Join-Path $assemblyTarget $assembly
-    
-    if (Test-Path $sourcePath) {
-        Copy-Item $sourcePath -Destination $targetPath -Force
-        Write-Host "Deployed: $assembly" -ForegroundColor Green
-    } else {
-        Write-Host "Warning: Assembly not found: $assembly" -ForegroundColor Yellow
-    }
-}
-
-# ADDS25: Deploy LISP integration files (if available)
-Write-Host "Deploying LISP integration files..." -ForegroundColor Yellow
-
-$lispSource = "C:\Users\wa-bdpilegg\Downloads\Documentation\ADDS Original Files\Div_Map"
-$lispTarget = "C:\ADDS25_Map"
-
-if (Test-Path $lispSource) {
-    $lispDirs = @("Adds", "Common", "DosLib", "Icon_Collection", "LookUpTable", "Utils")
-    
-    foreach ($dir in $lispDirs) {
-        $sourceDir = Join-Path $lispSource $dir
-        $targetDir = Join-Path $lispTarget $dir
-        
-        if (Test-Path $sourceDir) {
-            robocopy $sourceDir $targetDir /S /XO /SEC /np /nfl | Out-Null
-            Write-Host "Deployed LISP directory: $dir" -ForegroundColor Green
-        }
-    }
-} else {
-    Write-Host "Warning: Original LISP files not found at $lispSource" -ForegroundColor Yellow
-    Write-Host "ADDS25 will use built-in LISP integration bridge" -ForegroundColor Cyan
-}
-
-# ADDS25: AutoCAD Map3D 2025 detection and launch
-Write-Host "Detecting AutoCAD Map3D 2025..." -ForegroundColor Yellow
-
-# ADDS25: Updated registry check for AutoCAD Map3D 2025 (R25.0)
-$autocadRegPath = "HKLM:\SOFTWARE\Autodesk\AutoCAD\R25.0\ACAD-2002:409"
-$autocadInstalled = Test-Path $autocadRegPath
-
-if ($autocadInstalled) {
+if (!$autocadProcess) {
+    Write-AppLog "AutoCAD not running. Attempting to start..." "INFO"
     try {
-        $productID = (Get-ItemProperty $autocadRegPath -ErrorAction SilentlyContinue).ProductID
-        Write-Host "AutoCAD Map3D 2025 detected (ProductID: $productID)" -ForegroundColor Green
+        Start-Process $autocadPath -PassThru
+        Start-Sleep -Seconds 10
+        $autocadProcess = Get-Process -Name "acad" -ErrorAction SilentlyContinue
         
-        # ADDS25: Check for ADDS25 profile
-        $profilePath = "HKCU:\SOFTWARE\Autodesk\AutoCAD\R25.0\ACAD-2002:409\Profiles\ADDS25"
-        $profileExists = Test-Path $profilePath
-        
-        $autocadExePath = "C:\Program Files\Autodesk\AutoCAD 2025\acad.exe"
-        
-        if (Test-Path $autocadExePath) {
-            if ($profileExists) {
-                Write-Host "Launching AutoCAD Map3D 2025 with ADDS25 profile..." -ForegroundColor Green
-                Start-Process -FilePath $autocadExePath -ArgumentList "/product MAP /language ""en-US"" /nologo /p ADDS25"
-            } else {
-                Write-Host "Creating ADDS25 profile and launching AutoCAD..." -ForegroundColor Green
-                
-                # ADDS25: Create profile script (modernized)
-                $profileScript = "C:\ADDS25_Map\Common\CreateADDS25Profile.scr"
-                if (Test-Path $profileScript) {
-                    Start-Process -FilePath $autocadExePath -ArgumentList "/nologo /b $profileScript"
-                } else {
-                    Write-Host "Warning: Profile creation script not found. Launching with default settings." -ForegroundColor Yellow
-                    Start-Process -FilePath $autocadExePath -ArgumentList "/product MAP /language ""en-US"" /nologo"
-                }
-            }
-            
-            Write-Host "AutoCAD Map3D 2025 launch initiated" -ForegroundColor Green
-            Write-Host "Use ADDS25_INIT command in AutoCAD to initialize ADDS25" -ForegroundColor Cyan
+        if ($autocadProcess) {
+            Write-AppLog "AutoCAD started successfully (PID: $($autocadProcess.Id))" "SUCCESS"
         } else {
-            Write-Host "Error: AutoCAD executable not found at $autocadExePath" -ForegroundColor Red
+            Write-AppLog "Failed to start AutoCAD" "ERROR"
+            return
         }
     } catch {
-        Write-Host "Error accessing AutoCAD registry: $($_.Exception.Message)" -ForegroundColor Red
+        Write-AppLog "Error starting AutoCAD: $($_.Exception.Message)" "ERROR"
+        return
     }
 } else {
-    Write-Host "AutoCAD Map3D 2025 not detected in registry" -ForegroundColor Red
-    [System.Windows.Forms.MessageBox]::Show(
-        "AutoCAD Map3D 2025 has NOT been installed.`n`nPlease install AutoCAD Map3D 2025 before running ADDS25.`n`nRequired for ADDS25 functionality.", 
-        "ADDS25 - AutoCAD Required", 
-        [System.Windows.Forms.MessageBoxButtons]::OK, 
-        [System.Windows.Forms.MessageBoxIcon]::Warning
-    ) | Out-Null
+    Write-AppLog "AutoCAD already running (PID: $($autocadProcess.Id))" "SUCCESS"
 }
 
-# ADDS25: Oracle 19c connection test
-Write-Host "Testing Oracle 19c connectivity..." -ForegroundColor Yellow
+# Step 2: Verify ADDS25 DLL exists
+Write-Host ""
+Write-Host "Step 2: Verifying ADDS25 DLL..." -ForegroundColor Yellow
+if (Test-Path $adds25DllPath) {
+    Write-AppLog "ADDS25 DLL found: $adds25DllPath" "SUCCESS"
+} else {
+    Write-AppLog "ADDS25 DLL not found: $adds25DllPath" "ERROR"
+    Write-AppLog "Please ensure ADDS25 solution has been built successfully" "ERROR"
+    return
+}
+
+# Step 3: Check LISP files
+Write-Host ""
+Write-Host "Step 3: Checking LISP files..." -ForegroundColor Yellow
+if (Test-Path $lispPath) {
+    $lispFiles = Get-ChildItem "$lispPath\*.lsp" -ErrorAction SilentlyContinue
+    if ($lispFiles) {
+        Write-AppLog "Found $($lispFiles.Count) LISP files in $lispPath" "SUCCESS"
+        foreach ($lisp in $lispFiles) {
+            Write-AppLog "  - $($lisp.Name)" "INFO"
+        }
+    } else {
+        Write-AppLog "No LISP files found in $lispPath" "WARNING"
+    }
+} else {
+    Write-AppLog "LISP directory not found: $lispPath" "WARNING"
+}
+
+# Step 4: Create AutoCAD script to load ADDS25
+Write-Host ""
+Write-Host "Step 4: Creating AutoCAD script to load ADDS25..." -ForegroundColor Yellow
+
+$scriptPath = "$env:TEMP\ADDS25-LoadScript.scr"
+$scriptContent = @"
+; ADDS25 AutoCAD Loading Script
+; Load ADDS25 .NET assembly into AutoCAD Map3D 2025
+
+; Load the ADDS25 .NET DLL
+NETLOAD "$adds25DllPath"
+
+; Load LISP files if they exist
+$(if (Test-Path $lispPath) {
+    $lispFiles = Get-ChildItem "$lispPath\*.lsp" -ErrorAction SilentlyContinue
+    if ($lispFiles) {
+        foreach ($lisp in $lispFiles) {
+            "(load `"$($lisp.FullName)`")"
+        }
+    }
+})
+
+; Set up ADDS25 environment
+(setq ADDS25_LOADED T)
+(princ "\nADDS25 loaded successfully into AutoCAD Map3D 2025")
+
+; Initialize ADDS25 commands (if available)
+; This would typically call ADDS25 initialization functions
+
+"@
 
 try {
-    # ADDS25: Basic Oracle connectivity test using .NET Core 8
-    Add-Type -Path "C:\ADDS25\Assemblies\ADDS25.Oracle.dll" -ErrorAction SilentlyContinue
-    Write-Host "Oracle.ManagedDataAccess.Core assembly loaded successfully" -ForegroundColor Green
-    Write-Host "Oracle 19c connectivity: Ready" -ForegroundColor Green
+    $scriptContent | Out-File $scriptPath -Encoding ASCII
+    Write-AppLog "AutoCAD script created: $scriptPath" "SUCCESS"
 } catch {
-    Write-Host "Warning: Could not test Oracle connectivity: $($_.Exception.Message)" -ForegroundColor Yellow
-    Write-Host "Ensure Oracle 19c client is properly installed" -ForegroundColor Yellow
+    Write-AppLog "Error creating AutoCAD script: $($_.Exception.Message)" "ERROR"
+    return
+}
+
+# Step 5: Execute the script in AutoCAD
+Write-Host ""
+Write-Host "Step 5: Loading ADDS25 into AutoCAD..." -ForegroundColor Yellow
+
+try {
+    # Send the script to AutoCAD via command line
+    # Note: This is a simplified approach. In production, you might use AutoCAD's COM interface
+    Write-AppLog "Attempting to load ADDS25 into AutoCAD..." "INFO"
+    
+    # Create a simple command to execute the script
+    $commandPath = "$env:TEMP\ADDS25-Command.txt"
+    "SCRIPT `"$scriptPath`"" | Out-File $commandPath -Encoding ASCII
+    
+    Write-AppLog "Script execution command created: $commandPath" "SUCCESS"
+    Write-AppLog "Manual step: In AutoCAD, type: SCRIPT `"$scriptPath`"" "INFO"
+    
+} catch {
+    Write-AppLog "Error executing AutoCAD script: $($_.Exception.Message)" "ERROR"
+}
+
+# Step 6: Verify loading (basic check)
+Write-Host ""
+Write-Host "Step 6: Verification..." -ForegroundColor Yellow
+
+# Check if AutoCAD is still running
+$autocadProcess = Get-Process -Name "acad" -ErrorAction SilentlyContinue
+if ($autocadProcess) {
+    Write-AppLog "AutoCAD still running after setup (PID: $($autocadProcess.Id))" "SUCCESS"
+} else {
+    Write-AppLog "AutoCAD process not detected after setup" "WARNING"
+}
+
+# Step 7: Create completion log
+Write-Host ""
+Write-Host "Step 7: Creating completion log..." -ForegroundColor Yellow
+
+if (Test-Path $logDir) {
+    $appSetupLog = "$logDir\app-setup-$(Get-Date -Format 'yyyy-MM-dd_HH-mm-ss').md"
+    @"
+# ADDS25 Application Setup Log
+
+**Setup Time**: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
+**Environment**: Test Computer (wa-bdpilegg)
+**Script**: ADDS25-AppSetup.ps1
+
+## Setup Components
+
+### AutoCAD Status
+- AutoCAD Path: $autocadPath
+- Process Status: $(if ($autocadProcess) { "RUNNING (PID: $($autocadProcess.Id))" } else { "NOT DETECTED" })
+
+### ADDS25 Components
+- DLL Path: $adds25DllPath
+- DLL Status: $(if (Test-Path $adds25DllPath) { "FOUND" } else { "NOT FOUND" })
+- LISP Directory: $lispPath
+- LISP Status: $(if (Test-Path $lispPath) { "FOUND" } else { "NOT FOUND" })
+
+### Generated Files
+- AutoCAD Script: $scriptPath
+- Command File: $commandPath
+
+## Manual Steps Required
+
+To complete ADDS25 loading in AutoCAD:
+1. Switch to AutoCAD Map3D 2025
+2. Type: SCRIPT "$scriptPath"
+3. Press Enter to execute
+
+## Setup Status
+
+- Directory verification: COMPLETED
+- AutoCAD detection: $(if ($autocadProcess) { "SUCCESS" } else { "WARNING" })
+- Script generation: COMPLETED
+- Manual loading required: YES
+
+**Setup Complete**: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
+"@ | Out-File $appSetupLog -Encoding UTF8
+    
+    Write-AppLog "Application setup log created: $appSetupLog" "SUCCESS"
 }
 
 Write-Host ""
 Write-Host "*** ADDS25 Application Setup Complete ***" -ForegroundColor Green
-Write-Host "System Status:" -ForegroundColor Cyan
-Write-Host "  - .NET Core 8: Ready" -ForegroundColor Cyan
-Write-Host "  - AutoCAD Map3D 2025: $(if($autocadInstalled){'Ready'}else{'Not Found'})" -ForegroundColor $(if($autocadInstalled){'Green'}else{'Red'})
-Write-Host "  - Oracle 19c: Ready" -ForegroundColor Cyan
-Write-Host "  - ADDS25 Assemblies: Deployed" -ForegroundColor Cyan
+Write-Host "AutoCAD script has been prepared for ADDS25 loading." -ForegroundColor White
 Write-Host ""
-Write-Host "Next Steps:" -ForegroundColor Yellow
-Write-Host "1. Open AutoCAD Map3D 2025" -ForegroundColor White
-Write-Host "2. Run command: ADDS25_INIT" -ForegroundColor White  
-Write-Host "3. ADDS25 will initialize with full functionality" -ForegroundColor White
+Write-Host "MANUAL STEP REQUIRED:" -ForegroundColor Yellow
+Write-Host "In AutoCAD, type: SCRIPT `"$scriptPath`"" -ForegroundColor Cyan
+Write-Host "This will load the ADDS25 .NET assembly and LISP files." -ForegroundColor White
+Write-Host ""

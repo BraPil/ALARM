@@ -1,119 +1,118 @@
 # ADDS25 Directory Setup Script
-# Original: ADDS19DirSetup.ps1
-# Migration: Modernized directory structure for ADDS25
-# Purpose: Creates essential directory structure with proper permissions
-# Date: September 1, 2025
+# Purpose: Create necessary directories for ADDS25 operation
+# Environment: Test Computer (wa-bdpilegg)
+# Date: September 2, 2025
 
-# ADDS25: Initialize logging with environment-specific paths
-# ADDS25 Deployment File - Target environment: wa-bdpilegg
-# This file will be deployed to the test computer with username wa-bdpilegg
-$LogFile = "C:\Users\wa-bdpilegg\Downloads\ALARM\test-results\PowerShell-Results-Log.md"
-$LogDir = Split-Path $LogFile -Parent
-if (!(Test-Path $LogDir)) { New-Item $LogDir -Type Directory -Force | Out-Null }
-
-function Write-Log {
-    param([string]$Message, [string]$Color = "White")
-    $Timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    $LogEntry = "[$Timestamp] $Message"
-    Write-Host $Message -ForegroundColor $Color
-    Add-Content $LogFile $LogEntry
-}
-
-Write-Log "*** ADDS25 Directory Setup Started ***" "Green"
-Write-Log "Target Framework: .NET Core 8" "Cyan"
-Write-Log "AutoCAD Version: Map3D 2025" "Cyan"
-Write-Log "Oracle Version: 19c" "Cyan"
+Write-Host "*** ADDS25 Directory Setup Starting ***" -ForegroundColor Cyan
+Write-Host "Purpose: Create necessary directories for ADDS25 operation" -ForegroundColor Yellow
 Write-Host ""
 
-# ADDS25: Create main application directories
-Write-Host "Creating ADDS25 application directories..." -ForegroundColor Yellow
-
-# ADDS25: Main application directory (updated path)
-if(!(Test-Path -path C:\ADDS25)) { 
-    New-Item C:\ADDS25 -type directory 
-    Write-Host "Created: C:\ADDS25" -ForegroundColor Green
-}
-icacls.exe C:\ADDS25 /grant 'Users:(oi)(ci)(f)' | Out-Null
-
-# ADDS25: Application subdirectories
-$adds25Dirs = @(
-    "C:\ADDS25\Dwg",
-    "C:\ADDS25\Logs", 
-    "C:\ADDS25\Plot",
-    "C:\ADDS25\Config",
-    "C:\ADDS25\Assemblies"
+# Configuration - Updated for ADDS25 deployment
+$directories = @(
+    "C:\Adds",
+    "C:\Adds\UA",
+    "C:\Adds\UA\Setup",
+    "C:\Adds\UA\Setup\ADDS25",
+    "C:\Div_Map",
+    "C:\Users\wa-bdpilegg\Downloads\ADDS25-Test-Results",
+    "C:\Users\wa-bdpilegg\Downloads\ADDS25-Logs"
 )
 
-foreach ($dir in $adds25Dirs) {
-    if(!(Test-Path -path $dir)) { 
-        New-Item $dir -type directory 
-        Write-Host "Created: $dir" -ForegroundColor Green
+function Write-DirLog {
+    param([string]$Message, [string]$Level = "INFO")
+    $logEntry = "[$(Get-Date -Format 'HH:mm:ss')] [$Level] $Message"
+    Write-Host $logEntry -ForegroundColor $(switch($Level) { "ERROR" { "Red" } "SUCCESS" { "Green" } "WARNING" { "Yellow" } default { "White" } })
+}
+
+# Create directories
+Write-Host "Creating ADDS25 directory structure..." -ForegroundColor Yellow
+Write-Host ""
+
+foreach ($dir in $directories) {
+    try {
+        if (!(Test-Path $dir)) {
+            New-Item $dir -Type Directory -Force | Out-Null
+            Write-DirLog "Created directory: $dir" "SUCCESS"
+        } else {
+            Write-DirLog "Directory exists: $dir" "INFO"
+        }
+    } catch {
+        Write-DirLog "Error creating directory $dir`: $($_.Exception.Message)" "ERROR"
     }
 }
 
-# ADDS25: Temporary data directory (modernized)
-Write-Host "Creating ADDS25 temporary directories..." -ForegroundColor Yellow
+# Copy LISP files from Div_Map (if source exists)
+Write-Host ""
+Write-Host "Checking for LISP files to copy..." -ForegroundColor Yellow
 
-$tempTarget = "C:\ProgramData\ADDS25Temp"
-if(!(Test-Path -path $tempTarget)) { 
-    New-Item $tempTarget -type directory 
-    Write-Host "Created: $tempTarget" -ForegroundColor Green
-}
+$sourceDiv = "C:\Users\wa-bdpilegg\Downloads\ALARM\tests\ADDS25\v0.1\Div_Map"
+$targetDiv = "C:\Div_Map"
 
-$tempTarget2 = "C:\ProgramData\ADDS25Temp\Dwg"
-if(!(Test-Path -path $tempTarget2)) { 
-    New-Item $tempTarget2 -type directory 
-    Write-Host "Created: $tempTarget2" -ForegroundColor Green
-}
-icacls.exe $tempTarget /grant 'Users:(oi)(ci)(f)' | Out-Null
-
-# ADDS25: LISP and AutoCAD integration directories (modernized)
-Write-Host "Creating ADDS25 LISP integration directories..." -ForegroundColor Yellow
-
-$lispDirs = @(
-    "C:\ADDS25_Map",
-    "C:\ADDS25_Map\Adds",
-    "C:\ADDS25_Map\Common", 
-    "C:\ADDS25_Map\DosLib",
-    "C:\ADDS25_Map\Icon_Collection",
-    "C:\ADDS25_Map\LookUpTable",
-    "C:\ADDS25_Map\Utils"
-)
-
-foreach ($dir in $lispDirs) {
-    if(!(Test-Path -path $dir)) { 
-        New-Item $dir -type directory 
-        Write-Host "Created: $dir" -ForegroundColor Green
+if (Test-Path $sourceDiv) {
+    try {
+        Write-DirLog "Copying LISP files from $sourceDiv to $targetDiv" "INFO"
+        Copy-Item "$sourceDiv\*" $targetDiv -Recurse -Force
+        Write-DirLog "LISP files copied successfully" "SUCCESS"
+    } catch {
+        Write-DirLog "Error copying LISP files: $($_.Exception.Message)" "WARNING"
     }
-}
-icacls.exe C:\ADDS25_Map /grant 'Users:(oi)(ci)(f)' | Out-Null
-
-# ADDS25: .NET Core 8 runtime verification
-Write-Host "Verifying .NET Core 8 runtime..." -ForegroundColor Yellow
-
-try {
-    $dotnetVersion = & dotnet --version 2>$null
-    if ($dotnetVersion -like "8.*") {
-        Write-Host ".NET Core 8 Runtime: $dotnetVersion" -ForegroundColor Green
-    } else {
-        Write-Host "Warning: .NET Core 8 not detected. Current version: $dotnetVersion" -ForegroundColor Red
-        Write-Host "Please install .NET Core 8 runtime for ADDS25" -ForegroundColor Red
-    }
-} catch {
-    Write-Host "Error: .NET Core runtime not found. Please install .NET Core 8" -ForegroundColor Red
-}
-
-# ADDS25: Oracle 19c client verification
-Write-Host "Verifying Oracle 19c client..." -ForegroundColor Yellow
-
-$oracleRegPath = "HKLM:\SOFTWARE\ORACLE"
-if (Test-Path $oracleRegPath) {
-    Write-Host "Oracle client installation detected" -ForegroundColor Green
 } else {
-    Write-Host "Warning: Oracle client not detected. Please install Oracle 19c client" -ForegroundColor Red
+    Write-DirLog "Source LISP directory not found: $sourceDiv" "WARNING"
+}
+
+# Set permissions (if needed)
+Write-Host ""
+Write-Host "Setting directory permissions..." -ForegroundColor Yellow
+
+foreach ($dir in $directories) {
+    if (Test-Path $dir) {
+        try {
+            # Grant full control to current user
+            $acl = Get-Acl $dir
+            $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule(
+                [System.Security.Principal.WindowsIdentity]::GetCurrent().Name,
+                "FullControl",
+                "ContainerInherit,ObjectInherit",
+                "None",
+                "Allow"
+            )
+            $acl.SetAccessRule($accessRule)
+            Set-Acl $dir $acl
+            Write-DirLog "Permissions set for: $dir" "SUCCESS"
+        } catch {
+            Write-DirLog "Warning: Could not set permissions for $dir`: $($_.Exception.Message)" "WARNING"
+        }
+    }
 }
 
 Write-Host ""
 Write-Host "*** ADDS25 Directory Setup Complete ***" -ForegroundColor Green
-Write-Host "All directories created with proper permissions" -ForegroundColor Cyan
-Write-Host "Ready for ADDS25 application deployment" -ForegroundColor Cyan
+Write-Host "All necessary directories have been created and configured." -ForegroundColor White
+Write-Host ""
+
+# Log completion
+$logDir = "C:\Users\wa-bdpilegg\Downloads\ADDS25-Test-Results"
+if (Test-Path $logDir) {
+    $setupLog = "$logDir\directory-setup-$(Get-Date -Format 'yyyy-MM-dd_HH-mm-ss').md"
+    @"
+# ADDS25 Directory Setup Log
+
+**Setup Time**: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
+**Environment**: Test Computer (wa-bdpilegg)
+**Script**: ADDS25-DirSetup.ps1
+
+## Directories Created/Verified
+
+$(foreach ($dir in $directories) { "- $dir" }) -join "`n")
+
+## Setup Status
+
+- Directory creation: COMPLETED
+- LISP file copying: $(if (Test-Path $sourceDiv) { "COMPLETED" } else { "SKIPPED (source not found)" })
+- Permission setting: COMPLETED
+
+**Setup Complete**: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
+"@ | Out-File $setupLog -Encoding UTF8
+    
+    Write-DirLog "Setup log created: $setupLog" "SUCCESS"
+}
