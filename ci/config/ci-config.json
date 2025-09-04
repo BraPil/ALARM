@@ -1,0 +1,131 @@
+{
+  "MonitorInterval": 5,
+  "EnableFileBasedTriggers": true,
+  "EnablePerformanceMonitoring": true,
+  "EnableHealthChecks": true,
+  "Verbose": false,
+  "MaxRetries": 3,
+  "RetryDelay": 5,
+  "LogRetentionDays": 30,
+  "TriggerDirectory": "C:\\Users\\kidsg\\Downloads\\ALARM\\triggers",
+  "FilePaths": {
+    "RepoPath": "C:\\Users\\kidsg\\Downloads\\ALARM",
+    "LogPath": "C:\\Users\\kidsg\\Downloads\\ALARM\\ci\\logs\\ci-system",
+    "PerformanceLogPath": "C:\\Users\\kidsg\\Downloads\\ALARM\\ci\\logs\\ci-system\\performance",
+    "HealthLogPath": "C:\\Users\\kidsg\\Downloads\\ALARM\\ci\\logs\\ci-system\\health",
+    "TriggerGeneratorPath": "C:\\Users\\kidsg\\Downloads\\ALARM\\ci\\GENERATE-TRIGGER.ps1"
+  },
+  "GitHubMonitoring": {
+    "Enabled": true,
+    "Branch": "main",
+    "Remote": "origin",
+    "PullStrategy": "quiet",
+    "CommitDetection": "hash",
+    "MessageExtraction": "subject"
+  },
+  "PerformanceMonitoring": {
+    "Enabled": true,
+    "LoggingInterval": 60,
+    "MetricsToTrack": [
+      "TotalCommits",
+      "SuccessfulAnalysis",
+      "FailedAnalysis",
+      "AverageResponseTime",
+      "TriggerFilesCreated",
+      "Uptime"
+    ]
+  },
+  "HealthMonitoring": {
+    "Enabled": true,
+    "CheckInterval": 30,
+    "Thresholds": {
+      "DiskSpace": 10,
+      "MemoryUsage": 90,
+      "CPUUsage": 90
+    },
+    "MetricsToTrack": [
+      "DiskSpace",
+      "MemoryUsage",
+      "CPUUsage",
+      "IsHealthy"
+    ]
+  },
+  "CommitProcessing": {
+    "ActionDetection": {
+      "Enabled": true,
+      "Patterns": {
+        "analyze_test_results": ["test", "result", "analysis"],
+        "deploy_fixes": ["fix", "deploy", "update"],
+        "run_tests": ["run.*test", "execute.*test"]
+      },
+      "DefaultAction": "analyze_test_results"
+    },
+    "PriorityDetection": {
+      "Enabled": true,
+      "Patterns": {
+        "high": ["critical", "urgent", "emergency", "hotfix", "important", "priority"],
+        "normal": []
+      },
+      "DefaultPriority": "normal"
+    },
+    "SourceDetection": {
+      "Enabled": true,
+      "DefaultSource": "dev_computer"
+    }
+  },
+  "TriggerGeneration": {
+    "Enabled": true,
+    "Validation": true,
+    "Templates": {
+      "Default": "default",
+      "HighPriority": "high_priority",
+      "Deployment": "deployment",
+      "TestExecution": "test_execution",
+      "Custom": "custom"
+    },
+    "FilePatterns": {
+      "Default": ["test-results\\*.md", "test-results\\*.log"],
+      "HighPriority": ["test-results\\*.md", "test-results\\*.log", "test-results\\*.error"],
+      "Deployment": ["test-results\\*.md", "ci\\*.ps1"],
+      "TestExecution": ["tests\\**\\*.ps1", "tests\\**\\*.bat"],
+      "Custom": ["**\\*"]
+    }
+  },
+  "Logging": {
+    "Level": "INFO",
+    "ConsoleOutput": true,
+    "FileOutput": true,
+    "ErrorLogging": true,
+    "LogRotation": {
+      "Enabled": true,
+      "MaxFileSize": "10MB",
+      "MaxFiles": 10
+    }
+  },
+  "ErrorHandling": {
+    "MaxRetries": 3,
+    "RetryDelay": 5,
+    "GracefulDegradation": true,
+    "FallbackToFileBased": true,
+    "ErrorReporting": true
+  },
+  "Security": {
+    "FileIntegrityChecking": true,
+    "AccessControl": true,
+    "LogSanitization": true,
+    "CommitValidation": true
+  },
+  "Monitoring": {
+    "RealTimeAlerts": true,
+    "PerformanceThresholds": {
+      "MaxResponseTime": 5000,
+      "MaxErrorRate": 0.1,
+      "MinSuccessRate": 0.9
+    },
+    "HealthThresholds": {
+      "MinDiskSpace": 10,
+      "MaxMemoryUsage": 90,
+      "MaxCPUUsage": 90
+    }
+  }
+}

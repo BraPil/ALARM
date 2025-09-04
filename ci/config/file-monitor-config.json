@@ -1,0 +1,77 @@
+{
+  "MonitorInterval": 2,
+  "EnablePerformanceMonitoring": true,
+  "EnableHealthChecks": true,
+  "Verbose": false,
+  "MaxRetries": 3,
+  "RetryDelay": 5,
+  "LogRetentionDays": 30,
+  "FilePaths": {
+    "RepoPath": "C:\\Users\\kidsg\\Downloads\\ALARM",
+    "TriggerPattern": "C:\\Users\\kidsg\\Downloads\\ALARM\\triggers\\CURSOR-ANALYZE-NOW.trigger",
+    "LogPath": "C:\\Users\\kidsg\\Downloads\\ALARM\\ci\\logs\\file-monitor",
+    "ArchivePath": "C:\\Users\\kidsg\\Downloads\\ALARM\\triggers\\archive",
+    "PerformanceLogPath": "C:\\Users\\kidsg\\Downloads\\ALARM\\ci\\logs\\file-monitor\\performance",
+    "HealthLogPath": "C:\\Users\\kidsg\\Downloads\\ALARM\\ci\\logs\\file-monitor\\health"
+  },
+  "PerformanceMonitoring": {
+    "Enabled": true,
+    "LoggingInterval": 60,
+    "MetricsToTrack": [
+      "TotalTriggers",
+      "SuccessfulProcessing",
+      "FailedProcessing",
+      "AverageResponseTime",
+      "Uptime"
+    ]
+  },
+  "HealthMonitoring": {
+    "Enabled": true,
+    "CheckInterval": 30,
+    "Thresholds": {
+      "DiskSpace": 10,
+      "MemoryUsage": 90,
+      "CPUUsage": 90
+    },
+    "MetricsToTrack": [
+      "DiskSpace",
+      "MemoryUsage",
+      "CPUUsage",
+      "IsHealthy"
+    ]
+  },
+  "TriggerValidation": {
+    "StrictMode": true,
+    "MaxMessageLength": 500,
+    "MaxCustomDataLength": 1000,
+    "RequiredFields": [
+      "commit",
+      "message",
+      "timestamp",
+      "action",
+      "files_to_check"
+    ]
+  },
+  "Logging": {
+    "Level": "INFO",
+    "ConsoleOutput": true,
+    "FileOutput": true,
+    "ErrorLogging": true,
+    "LogRotation": {
+      "Enabled": true,
+      "MaxFileSize": "10MB",
+      "MaxFiles": 10
+    }
+  },
+  "ErrorHandling": {
+    "MaxRetries": 3,
+    "RetryDelay": 5,
+    "GracefulDegradation": true,
+    "FallbackToFileBased": true
+  },
+  "Security": {
+    "FileIntegrityChecking": true,
+    "AccessControl": true,
+    "LogSanitization": true
+  }
+}
