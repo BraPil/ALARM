@@ -38,6 +38,13 @@
 
 **VIOLATION CONSEQUENCES:** Any sampling without justification triggers immediate protocol restart with full compliance verification.
 
+**EMOJI PROHIBITION ENFORCEMENT:**
+- **PowerShell Scripts**: NO emoji characters (🚀, ✅, ❌, 📊, etc.) - causes parser errors
+- **Documentation Files**: NO emoji characters - maintain professional appearance
+- **Alternative Text**: Use plain text alternatives (PASS, FAIL, SUCCESS, ERROR, etc.)
+- **Violation Impact**: Scripts fail silently or with cryptic error messages
+- **Compliance Required**: All PowerShell scripts must pass syntax validation before execution
+
 ---
 
 ## **🚀 LAUNCH PROTOCOL - REQUIRED AT START OF EVERY RESPONSE**
@@ -48,7 +55,8 @@
 - **VERIFICATION INTEGRITY**: Claims of "systematic verification" require complete file reading
 - **VIOLATION DETECTION**: Any work without protocol launch triggers immediate correction
 - **DOCUMENTATION REQUIREMENT**: All violations must be logged in `mcp_runs/protocol_violations/`
-- **ZERO TOLERANCE**: No exceptions to protocol launch or anti-sampling requirements
+- **EMOJI PROHIBITION**: NEVER use emoji characters in PowerShell scripts or documentation - causes parser errors
+- **ZERO TOLERANCE**: No exceptions to protocol launch, anti-sampling, or emoji prohibition requirements
 
 **MANDATORY CHECKLIST - MUST COMPLETE BEFORE ANY WORK:**
 
@@ -242,11 +250,33 @@
 - [ ] **User Verification**: Present removal candidates for approval if any found
 - [ ] **Safety Verification**: Ensure no valuable files flagged for removal
 - [ ] **Tracking Update**: Update file usage and cleanup metrics
+- [ ] **Performance Optimization**: Execute performance optimization protocol
+- [ ] **Context Management**: Trim conversation context if needed
+- [ ] **Memory Cleanup**: Clear temporary files and caches
 
 **📋 EXECUTION TRIGGER**: Execute at the end of EVERY assistant response  
 **🎯 OBJECTIVE**: Maintain optimal system efficiency and prevent data loss  
 **⚠️ CRITICAL**: Never remove files without explicit user approval  
-**📄 REFERENCE**: See `mcp/protocols/memory-management-subprotocol.md` for complete specification
+**📄 REFERENCE**: See `mcp/protocols/memory-management-subprotocol.md` for complete specification  
+**🚀 PERFORMANCE**: See `mcp/protocols/performance-optimization-protocol.md` for performance enhancements
+
+---
+
+## **🚀 PERFORMANCE OPTIMIZATION PROTOCOL - MANDATORY EXECUTION**
+
+### **PERFORMANCE & EFFICIENCY CHECKLIST**
+- [ ] **Context Window Management**: Maintain < 15 exchanges in active context
+- [ ] **Memory Usage Monitoring**: Track and optimize memory consumption
+- [ ] **File Access Optimization**: Use caching for frequently accessed files
+- [ ] **Response Time Tracking**: Monitor and optimize response generation
+- [ ] **Resource Cleanup**: Automated cleanup of temporary files and caches
+- [ ] **Performance Alerts**: Monitor and respond to performance thresholds
+
+**📋 EXECUTION TRIGGER**: Execute with Memory Management Subprotocol at end of EVERY response  
+**🎯 OBJECTIVE**: Maintain optimal performance and prevent system slowdown  
+**⚠️ CRITICAL**: Performance issues cause protocol violations and system degradation  
+**📄 REFERENCE**: See `mcp/protocols/performance-optimization-protocol.md` for complete specification  
+**🔧 IMPLEMENTATION**: Use `ci/PERFORMANCE-OPTIMIZER.ps1` for automated optimization
 
 ---
 
@@ -257,6 +287,8 @@
 - ✅ **100% Complete Reading** - No unjustified sampling
 - ✅ **>80% Test Coverage** - All changes thoroughly tested
 - ✅ **100% Documentation** - All decisions and evidence recorded
+- ✅ **Performance Optimization** - Response times < 2 seconds, memory usage < 200MB
+- ✅ **Memory Management** - End-of-response protocols executed consistently
 
 ---
 
@@ -269,6 +301,9 @@
 - **BUILD FAILURES**: Any compilation errors (exit code ≠ 0)
 - **MARKING COMPLETED WITHOUT VERIFICATION**: Claims without evidence
 - **SKIPPING VERIFICATION PROTOCOL**: No systematic validation performed
+- **PERFORMANCE DEGRADATION**: Response times > 5 seconds, memory usage > 200MB
+- **MEMORY MANAGEMENT NEGLECT**: Not executing end-of-response protocols
+- **CONTEXT OVERFLOW**: Conversation history > 20 exchanges without trimming
 
 **FAILURE RESPONSE:** STOP → Document failure → Restart with compliance → Verify everything
 
@@ -280,8 +315,11 @@ Before any "COMPLETED" status:
 - [ ] All tests pass with >80% coverage
 - [ ] No compilation errors or critical warnings
 - [ ] Protocol compliance verified and documented
+- [ ] Performance optimization executed (response time < 2 seconds)
+- [ ] Memory management subprotocol executed
+- [ ] Context window maintained < 15 exchanges
 
 ---
 
-**Last Updated:** August 30, 2025 - 2:15 PM  
-**Status:** ACTIVE - Universal system with project-specific configurations
+**Last Updated:** January 28, 2025 - Performance Optimization Integration  
+**Status:** ACTIVE - Universal system with project-specific configurations and performance optimization
