@@ -1,0 +1,12 @@
+{
+    "action":  "custom",
+    "timestamp":  "2025-09-04 12:36:35",
+    "files":  [
+                  "test-2.txt"
+              ],
+    "source":  "dev_computer",
+    "priority":  "normal",
+    "timezone":  "UTC",
+    "message":  "Load test trigger 2",
+    "hash":  "load-2"
+}

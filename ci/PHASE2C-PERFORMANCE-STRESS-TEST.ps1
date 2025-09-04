@@ -38,7 +38,7 @@ function Test-LoadPerformance {
         $TriggerStartTime = Get-Date
         
         for ($i = 1; $i -le $LoadTestCount; $i++) {
-            $TriggerResult = & ".\ci\SIMPLE-TRIGGER-GENERATOR.ps1" -Action "load-test" -Hash "load-$i" -Message "Load test trigger $i" -Files "test-$i.txt" -Priority "normal" -Source "load-test" 2>$null
+            $TriggerResult = & ".\ci\SIMPLE-TRIGGER-GENERATOR.ps1" -Action "custom" -Hash "load-$i" -Message "Load test trigger $i" -Files "test-$i.txt" -Priority "normal" -Source "dev_computer" 2>$null
             if ($LASTEXITCODE -ne 0) {
                 $Tests += @{ Test = "High-Volume Trigger Generation"; Result = "FAIL"; Details = "Trigger generation failed at iteration $i" }
                 Write-TestLog "High-Volume Trigger Generation: FAIL at iteration $i" "ERROR"
@@ -125,7 +125,7 @@ function Test-StressConditions {
         
         for ($i = 1; $i -le 20; $i++) {
             try {
-                $TriggerResult = & ".\ci\SIMPLE-TRIGGER-GENERATOR.ps1" -Action "stress-test" -Hash "stress-$i" -Message "Stress test $i" -Files "stress-$i.txt" -Priority "high" -Source "stress-test" 2>$null
+                $TriggerResult = & ".\ci\SIMPLE-TRIGGER-GENERATOR.ps1" -Action "custom" -Hash "stress-$i" -Message "Stress test $i" -Files "stress-$i.txt" -Priority "high" -Source "dev_computer" 2>$null
                 if ($LASTEXITCODE -eq 0) {
                     $SuccessCount++
                 }
@@ -234,7 +234,7 @@ function Test-LongRunningStability {
         while ((Get-Date) -lt $EndTime) {
             try {
                 $OperationCount++
-                $TriggerResult = & ".\ci\SIMPLE-TRIGGER-GENERATOR.ps1" -Action "stability-test" -Hash "stability-$OperationCount" -Message "Stability test operation $OperationCount" -Files "stability-$OperationCount.txt" -Priority "normal" -Source "stability-test" 2>$null
+                $TriggerResult = & ".\ci\SIMPLE-TRIGGER-GENERATOR.ps1" -Action "custom" -Hash "stability-$OperationCount" -Message "Stability test operation $OperationCount" -Files "stability-$OperationCount.txt" -Priority "normal" -Source "dev_computer" 2>$null
                 
                 if ($LASTEXITCODE -ne 0) {
                     $ErrorCount++

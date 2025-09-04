@@ -150,7 +150,7 @@ function Test-TriggerGeneration {
         # Test 1: Basic Trigger Generation
         Write-TestLog "Test 1: Basic Trigger Generation"
         try {
-            $TriggerResult = & ".\ci\GENERATE-TRIGGER.ps1" -Action "test" -Hash "test123" -Message "Phase 2B Integration Test" -Files "test.txt" -Priority "normal" -Source "phase2b-test" 2>$null
+            $TriggerResult = & ".\ci\GENERATE-TRIGGER.ps1" -Action "custom" -CommitHash "test123" -CommitMessage "Phase 2B Integration Test" -FilesToCheck "test.txt" -Priority "normal" -Source "dev_computer" 2>$null
             if ($LASTEXITCODE -eq 0) {
                 $Tests += @{ Test = "Basic Trigger Generation"; Result = "PASS"; Details = "Trigger generation executed successfully" }
                 Write-TestLog "Basic Trigger Generation: PASS" "SUCCESS"

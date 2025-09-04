@@ -1,0 +1,12 @@
+{
+    "action":  "test",
+    "timestamp":  "2025-09-04 12:34:14",
+    "files":  [
+                  "test.txt"
+              ],
+    "source":  "dev_computer",
+    "priority":  "normal",
+    "timezone":  "UTC",
+    "message":  "Test message",
+    "hash":  "test123"
+}

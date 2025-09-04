@@ -30,7 +30,7 @@ param(
     
     [switch]$ValidateOnly,
     
-    [switch]$Verbose
+    [switch]$ShowVerbose
 )
 
 # Configuration
@@ -265,11 +265,11 @@ function Create-TriggerFile {
     # Write trigger file
     try {
         Set-Content -Path $filepath -Value $jsonContent -Encoding UTF8 -Force
-        Write-Host "✅ Trigger file created successfully: $filepath" -ForegroundColor Green
+        Write-Host "PASS: Trigger file created successfully: $filepath" -ForegroundColor Green
         
-        if ($Verbose) {
+        if ($ShowVerbose) {
             Write-Host ""
-            Write-Host "📋 TRIGGER CONTENT:" -ForegroundColor Cyan
+            Write-Host "TRIGGER CONTENT:" -ForegroundColor Cyan
             Write-Host $jsonContent -ForegroundColor White
         }
         
@@ -290,9 +290,9 @@ function Show-Help {
     Write-Host "  .\GENERATE-TRIGGER.ps1 -Action action -CommitHash hash -CommitMessage message" -ForegroundColor White
     Write-Host ""
     Write-Host "REQUIRED PARAMETERS:" -ForegroundColor Green
-    Write-Host "  -Action           Action to perform (analyze_test_results, deploy_fixes, run_tests, custom)" -ForegroundColor White
-    Write-Host "  -CommitHash       Git commit hash (7-40 hex characters)" -ForegroundColor White
-    Write-Host "  -CommitMessage    Commit message (max 500 characters)" -ForegroundColor White
+    Write-Host "  -Action           Action to perform: analyze_test_results, deploy_fixes, run_tests, custom" -ForegroundColor White
+    Write-Host "  -CommitHash       Git commit hash: 7-40 hex characters" -ForegroundColor White
+    Write-Host "  -CommitMessage    Commit message: max 500 characters" -ForegroundColor White
     Write-Host ""
     Write-Host "OPTIONAL PARAMETERS:" -ForegroundColor Green
     Write-Host "  -FilesToCheck     Array of file patterns to check (default: test-results\*.md, test-results\*.log)" -ForegroundColor White
@@ -302,7 +302,7 @@ function Show-Help {
     Write-Host "  -UseTemplate      Use template system for common scenarios" -ForegroundColor White
     Write-Host "  -TemplateName     Template to use (default, high_priority, deployment, test_execution, custom)" -ForegroundColor White
     Write-Host "  -ValidateOnly     Only validate parameters without creating file" -ForegroundColor White
-    Write-Host "  -Verbose          Show detailed output" -ForegroundColor White
+    Write-Host "  -ShowVerbose      Show detailed output" -ForegroundColor White
     Write-Host ""
     Write-Host "EXAMPLES:" -ForegroundColor Green
     Write-Host "  # Basic test results analysis" -ForegroundColor White
@@ -338,16 +338,16 @@ function Main {
     
     if ($validationErrors.Count -gt 0) {
         Write-Host ""
-        Write-Host "❌ VALIDATION ERRORS:" -ForegroundColor Red
+        Write-Host "FAIL: VALIDATION ERRORS:" -ForegroundColor Red
         foreach ($validationError in $validationErrors) {
-            Write-Host "  • $validationError" -ForegroundColor Red
+            Write-Host "  - $validationError" -ForegroundColor Red
         }
         Write-Host ""
-        Write-Host "Use -Verbose for detailed help information" -ForegroundColor Yellow
+        Write-Host "Use -ShowVerbose for detailed help information" -ForegroundColor Yellow
         exit 1
     }
     
-    Write-Host "✅ All parameters validated successfully" -ForegroundColor Green
+    Write-Host "PASS: All parameters validated successfully" -ForegroundColor Green
     
     if ($ValidateOnly) {
         Write-Host "Validation only mode - no file will be created" -ForegroundColor Yellow
@@ -364,7 +364,7 @@ function Main {
     
     if ($filepath) {
         Write-Host ""
-        Write-Host "🎯 TRIGGER FILE READY!" -ForegroundColor Green
+        Write-Host "SUCCESS: TRIGGER FILE READY!" -ForegroundColor Green
         Write-Host "===============================================" -ForegroundColor Yellow
         Write-Host "File: $filepath" -ForegroundColor White
         Write-Host "Action: $($triggerData.action)" -ForegroundColor White
@@ -376,7 +376,7 @@ function Main {
         Write-Host "The file monitor will detect this trigger and execute the analysis automatically." -ForegroundColor Cyan
         Write-Host "===============================================" -ForegroundColor Yellow
     } else {
-        Write-Host "❌ Failed to create trigger file" -ForegroundColor Red
+        Write-Host "FAIL: Failed to create trigger file" -ForegroundColor Red
         exit 1
     }
 }
