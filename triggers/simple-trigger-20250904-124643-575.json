@@ -1,0 +1,12 @@
+{
+    "action":  "custom",
+    "timestamp":  "2025-09-04 12:46:43",
+    "files":  [
+                  "stress-13.txt"
+              ],
+    "source":  "dev_computer",
+    "priority":  "high",
+    "timezone":  "UTC",
+    "message":  "Stress test 13",
+    "hash":  "stress-13"
+}
