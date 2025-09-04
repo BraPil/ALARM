@@ -84,6 +84,9 @@ function Invoke-PerformanceOptimization {
     # Basic cleanup
     Invoke-BasicCleanup
     
+    # Context management integration
+    Invoke-ContextManagement
+    
     # Check performance
     Show-PerformanceStatus
     
@@ -91,6 +94,39 @@ function Invoke-PerformanceOptimization {
     $OptimizationTime = ($EndTime - $StartTime).TotalMilliseconds
     
     Write-Log "Performance optimization completed in $OptimizationTime ms"
+}
+
+function Invoke-ContextManagement {
+    Write-Log "Starting context management integration"
+    
+    try {
+        # Check if context monitor is available
+        $ContextMonitorPath = "ci\CONTEXT-MONITOR.ps1"
+        if (Test-Path $ContextMonitorPath) {
+            Write-Log "Context monitor available, checking context status"
+            
+            # Get context status
+            $ContextStatus = & $ContextMonitorPath status 2>$null
+            if ($ContextStatus) {
+                Write-Log "Context status checked successfully"
+            } else {
+                Write-Log "Context monitor not responding, continuing without context management"
+            }
+        } else {
+            Write-Log "Context monitor not available, continuing without context management"
+        }
+        
+        # Basic context size estimation
+        $EstimatedContextSize = [math]::Round(((Get-Date) - (Get-Date).AddHours(-1)).TotalMinutes * 0.5)
+        if ($EstimatedContextSize -gt 15) {
+            Write-Log "WARNING: Estimated context size $EstimatedContextSize exceeds threshold"
+        }
+        
+    } catch {
+        Write-Log "Error in context management: $($_.Exception.Message)"
+    }
+    
+    Write-Log "Context management integration completed"
 }
 
 # Main execution

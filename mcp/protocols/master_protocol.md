@@ -253,12 +253,16 @@
 - [ ] **Performance Optimization**: Execute performance optimization protocol
 - [ ] **Context Management**: Trim conversation context if needed
 - [ ] **Memory Cleanup**: Clear temporary files and caches
+- [ ] **Conversation Monitoring**: Check context size and trim if > 15 exchanges
+- [ ] **Context Archival**: Archive conversations older than 24 hours
+- [ ] **Restart Preparation**: Create savepoint if context > 20 exchanges
 
 **📋 EXECUTION TRIGGER**: Execute at the end of EVERY assistant response  
 **🎯 OBJECTIVE**: Maintain optimal system efficiency and prevent data loss  
 **⚠️ CRITICAL**: Never remove files without explicit user approval  
 **📄 REFERENCE**: See `mcp/protocols/memory-management-subprotocol.md` for complete specification  
-**🚀 PERFORMANCE**: See `mcp/protocols/performance-optimization-protocol.md` for performance enhancements
+**🚀 PERFORMANCE**: See `mcp/protocols/performance-optimization-protocol.md` for performance enhancements  
+**🔄 CONTEXT**: See `mcp/protocols/enhanced-restart-protocol.md` for context management and restart procedures
 
 ---
 
@@ -271,12 +275,16 @@
 - [ ] **Response Time Tracking**: Monitor and optimize response generation
 - [ ] **Resource Cleanup**: Automated cleanup of temporary files and caches
 - [ ] **Performance Alerts**: Monitor and respond to performance thresholds
+- [ ] **Conversation Monitoring**: Active context size tracking and management
+- [ ] **Context Archival**: Systematic conversation archiving and indexing
+- [ ] **Restart Triggers**: Monitor for context overflow and performance degradation
 
 **📋 EXECUTION TRIGGER**: Execute with Memory Management Subprotocol at end of EVERY response  
 **🎯 OBJECTIVE**: Maintain optimal performance and prevent system slowdown  
 **⚠️ CRITICAL**: Performance issues cause protocol violations and system degradation  
 **📄 REFERENCE**: See `mcp/protocols/performance-optimization-protocol.md` for complete specification  
-**🔧 IMPLEMENTATION**: Use `ci/PERFORMANCE-OPTIMIZER.ps1` for automated optimization
+**🔧 IMPLEMENTATION**: Use `ci/PERFORMANCE-OPTIMIZER.ps1` for automated optimization  
+**🔄 CONTEXT**: Use `ci/CONTEXT-MONITOR.ps1` for context monitoring and management
 
 ---
 
@@ -289,6 +297,8 @@
 - ✅ **100% Documentation** - All decisions and evidence recorded
 - ✅ **Performance Optimization** - Response times < 2 seconds, memory usage < 200MB
 - ✅ **Memory Management** - End-of-response protocols executed consistently
+- ✅ **Context Management** - Conversation overflow prevention and monitoring
+- ✅ **Restart Protocols** - Context-aware restart with comprehensive recovery
 
 ---
 
@@ -304,6 +314,9 @@
 - **PERFORMANCE DEGRADATION**: Response times > 5 seconds, memory usage > 200MB
 - **MEMORY MANAGEMENT NEGLECT**: Not executing end-of-response protocols
 - **CONTEXT OVERFLOW**: Conversation history > 20 exchanges without trimming
+- **CONVERSATION OVERFLOW**: Context size > 15 exchanges without optimization
+- **RESTART REQUIRED**: Context size > 20 exchanges - execute restart protocol
+- **CONTEXT MONITORING FAILURE**: Context monitoring system not operational
 
 **FAILURE RESPONSE:** STOP → Document failure → Restart with compliance → Verify everything
 
@@ -318,8 +331,11 @@ Before any "COMPLETED" status:
 - [ ] Performance optimization executed (response time < 2 seconds)
 - [ ] Memory management subprotocol executed
 - [ ] Context window maintained < 15 exchanges
+- [ ] Context monitoring system operational
+- [ ] Conversation overflow prevention active
+- [ ] Restart protocols ready for execution
 
 ---
 
-**Last Updated:** January 28, 2025 - Performance Optimization Integration  
-**Status:** ACTIVE - Universal system with project-specific configurations and performance optimization
+**Last Updated:** January 28, 2025 - Context Management and Restart Protocol Integration  
+**Status:** ACTIVE - Universal system with project-specific configurations, performance optimization, and context management
