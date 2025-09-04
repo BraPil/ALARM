@@ -1,0 +1,12 @@
+{
+    "action":  "phase2b-test",
+    "timestamp":  "2025-09-04 12:11:51",
+    "files":  [
+                  "test.txt"
+              ],
+    "source":  "phase2b-simple",
+    "priority":  "normal",
+    "timezone":  "UTC",
+    "message":  "Phase 2B Simple Test",
+    "hash":  "test123"
+}

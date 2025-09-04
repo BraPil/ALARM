@@ -287,7 +287,7 @@ function Show-Help {
     Write-Host "Purpose: Create standardized trigger files for file-based communication" -ForegroundColor Yellow
     Write-Host ""
     Write-Host "USAGE:" -ForegroundColor Green
-    Write-Host "  .\GENERATE-TRIGGER.ps1 -Action <action> -CommitHash <hash> -CommitMessage <message>" -ForegroundColor White
+    Write-Host "  .\GENERATE-TRIGGER.ps1 -Action action -CommitHash hash -CommitMessage message" -ForegroundColor White
     Write-Host ""
     Write-Host "REQUIRED PARAMETERS:" -ForegroundColor Green
     Write-Host "  -Action           Action to perform (analyze_test_results, deploy_fixes, run_tests, custom)" -ForegroundColor White
