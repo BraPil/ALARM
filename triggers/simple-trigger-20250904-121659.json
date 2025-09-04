@@ -1,0 +1,12 @@
+{
+    "action":  "stress-test",
+    "timestamp":  "2025-09-04 12:16:59",
+    "files":  [
+                  "stress-3.txt"
+              ],
+    "source":  "stress-test",
+    "priority":  "high",
+    "timezone":  "UTC",
+    "message":  "Stress test 3",
+    "hash":  "stress-3"
+}
